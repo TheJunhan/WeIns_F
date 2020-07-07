@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-header>
-            <el-tag>Top nav</el-tag>
+            <Header></Header>
         </el-header>
         <el-container style="height: 400px">
             <el-tag>sub nav and main content</el-tag>
@@ -13,11 +13,12 @@
 </template>
 
 <script>
+    import Header from '../components/topnav';
     import Footer from '../components/footer';
 
     export default {
         name: "home",
-        components: { Footer }
+        components: { Header, Footer }
     }
 
 </script>
