@@ -1,5 +1,5 @@
 <template>
-    <div class="container center">
+    <div class="container">
         <div class="box">
             <div class="image">
                 <img src="../assets/image/signup/login.png" alt="logo picture"/>
