@@ -40,8 +40,6 @@
                             <el-dropdown-item>个人信息</el-dropdown-item>
                             <el-dropdown-item>我的足迹</el-dropdown-item>
                             <el-dropdown-item>我的关注</el-dropdown-item>
-                            <!--                        <el-dropdown-item disabled>双皮奶</el-dropdown-item>-->
-                            <!--                        <el-dropdown-item divided>蚵仔煎</el-dropdown-item>-->
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -50,35 +48,40 @@
                 <span class="dd">|</span>
                 <div class="el-dropdown-link">
                     <el-dropdown>
-                    <span class="el-dropdown-link">
-                        用户服务<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-                        <el-dropdown-menu slot="dropdown" style="width: 80px;font-size: 10px">
+                        <span class="el-dropdown-link">
+                            用户服务<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown"
+                                          @click="signin" style="width: 80px;font-size: 10px">
                             <el-dropdown-item>登陆</el-dropdown-item>
                             <el-dropdown-item>注册</el-dropdown-item>
-
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
 
 
             </div>
-
         </div>
+
+        <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false">
+            <Login></Login>
+        </el-dialog>
 
     </div>
 </template>
 
 <script>
+    import Login from "./signinForm";
     export default {
-        name: "Topnav",
+        components: { Login },
         data() {
             return {
                 restaurants: [],
                 state: '',
                 timeout: null,
                 activeIndex: '1',
-                activeIndex2: '1'
+                activeIndex2: '1',
+                dialogVisible: false
             };
         },
         methods: {
@@ -153,13 +156,20 @@
             },
             handleSelectDao(key, keyPath) {
                 console.log(key, keyPath);
+            },
+            search() {
+              this.dialogVisible = true;
+            },
+            signup() {
+                this.$router.push('/signup')
+            },
+            signin() {
+                this.dialogVisible = true;
             }
         },
         mounted() {
             this.restaurants = this.loadAll();
         },
-
-
     }
 </script>
 

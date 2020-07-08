@@ -1,5 +1,5 @@
 <template>
-    <div class="sider">
+    <div class="side">
         <el-menu default-active="1"
                  class="nav"
                  :collapse="false"
@@ -33,5 +33,7 @@
 </script>
 
 <style scoped>
-
+    .side {
+        z-index: -999;
+    }
 </style>
