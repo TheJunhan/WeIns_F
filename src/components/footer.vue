@@ -38,6 +38,9 @@
         padding-top: 30px;
         /*margin-left: -18px;*/
         background-color: #F2F2F5;
+        left: 0;
+        right: 0;
+        bottom: 0;
         position: fixed;
     }
 
