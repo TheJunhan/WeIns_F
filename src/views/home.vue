@@ -1,10 +1,10 @@
 <template>
     <div>
-        <el-header>
+        <el-header style="z-index: 1000">
             <Header></Header>
         </el-header>
-        <el-container>
-            <Side style="float: left; margin-left: 2%"></Side>
+        <el-container style="width: 100%;margin-bottom: 70px">
+            <router-view></router-view>
         </el-container>
         <el-footer>
             <Footer style="margin-top: 2%"></Footer>
@@ -15,11 +15,10 @@
 <script>
     import Header from '../components/topnav';
     import Footer from '../components/footer';
-    import Side from '../components/sidenav';
 
     export default {
         name: "home",
-        components: { Header, Footer, Side }
+        components: { Header, Footer }
     }
 
 </script>
