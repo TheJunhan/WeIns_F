@@ -1,37 +1,26 @@
 <template>
-    <div class="container center">
+    <div class="container">
         <div class="box">
             <div class="image">
-                <img src="../assets/image/signup/login.png" alt="logo picture"/>
+                <img src="../assets/image/login.png" alt="port picture"/>
             </div>
             <div class="login">
-                <signupForm></signupForm>
+                <Form></Form>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import signupForm from "@/components/signupForm";
+    import Form from "@/components/signupForm";
 
     export default {
         name: "Login",
-        components: {
-            signupForm
-        }
+        components: { Form }
     }
 </script>
 
 <style scoped>
-    .center{
-        width: 1264px;
-        margin: auto;
-        background-color: pink;
-    }
-
-    body{
-        overflow-y: hidden;
-    }
 
     .container{
         height: 560px;
@@ -67,10 +56,5 @@
         margin-bottom: 45px;
         margin-left: 15px;
         background-color: #f3f5f7;
-    }
-
-    h2{
-        font-size: 20px;
-        font-weight: 400;
     }
 </style>

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    // import axios from 'axios';
     export default {
         name: "SignUpForm",
         data() {
@@ -68,12 +68,12 @@
             }
         },
         methods: {
-            nonage(date) { // 判断是否成年
+            nonage(date) { // 判断是否满14周岁
                 let curr = new Date();
-                if (curr.getFullYear() - date.getFullYear() < 18)
+                if (curr.getFullYear() - date.getFullYear() < 14)
                     return false;
 
-                if (curr.getFullYear() - date.getFullYear() === 18) {
+                if (curr.getFullYear() - date.getFullYear() === 14) {
                     if (curr.getMonth() < date.getMonth())
                         return false;
 
@@ -87,35 +87,35 @@
             },
             register() {
                 let form = this.registerForm;
-                // let phone = form.phone;
-                // if (phone.length === 0) {
-                //     this.$message.error("电话号码不能为空!")
-                //     return;
-                // } else {
-                //     let format = /^(1[0-9]{10})$/;
-                //     if (!format.test(phone)) {
-                //         this.$message.error("电话号码格式不正确!")
-                //         return;
-                //     }
-                // }
-                //
-                // let name = form.name;
-                // if (name.length === 0) {
-                //     this.$message.error("用户名不能为空!")
-                //     return;
-                // }else if (name.length < 3 || name.length > 12) {
-                //     this.$message.error("用户名长度须在 3 到 12 个字符!")
-                //     return;
-                // }
-                //
-                // let pwd = form.password;
-                // if (pwd.length === 0) {
-                //     this.$message.error("密码不能为空") ;
-                //     return;
-                // } else if(pwd.length < 6 || pwd.length > 16) {
-                //     this.$message.error("密码长度须在 6 到 16 个字符");
-                //     return;
-                // }
+                let phone = form.phone;
+                if (phone.length === 0) {
+                    this.$message.error("电话号码不能为空!")
+                    return;
+                } else {
+                    let format = /^(1[0-9]{10})$/;
+                    if (!format.test(phone)) {
+                        this.$message.error("电话号码格式不正确!")
+                        return;
+                    }
+                }
+
+                let name = form.name;
+                if (name.length === 0) {
+                    this.$message.error("用户名不能为空!")
+                    return;
+                }else if (name.length < 3 || name.length > 12) {
+                    this.$message.error("用户名长度须在 3 到 12 个字符!")
+                    return;
+                }
+
+                let pwd = form.password;
+                if (pwd.length === 0) {
+                    this.$message.error("密码不能为空") ;
+                    return;
+                } else if(pwd.length < 6 || pwd.length > 16) {
+                    this.$message.error("密码长度须在 6 到 16 个字符");
+                    return;
+                }
 
 
                 let date = new Date(form.birth);
@@ -125,15 +125,17 @@
                     return;
                 }
 
-                let url = 'http://localhost:8181/user/save';
-                axios.post(url, form).then((response) =>{
-                    if (response.data === "error")
-                        this.$message.error("此用户名已存在！");
-                    else {
-                        this.$message.success('注册成功！');
-                        this.$router.replace('/login');
-                    }
-                });
+                this.$router.replace('/home')
+
+                // let url = 'http://localhost:8181/user/save';
+                // axios.post(url, form).then((response) =>{
+                //     if (response.data === "error")
+                //         this.$message.error("此用户名已存在！");
+                //     else {
+                //         this.$message.success('注册成功！');
+                //         this.$router.replace('/login');
+                //     }
+                // });
             }
         }
     }
