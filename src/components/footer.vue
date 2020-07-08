@@ -25,7 +25,7 @@
 
 <script>
     export default {
-        name: "footer"
+        name: "Footer"
     }
 </script>
 
@@ -33,18 +33,22 @@
     .bottom {
         font-size: x-small;
         color: #909399;
-        width: 110%;
-        padding-bottom: 2%;
-        padding-top: 2%;
-        margin-left: -5%;
+        width: 100%;
+        padding-bottom: 30px;
+        padding-top: 30px;
+        /*margin-left: -18px;*/
         background-color: #F2F2F5;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: fixed;
     }
 
     .member {
-        margin-top: 0.5%;
+        margin-top: 5px;
     }
 
     .copyright {
-        margin-top: 0.5%;
+        margin-top: 5px;
     }
 </style>

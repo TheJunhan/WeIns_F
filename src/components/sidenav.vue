@@ -13,7 +13,7 @@
             <el-menu-item index="3">
                 <span slot="title">生活</span>
             </el-menu-item>
-            <el-menu-item index="4" style="background-color: antiquewhite">
+            <el-menu-item index="4" >
                 <span slot="title" >电影</span>
             </el-menu-item>
             <el-menu-item index="5">
