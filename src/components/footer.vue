@@ -33,18 +33,18 @@
     .bottom {
         font-size: x-small;
         color: #909399;
-        width: 1280px;
-        padding-bottom: 30px;
-        padding-top: 30px;
-        margin-left: -18px;
+        width: 110%;
+        padding-bottom: 2%;
+        padding-top: 2%;
+        margin-left: -5%;
         background-color: #F2F2F5;
     }
 
     .member {
-        margin-top: 5px;
+        margin-top: 0.5%;
     }
 
     .copyright {
-        margin-top: 5px;
+        margin-top: 0.5%;
     }
 </style>
