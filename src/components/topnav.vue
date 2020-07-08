@@ -17,33 +17,50 @@
                 <el-button type="primary" icon="el-icon-search" v-on:click="search">搜索</el-button>
             </div>
             <div class="Dao">
-                <span class="el-dropdown-link canpoint"><i class="el-icon-s-home el-icon--left"></i>主页</span>
-                <span class="">|</span>
-                <span class="el-dropdown-link canpoint"><i class="el-icon-search el-icon--left"></i>发现</span>
-                <span class="">|</span>
-                <el-dropdown>
+
+
+                <div class="el-dropdown-link">
+                    <span class="el-dropdown-link canpoint"><i class="el-icon-s-home el-icon--left"></i>主页</span>
+
+                </div>
+                <span class="dd">|</span>
+                <div class="el-dropdown-link">
+                    <span class="el-dropdown-link canpoint"><i class="el-icon-search el-icon--left"></i>发现</span>
+
+                </div>
+                <span class="dd">|</span>
+
+
+                <div class="el-dropdown-link">
+                    <el-dropdown>
                     <span class="el-dropdown-link">
                         我的<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
-                    <el-dropdown-menu slot="dropdown" style="width: 100px">
-                        <el-dropdown-item>个人信息</el-dropdown-item>
-                        <el-dropdown-item>我的足迹</el-dropdown-item>
-                        <el-dropdown-item>我的关注</el-dropdown-item>
-<!--                        <el-dropdown-item disabled>双皮奶</el-dropdown-item>-->
-<!--                        <el-dropdown-item divided>蚵仔煎</el-dropdown-item>-->
-                    </el-dropdown-menu>
-                </el-dropdown>
-                <span class="">|</span>
-                <el-dropdown>
+                        <el-dropdown-menu slot="dropdown" style="width: 100px">
+                            <el-dropdown-item>个人信息</el-dropdown-item>
+                            <el-dropdown-item>我的足迹</el-dropdown-item>
+                            <el-dropdown-item>我的关注</el-dropdown-item>
+                            <!--                        <el-dropdown-item disabled>双皮奶</el-dropdown-item>-->
+                            <!--                        <el-dropdown-item divided>蚵仔煎</el-dropdown-item>-->
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
+
+
+                <span class="dd">|</span>
+                <div class="el-dropdown-link">
+                    <el-dropdown>
                     <span class="el-dropdown-link">
                         用户服务<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
-                    <el-dropdown-menu slot="dropdown" style="width: 80px;font-size: 10px">
-                        <el-dropdown-item>登陆</el-dropdown-item>
-                        <el-dropdown-item>注册</el-dropdown-item>
+                        <el-dropdown-menu slot="dropdown" style="width: 80px;font-size: 10px">
+                            <el-dropdown-item>登陆</el-dropdown-item>
+                            <el-dropdown-item>注册</el-dropdown-item>
 
-                    </el-dropdown-menu>
-                </el-dropdown>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
+
 
             </div>
 
@@ -148,12 +165,13 @@
 
 
 <style scoped>
-    .tit{
+    .tit {
         height: 50px;
         font-size: 20px;
         line-height: 50px;
         font-family: "Al Bayan";
     }
+
     .container {
         width: 100%;
         float: left;
@@ -183,7 +201,7 @@
     }
 
     .searchbar {
-        width: 40%;
+        width: 50%;
         float: left;
         height: 50px;
         line-height: 50px;
@@ -195,7 +213,7 @@
     }
 
     .Dao {
-        width: 50%;
+        width: 40%;
         float: left;
         text-align: center;
         height: 50px;
@@ -205,16 +223,29 @@
         height: 50px;
         background-color: antiquewhite;
     }
-    .el-dropdown-link{
-        font-size: 10px;
+
+    .el-dropdown-link {
+        font-size: 15px;
         line-height: 50px;
         height: 50px;
-        width: 150px;
-        margin-right: 10px;
-        margin-left: 10px;
+        width: 100px;
+        margin:auto;
+        float: left;
 
     }
-    .canpoint{
+
+    .el-dropdown-link:hover {
+        font-size: 17px;
+    }
+
+    .canpoint {
         cursor: pointer;
+    }
+
+    .dd {
+        line-height: 50px;
+        font-size: 15px;
+        font-family: Arial, sans-serif;
+        float: left;
     }
 </style>
