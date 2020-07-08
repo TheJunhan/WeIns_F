@@ -2,6 +2,8 @@ import Vue from  'vue';
 import Router from 'vue-router';
 import signup from './views/signup';
 import home from './views/home';
+import catalog from './views/catalog';
+import issue from './components/issue';
 
 Vue.use(Router);
 
@@ -18,6 +20,14 @@ export default new Router({
         {
             path: '/home',
             component: home,
+            redirect: '/catalog',
+            children: [{
+                path: '/catalog', component: catalog,
+                redirect: '/issue',
+                children: [{
+                    path: '/issue', component: issue
+                }]
+            }]
         }
     ]
 })
