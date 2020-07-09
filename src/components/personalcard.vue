@@ -1,5 +1,5 @@
 <template>
-    <el-card>
+    <el-card style="width: 80%;text-align: center;margin-left: 10%">
         <div class="back">
             <img class="pic" src='../assets/image/logo.png' alt="picture"/>
             <div class="text1" >
@@ -8,11 +8,12 @@
             <div class="text2" >
                 {{personalcard.signature}}
             </div>
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-menu-item  class="menu" index="1">我的主页</el-menu-item>
-                <el-menu-item class="menu" index="2">管理中心</el-menu-item>
-            </el-menu>
+
         </div>
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" >
+            <el-menu-item  class="menu" index="1">我的主页</el-menu-item>
+            <el-menu-item class="menu" index="2">管理中心</el-menu-item>
+        </el-menu>
     </el-card>
 </template>
 
@@ -37,13 +38,14 @@
 <style scoped>
     .back{
         width: 100%;
-        height: 500px;
+        height: 300px;
         /*display: flex;*/
         background: url("../assets/image/poster_1.png");
     }
     .pic{
-        width: 10%;
-        height:10%;
+        margin-top: 40px;
+        width: 150px;
+        height:150px;
 
         /*flex-direction: column;*/
         clear: both;
