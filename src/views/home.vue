@@ -1,16 +1,13 @@
 <template>
-    <div>
-        <el-header>
+    <div class="home">
+        <el-header style="z-index: 1000">
             <Header></Header>
         </el-header>
         <el-container style="width: 100%;margin-bottom: 70px">
-            <el-container style="width: 20%">
-                <Side style="float: left; margin-left: 2%;margin-top: 100px"></Side>
-            </el-container>
-            <el-container style="width: 80px;height: 1000px;background-color: red"></el-container>
+            <router-view></router-view>
         </el-container>
-
         <el-footer>
+            <Backtop></Backtop>
             <Footer style="margin-top: 2%"></Footer>
         </el-footer>
     </div>
@@ -19,15 +16,17 @@
 <script>
     import Header from '../components/topnav';
     import Footer from '../components/footer';
-    import Side from '../components/sidenav';
+    import Backtop from '../components/backtop';
 
     export default {
         name: "home",
-        components: { Header, Footer, Side }
+        components: { Header, Footer, Backtop }
     }
 
 </script>
 
 <style scoped>
-
+    .home {
+        background-color: #A7CFE8;
+    }
 </style>

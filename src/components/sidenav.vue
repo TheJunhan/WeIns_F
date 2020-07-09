@@ -1,9 +1,10 @@
 <template>
-    <div class="sider">
+    <div class="side">
         <el-menu default-active="1"
                  class="nav"
                  :collapse="false"
-                 unique-opened="true">
+                 unique-opened="true"
+        style="background-color: #A7CFE8">
             <el-menu-item index="1">
                 <span slot="title">热门</span>
             </el-menu-item>
@@ -33,5 +34,7 @@
 </script>
 
 <style scoped>
-
+    .side {
+        background-color: #A7CFE8;
+    }
 </style>

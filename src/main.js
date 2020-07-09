@@ -6,7 +6,6 @@ import { Message } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/global.css';
 import axios from 'axios';
-import './index.css'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
