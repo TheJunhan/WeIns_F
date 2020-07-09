@@ -20,12 +20,12 @@
 
 
                 <div class="el-dropdown-link">
-                    <span class="el-dropdown-link canpoint"><i class="el-icon-s-home el-icon--left"></i>主页</span>
+                    <span class="el-dropdown-link canpoint" @click="home"><i class="el-icon-s-home el-icon--left"></i>首页</span>
 
                 </div>
                 <span class="dd">|</span>
                 <div class="el-dropdown-link">
-                    <span class="el-dropdown-link canpoint"><i class="el-icon-search el-icon--left"></i>发现</span>
+                    <span class="el-dropdown-link canpoint" @click="persioncenter"><i class="el-icon-search el-icon--left"></i>发现</span>
 
                 </div>
                 <span class="dd">|</span>
@@ -138,8 +138,8 @@
                 ];
             },
             querySearchAsync(queryString, cb) {
-                var restaurants = this.restaurants;
-                var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
+                let restaurants = this.restaurants;
+                let results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
 
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
@@ -165,6 +165,12 @@
             },
             signin() {
                 this.dialogVisible = true;
+            },
+            home() {
+                this.$router.push('/home')
+            },
+            persioncenter() {
+                this.$router.push('/person')
             }
         },
         mounted() {

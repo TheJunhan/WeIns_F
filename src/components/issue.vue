@@ -2,42 +2,69 @@
     <div class="issue">
         <Side style="float: left; margin-left: 2%"></Side>
         <div class="container">
-            <Blogs></Blogs>
+            <div class="release">
+                <Release></Release>
+            </div>
+            <div class="blogs">
+                <Blog></Blog>
+                <el-divider direction="horizon"></el-divider>
+                <Blog></Blog>
+                <el-divider direction="horizon"></el-divider>
+                <Blog></Blog>
+                <el-divider direction="horizon"></el-divider>
+                <Blog></Blog>
+                <el-divider direction="horizon"></el-divider>
+                <Blog></Blog>
+                <el-divider direction="horizon"></el-divider>
+                <Blog></Blog>
+                <el-divider direction="horizon"></el-divider>
+                <Blog></Blog>
+            </div>
         </div>
-        <div class="login" v-if="true">
-            <Login style="width: 90%; margin-left: 5%; margin-bottom: 5%"></Login>
-        </div>
+        <el-card class="login" v-if="true">
+            <Login style="width: 100%;"></Login>
+        </el-card>
     </div>
 </template>
 
 <script>
     import Side from '../components/sidenav';
     import Login from "./signinForm";
-    import Blogs from "./blogs";
+    import Blog from "./blog";
+    import Release from "./release";
 
     export default {
         name: "issue",
-        components: { Login, Side, Blogs },
+        components: { Release, Login, Side, Blog },
         data() {
             return {
                 issue: '',
             }
         },
         created() {
-            this.issue = 'hello world!';
+
         }
     }
 </script>
 
 <style scoped>
     .issue {
+        background-color: #A7CFE8;
     }
 
     .container {
         width: 50%;
         float: left;
         margin-left: 5%;
-        background-color: #F2F2F5;
+    }
+
+    .release {
+        /*height: 300px;*/
+        margin-bottom: 10px;
+    }
+
+    .blogs {
+        margin-top: 10px;
     }
 
     .login {
