@@ -28,7 +28,12 @@
             <div class="footer">
                 <el-row>
                     <el-col :span="6">
-                        <el-button type="text" icon="el-icon-folder-checked" @click="collect">{{blog.collect}}</el-button>
+                        <div v-if="blog.collect_flag === true">
+                            <el-button type="text" icon="el-icon-folder-remove" @click="collect">{{blog.collect}}</el-button>
+                        </div>
+                        <div v-else>
+                            <el-button type="text" icon="el-icon-folder-add" @click="collect">{{blog.collect}}</el-button>
+                        </div>
                     </el-col>
                     <el-col :span="6">
                         <el-button type="text" icon="el-icon-top-right" @click="share">{{blog.share}}</el-button>
@@ -38,7 +43,7 @@
                     </el-col>
                     <el-col :span="6">
                         <div v-if="blog.like_flag === true">
-                            <el-button type="text" icon="el-icon-star-on" @click="unlike">{{blog.like}}</el-button>
+                            <el-button type="text" icon="el-icon-star-on" @click="like">{{blog.like}}</el-button>
                         </div>
                         <div v-else>
                             <el-button type="text" icon="el-icon-star-off" @click="like">{{blog.like}}</el-button>
@@ -84,8 +89,6 @@
                             image: image2
                         },{
                             image: image
-                        },{
-                            image: image
                         }]
                     },
                     like: 1453,
@@ -126,14 +129,16 @@
                 }
             },
             like() {
-                this.$message.success('点赞成功！');
-                this.blog.like_flag = true; // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
-                this.blog.like ++;
-            },
-            unlike() {
-                this.$message.success('取消赞成功！');
-                this.blog.like_flag = false;
-                this.blog.like --;
+                if(this.blog.like_flag) {
+                    this.$message.error('取消赞！');
+                    this.blog.like_flag = false;
+                    this.blog.like --;
+                }
+                else {
+                    this.$message.success('点赞成功！');
+                    this.blog.like_flag = true; // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
+                    this.blog.like ++;
+                }
             },
             comment() {
                 this.$message.success('评论成功！');
