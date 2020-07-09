@@ -12,6 +12,8 @@ components/
     sidenav     // 侧边导航
     sign*Form   // 登录-注册的表单
     topnav      // 顶部导航栏
+    backtop     // 回到顶部
+    release     // 发布动态
 
 views/
     catalog     // dynamic展示
