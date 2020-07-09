@@ -1,6 +1,8 @@
 <template>
     <div class="issue">
-        <Side style="float: left; margin-left: 2%"></Side>
+        <div class="side" style="position: fixed;height: 300px;margin-top: 30px">
+            <Side style="float: left; margin-left: 2%;"></Side>
+        </div>
         <div class="container">
             <div class="release">
                 <Release></Release>
@@ -55,7 +57,7 @@
     .container {
         width: 50%;
         float: left;
-        margin-left: 5%;
+        margin-left: 10%;
     }
 
     .release {
@@ -70,7 +72,9 @@
     .login {
         float: left;
         width: 30%;
-        margin-left: 5%;
+        margin-left: 65%;
         background-color: #F2F2F5;
+        position: fixed;
+        margin-top: 100px;
     }
 </style>

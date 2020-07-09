@@ -16,4 +16,12 @@ Vue.prototype.$http = axios;
 new Vue({
   router,
   render: h => h(App),
+  // data:function(){
+  //     return{
+  //       mail:"",
+  //       phone:"",
+  //       is_superuser:false,
+  //     }
+  //
+  // }
 }).$mount('#app');
