@@ -37,7 +37,7 @@
 </template>
 
 <script>
-    import image from '../assets/image/poster.png';
+    import image from '../assets/image/poster_1.png';
 
     export default {
         name: "blog",
@@ -49,6 +49,8 @@
                     content: {
                         text: '大家好,我是上海交通大学软件学院的奸细！',
                         images: [{
+                            image: image
+                        },{
                             image: image
                         },{
                             image: image

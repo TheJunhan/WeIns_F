@@ -2,7 +2,7 @@
     <div class="container">
         <div class="box">
             <div class="image">
-                <img src="../assets/image/poster.png" alt="port picture"/>
+                <img src="../assets/image/poster_1.png" alt="port picture"/>
             </div>
             <div class="login">
                 <Form></Form>
