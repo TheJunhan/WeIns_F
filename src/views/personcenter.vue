@@ -1,7 +1,7 @@
 <template>
     <div class="person">
-        <Counter></Counter>
-        <Card></Card>
+        <Card class="card"></Card>
+        <Counter class="counter"></Counter>
     </div>
 </template>
 
@@ -10,11 +10,17 @@
     import Card from '../components/personalcard';
 
     export default {
-        name: "personcenter",
         components: { Counter, Card }
     }
 </script>
 
 <style scoped>
+    .card {
+        width: 80%;
+    }
 
+    .counter {
+        margin-left: 10%;
+        width: 30%;
+    }
 </style>
