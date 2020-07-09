@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="content">
-                    <div class="text" >
+                    <div class="text">
                         {{blog.content.text}}
                     </div>
                     <div class="images" v-if="blog.content.image !== null">
@@ -37,9 +37,18 @@
                         <el-button type="text" icon="el-icon-chat-dot-square" @click="comment">{{blog.comment.count}}</el-button>
                     </el-col>
                     <el-col :span="6">
-                        <el-button type="text" icon="el-icon-star-off" @click="like">{{blog.like}}</el-button>
+                        <div v-if="blog.like_flag === true">
+                            <el-button type="text" icon="el-icon-star-on" @click="unlike">{{blog.like}}</el-button>
+                        </div>
+                        <div v-else>
+                            <el-button type="text" icon="el-icon-star-off" @click="like">{{blog.like}}</el-button>
+                        </div>
                     </el-col>
                 </el-row>
+
+                <el-dialog :visible.sync="blog.share_flag" width="40%" :show-close="false">
+                    <Share props="blog"></Share>
+                </el-dialog>
             </div>
         </div>
     </el-card>
@@ -48,7 +57,10 @@
 <script>
     import image from '../assets/image/poster_1.png';
     import image2 from '../assets/image/poster_2.png';
+    import Share from '../components/share';
+
     export default {
+        components: { Share },
         data() {
             return {
                 blog: {
@@ -61,7 +73,7 @@
                     },
                     time: '2020-07-09 21:57',
                     content: {
-                        text: '大家好,我是上海交通大学软件学院的奸细！大家好,我是上海交通大学软件学院的奸细！',
+                        text: '大家好,我是上海交通大学软件学院的最咸的咸鱼！不会有人比我还菜吧，不会吧不会吧！项目做得太差劲了！哭哭!',
                         images: [{
                             image: image
                         },{
@@ -76,7 +88,7 @@
                             image: image
                         }]
                     },
-                    like: 153,
+                    like: 1453,
                     like_flag: false,
                     collect: 253,
                     collect_flag: false,
@@ -98,15 +110,30 @@
 
             },
             share() {
-                // 分享的时候
-                this.$message.success('分享成功！');
+                // 分享
+                this.blog.share_flag = true;
             },
             collect() {
-                this.$message.success('收藏成功！');
+                if(this.blog.collect_flag) {
+                    this.$message.error('取消收藏！');
+                    this.blog.collect --;
+                    this.blog.collect_flag = false;
+                }
+                else {
+                    this.$message.success('收藏成功！');
+                    this.blog.collect_flag = true;
+                    this.blog.collect ++;
+                }
             },
             like() {
                 this.$message.success('点赞成功！');
+                this.blog.like_flag = true; // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
                 this.blog.like ++;
+            },
+            unlike() {
+                this.$message.success('取消赞成功！');
+                this.blog.like_flag = false;
+                this.blog.like --;
             },
             comment() {
                 this.$message.success('评论成功！');
