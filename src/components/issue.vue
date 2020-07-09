@@ -23,9 +23,12 @@
                 <Blog></Blog>
             </div>
         </div>
-        <el-card class="login" v-if="true">
-            <Login style="width: 100%;"></Login>
-        </el-card>
+        <div>
+            <el-card class="login" v-if="true">
+                <Login style="width: 100%;"></Login>
+            </el-card>
+        </div>
+
     </div>
 </template>
 
@@ -45,7 +48,8 @@
         },
         created() {
 
-        }
+        },
+
     }
 </script>
 
@@ -72,9 +76,10 @@
     .login {
         float: left;
         width: 30%;
-        margin-left: 65%;
+        margin-left: 5%;
         background-color: #F2F2F5;
-        position: fixed;
         margin-top: 100px;
+        scroll-behavior: auto;
+        display: block;
     }
 </style>

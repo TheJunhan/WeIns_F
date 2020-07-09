@@ -20,12 +20,12 @@
 
 
                 <div class="el-dropdown-link">
-                    <span class="el-dropdown-link canpoint" @click="home"><i class="el-icon-s-home el-icon--left"></i>首页</span>
+                    <p class="el-dropdown-link canpoint" @click="home"><i class="el-icon-s-home el-icon--left"></i>首页</p>
 
                 </div>
                 <span class="dd">|</span>
                 <div class="el-dropdown-link">
-                    <span class="el-dropdown-link canpoint" @click="persioncenter"><i class="el-icon-search el-icon--left"></i>发现</span>
+                    <p class="el-dropdown-link canpoint" ><i class="el-icon-search el-icon--left"></i>发现</p>
 
                 </div>
                 <span class="dd">|</span>
@@ -37,9 +37,9 @@
                         我的<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                         <el-dropdown-menu slot="dropdown" style="width: 100px">
-                            <el-dropdown-item>个人信息</el-dropdown-item>
+                            <span class="el-dropdown-link canpoint" @click="persioncenter"><el-dropdown-item>个人信息</el-dropdown-item></span>
+
                             <el-dropdown-item>我的足迹</el-dropdown-item>
-                            <el-dropdown-item>我的关注</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -48,13 +48,14 @@
                 <span class="dd">|</span>
                 <div class="el-dropdown-link">
                     <el-dropdown>
-                        <span class="el-dropdown-link">
+                        <p class="el-dropdown-link">
                             用户服务<i class="el-icon-arrow-down el-icon--right"></i>
-                        </span>
+                        </p>
                         <el-dropdown-menu slot="dropdown"
                                           style="width: 80px;font-size: 10px">
-                            <p style="width: 80px" v-on:click="search"><el-dropdown-item>登陆</el-dropdown-item></p>
-                            <p style="width: 80px" v-on:click="search"><el-dropdown-item>注册</el-dropdown-item></p>
+                            <p v-if="!this.$route.params.logged" style="width: 80px" v-on:click="search"><el-dropdown-item >登陆</el-dropdown-item></p>
+                            <p v-if="!this.$route.params.logged" style="width: 80px" v-on:click="search"><el-dropdown-item>注册</el-dropdown-item></p>
+                            <p v-if="this.$route.params.logged" style="width: 80px" v-on:click="search"><el-dropdown-item>注销</el-dropdown-item></p>
                         </el-dropdown-menu>
 
                     </el-dropdown>
