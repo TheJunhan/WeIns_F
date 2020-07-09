@@ -14,6 +14,8 @@ components/
     topnav      // 顶部导航栏
     backtop     // 回到顶部
     release     // 发布动态
+    counter     // 计数器组件
+    personalcard// 个人主页的展板
 
 views/
     catalog     // dynamic展示
