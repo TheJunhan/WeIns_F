@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="z-index: 100">
         <div class="container">
             <div class="logo">
                 <img class="logo img" src='../assets/image/logo.png' alt="logo picture"/>
@@ -52,10 +52,11 @@
                             用户服务<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown"
-                                          @click="signin" style="width: 80px;font-size: 10px">
-                            <el-dropdown-item>登陆</el-dropdown-item>
-                            <el-dropdown-item>注册</el-dropdown-item>
+                                          style="width: 80px;font-size: 10px">
+                            <p style="width: 80px" v-on:click="search"><el-dropdown-item>登陆</el-dropdown-item></p>
+                            <p style="width: 80px" v-on:click="search"><el-dropdown-item>注册</el-dropdown-item></p>
                         </el-dropdown-menu>
+
                     </el-dropdown>
                 </div>
 
@@ -81,7 +82,18 @@
                 timeout: null,
                 activeIndex: '1',
                 activeIndex2: '1',
-                dialogVisible: false
+                dialogVisible: false,
+                any: [{
+                    value: 'huangjingao',
+                    label: '黄金糕',
+                }, {
+                    value: 'shizitou',
+                    label: '狮子头',
+                }, {
+                    value: 'luosifen',
+                    label: '螺蛳粉',
+                }]
+
             };
         },
         methods: {
@@ -177,6 +189,8 @@
             this.restaurants = this.loadAll();
         },
     }
+
+
 </script>
 
 
@@ -195,6 +209,7 @@
         left: 0;
         right: 0;
         position: fixed;
+        z-index: 999;
     }
 
     .logo {
