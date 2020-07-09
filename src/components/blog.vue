@@ -18,7 +18,7 @@
                     </div>
                     <div class="images" v-if="blog.content.image !== null">
                         <ul>
-                            <li v-for="image in blog.content.images" :key="image.image">
+                            <li style="z-index: auto" v-for="image in blog.content.images" :key="image.image">
                                 <el-image :src="image.image" class="img"></el-image>
                             </li>
                         </ul>
