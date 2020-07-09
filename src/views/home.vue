@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="home">
         <el-header style="z-index: 1000">
             <Header></Header>
         </el-header>
@@ -7,6 +7,7 @@
             <router-view></router-view>
         </el-container>
         <el-footer>
+            <Backtop></Backtop>
             <Footer style="margin-top: 2%"></Footer>
         </el-footer>
     </div>
@@ -15,14 +16,17 @@
 <script>
     import Header from '../components/topnav';
     import Footer from '../components/footer';
+    import Backtop from '../components/backtop';
 
     export default {
         name: "home",
-        components: { Header, Footer }
+        components: { Header, Footer, Backtop }
     }
 
 </script>
 
 <style scoped>
-
+    .home {
+        background-color: #A7CFE8;
+    }
 </style>

@@ -3,7 +3,8 @@
         <el-menu default-active="1"
                  class="nav"
                  :collapse="false"
-                 unique-opened="true">
+                 unique-opened="true"
+        style="background-color: #A7CFE8">
             <el-menu-item index="1">
                 <span slot="title">热门</span>
             </el-menu-item>
@@ -34,6 +35,6 @@
 
 <style scoped>
     .side {
-        z-index: -999;
+        background-color: #A7CFE8;
     }
 </style>

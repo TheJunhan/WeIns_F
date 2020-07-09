@@ -34,14 +34,12 @@
         font-size: x-small;
         color: #909399;
         width: 100%;
-        padding-bottom: 30px;
-        padding-top: 30px;
-        /*margin-left: -18px;*/
+        padding: 30px 10%;
+        margin-left: -10%;
         background-color: #F2F2F5;
         left: 0;
         right: 0;
         bottom: 0;
-        position: fixed;
     }
 
     .member {
