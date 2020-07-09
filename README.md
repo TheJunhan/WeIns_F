@@ -1,24 +1,20 @@
 # front
 
-## Project setup
-```
-yarn install
-```
+This is front-end of project [WeIns](https://github.com/DDIP2020)
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+### Files structure:
 
-### Compiles and minifies for production
-```
-yarn build
-```
+```text
+components/
+    blog        // 动态展示框
+    footer      // 底边栏
+    issue       // 动态展示页面
+    sidenav     // 侧边导航
+    sign*Form   // 登录-注册的表单
+    topnav      // 顶部导航栏
 
-### Lints and fixes files
+views/
+    catalog     // dynamic展示
+    home        // 主页
+    signup      // 注册界面
 ```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
