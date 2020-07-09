@@ -1,16 +1,20 @@
 <template>
-    <div class="extern">
+    <el-card  class="extern" shadow="hover">
         <div class="blog">
             <div class="avatar">
                 <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+
             </div>
             <div class="container">
                 <div class="header">
-                    <el-button type="text" style="float: left">{{blog.name}}</el-button>
+                    <el-button  class="name_button" type="text" style="float: left">{{blog.name}}</el-button>
+                    <div class="timestamp">
+                        {{blog.time}}
+                    </div>
                 </div>
 
                 <div class="content">
-                    <div class="text">
+                    <div class="text" >
                         {{blog.content.text}}
                     </div>
                     <div class="images" v-if="blog.content.image !== null">
@@ -20,40 +24,48 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="footer">
+                        <el-row>
+                            <el-button type="text"><el-icon class="el-icon-folder-checked"></el-icon> {{blog.collect}}</el-button>
+                                        <el-divider direction="vertical"></el-divider>
+                            <el-button type="text"><el-icon class="el-icon-top-right"></el-icon> {{blog.share}}</el-button>
+                                        <el-divider direction="vertical"></el-divider>
+                            <el-button type="text"><el-icon class="el-icon-chat-dot-square"></el-icon> {{blog.comment.count}}</el-button>
+                                        <el-divider direction="vertical"></el-divider>
+                            <el-button type="text"><el-icon class="el-icon-star-off"></el-icon> {{blog.like}}</el-button>
+                        </el-row>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="footer">
-            <el-button type="text"><el-icon class="el-icon-folder-checked"></el-icon> {{blog.collect}}</el-button>
-            <el-divider direction="vertical"></el-divider>
-            <el-button type="text"><el-icon class="el-icon-top-right"></el-icon> {{blog.share}}</el-button>
-            <el-divider direction="vertical"></el-divider>
-            <el-button type="text"><el-icon class="el-icon-chat-dot-square"></el-icon> {{blog.comment.count}}</el-button>
-            <el-divider direction="vertical"></el-divider>
-            <el-button type="text"><el-icon class="el-icon-star-off"></el-icon> {{blog.like}}</el-button>
         </div>
-    </div>
+        </div>
+    </el-card>
 </template>
 
 <script>
     import image from '../assets/image/poster_1.png';
-
+    import image2 from '../assets/image/poster_2.png';
     export default {
         name: "blog",
         data() {
             return {
                 blog: {
-                    name: '交通大学',
+                    name: '交通大学交通大学交通大学',
                     time: '2020-07-08 20:20',
                     content: {
-                        text: '大家好,我是上海交通大学软件学院的奸细！',
+                        text: '大家好,我是上海交通大学软件学院的奸细！大家好,我是上海交通大学软件学院的奸细！大家好,我是上海交通大学软件学院的奸细！大家好,我是上海交通大学软件学院的奸细！',
                         images: [{
                             image: image
                         },{
-                            image: image
+                            image: image2
                         },{
-                            image: image
+                            image: image2
+                        },{
+                            image: image2
+                        },{
+                            image: image2
+                        },{
+                            image: image2
                         }]
                     },
                     like: 153,
@@ -71,19 +83,21 @@
 <style scoped>
     .extern {
         width: 100%;
-        flex-direction: column;
-        background-color: white;
+        display: flex;
+        /*flex-direction: column;*/
+        /*background-color: white;*/
     }
 
     .blog {
         width: 94%;
         margin-left: 3%;
         margin-top: 3%;
-        background-color: pink;
+
     }
 
     .avatar {
         float: left;
+
         height: 100%;
         width: 7%;
     }
@@ -92,21 +106,43 @@
         margin-left: 2%;
         float: left;
         width: 85%;
+        display: flex;
+        flex-direction: column;
     }
 
     .header {
         width: 100%;
-        background-color: black;
+        flex-direction: column;
+        display:-webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
     }
 
     .content {
         width: 100%;
         margin-top: 5%;
+
     }
 
     .img {
         width: 30%;
         float: left;
         margin-left: 1%;
+        margin-top: 1%;
+        /*flex-direction: column;*/
     }
+
+    .text{
+        text-align: left;
+    }
+    .timestamp{
+        flex-direction: column;
+        text-align: left;
+        margin-left: 1%;
+        color: darkgray;
+    }
+    .name_button{
+        text-align: left;
+    }
+
 </style>
