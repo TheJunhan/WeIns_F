@@ -51,8 +51,8 @@
                     </el-col>
                 </el-row>
 
-                <el-dialog :visible.sync="blog.share_flag" width="40%" :show-close="false">
-                    <Share props="blog"></Share>
+                <el-dialog :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态">
+                    <Share :id="blog.id" :user="blog.user.name" :content="blog.content.text"></Share>
                 </el-dialog>
             </div>
         </div>
@@ -69,6 +69,7 @@
         data() {
             return {
                 blog: {
+                    id: 0,
                     user: {
                         name: '交通大学',
                         avatar: {

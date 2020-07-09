@@ -16,6 +16,8 @@ components/
     release         // 发布动态
     counter         // 计数器组件
     personalcard    // 个人主页的展板
+    share           // 转发的弹出框
+    comment         // 评论组件
 
 views/
     catalog         // dynamic展示
