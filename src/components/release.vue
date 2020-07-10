@@ -27,9 +27,9 @@
                                     style="width: 80%;z-index: 998"
                                     class="avatar-uploader"
                                     :on-remove="removefile"
-                                    :on-change="getFile"
+                                    :on-change="getFile1"
                                     :on-success="uploadsuccess"
-                                    :limit="6"
+
                                     list-type="picture"
                                     :auto-upload="false"
                                     :show-file-list="false"
@@ -45,8 +45,8 @@
                                     action='' :show-file-list="false"
                                     :on-success="uploadsuccess"
                                     :on-remove="removefile"
-                                    :limit="1"
-                                    :on-change="getFile"
+
+                                    :on-change="getFile2"
                                     :auto-upload="false"
                                     accept=".mp4"
                             >
@@ -60,10 +60,10 @@
                     <el-row v-for="(item,i) in filelist" v-bind:key="i" type="flex" class="row-bg"
                             justify="space-around">
                         <el-col><span
-                                style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 10%;height: 30px;text-align: left;line-height: 30px">{{i+1}}</span>
+                                style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 10%;height: 30px;text-align: left;line-height: 30px">{{i+1}}</span>
                         </el-col>
                         <el-col><span
-                                style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 30%;height: 30px;text-align: left;line-height: 30px">{{item['filename']}}</span>
+                                style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 30%;height: 30px;text-align: left;line-height: 30px">{{item['filename']}}</span>
                         </el-col>
                         <el-row>
                             <el-button style="margin-left: 100%" @click="removefile(i)" type="text" size="mini" icon="el-icon-close">删除
@@ -124,12 +124,6 @@
             emoji() {
                 this.$message.success('emoji!');
             },
-            picture() {
-                this.$message.success('picture!');
-            },
-            video() {
-                this.$message.success('video');
-            },
             uploadsuccess(){
                 this.$message.success('上传成功')
             },
@@ -174,13 +168,39 @@
 
                 });
             },
+            getFile1(file){
+                if(this.lock==2) {
+                    this.$message.warning("图片和视频无法同时上传！");
+                    return;
+                }
+                else{
+                    if(this.filelist.length>=6) this.$message.warning("做多上传6张图片！");
+                    this.lock=1;
+                    this.getFile(file);
+                }
+
+
+            },
+            getFile2(file){
+                if(this.lock==1) this.$message.warning("图片和视频无法同时上传！");
+                else{
+                    if(this.filelist.length>=1) {
+                        this.$message.warning("视频太多了，老板做不出来！");
+                        return;
+                    }
+                    this.lock=2;
+                    this.getFile(file);
+                }
+            },
             removefile(i) {
 
                 this.filelist.splice(i, 1);
                 if (this.filelist.length == 0) {
 
                     this.uploaded = false;
+                    this.lock=0;
                 }
+                console.log(this.lock)
 
 
             }
