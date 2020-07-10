@@ -1,62 +1,72 @@
 <template>
-    <el-card  class="extern" shadow="hover">
-        <div class="blog">
-            <div class="avatar">
-                <el-avatar :src="blog.user.avatar.iconBase64"></el-avatar>
-            </div>
-            <div class="container">
-                <div class="header">
-                    <el-button  class="name_button" type="text" style="float: left">{{blog.user.name}}</el-button>
-                    <div class="timestamp">
-                        {{blog.time}}
+    <div>
+        <el-card  class="extern" shadow="hover">
+            <div class="blog">
+                <div class="avatar">
+                    <el-avatar :src="blog.user.avatar.iconBase64"></el-avatar>
+                </div>
+                <div class="container">
+                    <div class="header">
+                        <el-button  class="name_button" type="text" style="float: left">{{blog.user.name}}</el-button>
+                        <div class="timestamp">
+                            {{blog.time}}
+                        </div>
+                    </div>
+
+                    <div class="content" style="z-index: 998;" >
+                        <div class="text" >
+                            {{blog.content.text}}
+                        </div>
+                        <div class="images" v-if="blog.content.image !== null" >
+                            <ul>
+                                <div style="background-color: red">
+                                    <li style="" v-for="image in blog.content.images" :key="image.image" >
+                                        <img @click="maxPic(image)"  :src="image.image" class="img"  style="z-index: 998"/>
+                                    </li>
+                                </div>
+
+                            </ul>
+                        </div>
                     </div>
                 </div>
+                <div class="footer">
+                    <el-row>
+                        <el-col :span="6">
+                            <div v-if="blog.collect_flag === true">
+                                <el-button type="text" icon="el-icon-folder-remove" @click="collect">{{blog.collect}}</el-button>
+                            </div>
+                            <div v-else>
+                                <el-button type="text" icon="el-icon-folder-add" @click="collect">{{blog.collect}}</el-button>
+                            </div>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-button type="text" icon="el-icon-top-right" @click="share">{{blog.share}}</el-button>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-button type="text" icon="el-icon-chat-dot-square" @click="comment">{{blog.comment.count}}</el-button>
+                        </el-col>
+                        <el-col :span="6">
+                            <div v-if="blog.like_flag === true">
+                                <el-button type="text" icon="el-icon-star-on" @click="like">{{blog.like}}</el-button>
+                            </div>
+                            <div v-else>
+                                <el-button type="text" icon="el-icon-star-off" @click="like">{{blog.like}}</el-button>
+                            </div>
+                        </el-col>
+                    </el-row>
 
-                <div class="content">
-                    <div class="text">
-                        {{blog.content.text}}
-                    </div>
-                    <div class="images" v-if="blog.content.image !== null">
-                        <ul>
-                            <li style="z-index: auto" v-for="image in blog.content.images" :key="image.image">
-                                <el-image :src="image.image" class="img"></el-image>
-                            </li>
-                        </ul>
-                    </div>
+                    <el-dialog :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态">
+                        <Share :id="blog.id" :user="blog.user.name" :content="blog.content.text" @change="change"></Share>
+                    </el-dialog>
+                    <el-dialog :visible.sync="dialogVisible" width="80%"  :show-close="false">
+                        <el-image :src="this.showpic" class="bigimg" ></el-image>
+                    </el-dialog>
                 </div>
             </div>
-            <div class="footer">
-                <el-row>
-                    <el-col :span="6">
-                        <div v-if="blog.collect_flag === true">
-                            <el-button type="text" icon="el-icon-folder-remove" @click="collect">{{blog.collect}}</el-button>
-                        </div>
-                        <div v-else>
-                            <el-button type="text" icon="el-icon-folder-add" @click="collect">{{blog.collect}}</el-button>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-button type="text" icon="el-icon-top-right" @click="share">{{blog.share}}</el-button>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-button type="text" icon="el-icon-chat-dot-square" @click="comment">{{blog.comment.count}}</el-button>
-                    </el-col>
-                    <el-col :span="6">
-                        <div v-if="blog.like_flag === true">
-                            <el-button type="text" icon="el-icon-star-on" @click="like">{{blog.like}}</el-button>
-                        </div>
-                        <div v-else>
-                            <el-button type="text" icon="el-icon-star-off" @click="like">{{blog.like}}</el-button>
-                        </div>
-                    </el-col>
-                </el-row>
+        </el-card>
 
-                <el-dialog :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态">
-                    <Share :id="blog.id" :user="blog.user.name" :content="blog.content.text"></Share>
-                </el-dialog>
-            </div>
-        </div>
-    </el-card>
+    </div>
+
 </template>
 
 <script>
@@ -102,7 +112,9 @@
                         count: 3214,
                     },
                     comment_flag: false
-                }
+                },
+                dialogVisible:false,
+                showpic:"",
             }
         },
         created() {
@@ -116,6 +128,9 @@
             share() {
                 // 分享
                 this.blog.share_flag = true;
+            },
+            change(){
+                this.blog.share_flag = false;
             },
             collect() {
                 if(this.blog.collect_flag) {
@@ -140,6 +155,12 @@
                     this.blog.like_flag = true; // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
                     this.blog.like ++;
                 }
+            },
+            maxPic(image){
+
+              this.dialogVisible=true;
+              this.showpic=image.image;
+
             },
             comment() {
                 this.$message.success('评论成功！');
@@ -194,6 +215,7 @@
     .content {
         width: 100%;
         margin-top: 5%;
+        background: rgba(255, 255, 255, 0.4);
     }
 
     .text {
@@ -205,6 +227,12 @@
         float: left;
         margin-left: 1%;
         margin-top: 1%;
+        cursor: pointer;
+    }
+    .bigimg{
+        height: 600px;
+        width: 600px;
+
     }
 
     .footer {

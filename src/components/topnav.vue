@@ -12,7 +12,7 @@
                         placeholder="请输入内容"
                         @select="handleSelect"
                         size="min"
-                        style="width: 400px"
+                        style="width: 40%"
                 ></el-autocomplete>
                 <el-button type="primary" icon="el-icon-search" v-on:click="search">搜索</el-button>
             </div>
@@ -39,7 +39,7 @@
                         <el-dropdown-menu slot="dropdown" style="width: 100px">
                             <span class="el-dropdown-link canpoint" @click="persioncenter"><el-dropdown-item>个人信息</el-dropdown-item></span>
 
-                            <el-dropdown-item>我的足迹</el-dropdown-item>
+                            <span class="el-dropdown-link canpoint" @click="persioncenter"><el-dropdown-item>我的足迹</el-dropdown-item></span>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -198,9 +198,10 @@
 <style scoped>
     .tit {
         height: 50px;
-        font-size: 20px;
+        font-size: 20%;
         line-height: 50px;
         font-family: "Al Bayan";
+        width: 50%;
     }
 
     .container {
@@ -215,10 +216,11 @@
 
     .logo {
         width: 10%;
-        height: 50px;
+        height: 10%;
         float: left;
         margin: 0;
         padding: 0;
+        text-align: center;
 
     }
 
@@ -233,7 +235,7 @@
     }
 
     .searchbar {
-        width: 50%;
+        width: 40%;
         float: left;
         height: 50px;
         line-height: 50px;
@@ -241,11 +243,11 @@
     }
 
     el-autocomplete {
-        width: 400px;
+        width: 10%
     }
 
     .Dao {
-        width: 40%;
+        width: 50%;
         float: left;
         text-align: center;
         height: 50px;
@@ -260,8 +262,8 @@
         font-size: 15px;
         line-height: 50px;
         height: 50px;
-        width: 100px;
-        margin:auto;
+        width:100px;
+
         float: left;
 
     }
