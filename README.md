@@ -18,6 +18,9 @@ components/
     personalcard    // 个人主页的展板
     share           // 转发的弹出框
     comment         // 评论组件
+    info            // 个人资料完整度
+    information     // 个人资料
+    myblogs         // 我的动态
 
 views/
     catalog         // dynamic展示
