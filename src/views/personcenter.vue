@@ -1,7 +1,9 @@
 <template>
-    <div class="person">
-        <Card class="card"></Card>
-        <Counter class="counter"></Counter>
+    <div class="extern">
+        <div class="person">
+            <Card class="card"></Card>
+            <Counter class="counter"></Counter>
+        </div>
     </div>
 </template>
 
@@ -15,6 +17,15 @@
 </script>
 
 <style scoped>
+    .extern {
+        width: 100%;
+    }
+
+    .person {
+        width: 70%;
+        margin-left: 15%;
+    }
+
     .card {
         width: 80%;
     }
