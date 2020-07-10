@@ -1,5 +1,7 @@
 <template>
-    <el-card></el-card>
+    <el-card>
+        <el-tag>footstep</el-tag>
+    </el-card>
 </template>
 
 <script>
