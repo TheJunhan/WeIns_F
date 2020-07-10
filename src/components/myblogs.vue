@@ -5,14 +5,6 @@
         <Blog></Blog>
         <el-divider direction="horizon"></el-divider>
         <Blog></Blog>
-        <el-divider direction="horizon"></el-divider>
-        <Blog></Blog>
-        <el-divider direction="horizon"></el-divider>
-        <Blog></Blog>
-        <el-divider direction="horizon"></el-divider>
-        <Blog></Blog>
-        <el-divider direction="horizon"></el-divider>
-        <Blog></Blog>
     </el-card>
 </template>
 
