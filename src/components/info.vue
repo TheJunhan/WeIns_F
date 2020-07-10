@@ -1,5 +1,7 @@
 <template>
-    <el-card></el-card>
+    <el-card>
+        <el-tag>Info</el-tag>
+    </el-card>
 </template>
 
 <script>

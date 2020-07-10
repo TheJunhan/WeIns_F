@@ -1,5 +1,6 @@
 <template>
     <el-card  shadow="hover">
+        <el-tag>Information</el-tag>
     </el-card>
 </template>
 
