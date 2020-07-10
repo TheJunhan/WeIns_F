@@ -7,14 +7,14 @@
             <div class="form">
                 <el-form ref="form" :model="form" @keyup.native.enter="onSubmit" label-width="11%">
                     <el-form-item props="phone">
-                        <el-input type="text" v-model="form.phone" auto-complete="off"
-                                  prefix-icon="el-icon-user"
-                                  placeholder="请输入手机号码"/>
+<!--                        <i class="el-icon-user el-icon&#45;&#45;left"></i>-->
+                        <el-input  type="text" v-model="form.phone"  auto-complete="off" placeholder="请输入手机号码"/>
+
+<!--                                  prefix-icon="el-icon-user"-->
                     </el-form-item>
                     <el-form-item prop="password">
                         <el-input type="text" v-model="form.password" auto-complete="off"
-                                  prefix-icon="el-icon-key"
-                                  placeholder="请输入账户密码" show-password/>
+                                  placeholder="请输入账户密码" />
                     </el-form-item>
                 </el-form>
             </div>

@@ -1,10 +1,10 @@
 <template>
     <div class="home">
-        <el-header style="z-index: 1000">
-            <Header></Header>
+        <el-header id="float">
+            <Header ></Header>
         </el-header>
-        <el-container style="width: 100%;margin-bottom: 70px">
-            <router-view></router-view>
+        <el-container style="width: 100%;margin-bottom: 70px;z-index: -1">
+            <router-view ></router-view>
         </el-container>
         <el-footer>
             <Backtop></Backtop>

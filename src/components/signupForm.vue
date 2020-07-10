@@ -3,25 +3,25 @@
         <h3 class="registerTitle">注册</h3>
         <el-form-item prop="phone">
             <el-input type="text" v-model="registerForm.phone" auto-complete="off"
-                      prefix-icon="el-icon-phone"
                       placeholder="请输入手机号码"/>
         </el-form-item>
         <el-form-item prop="name">
             <el-input type="text" v-model="registerForm.name" auto-complete="off"
-                      prefix-icon="el-icon-user-solid"
                       placeholder="请输入用户名"/>
         </el-form-item>
-        <el-form-item>
+        <el-form-item >
             <el-date-picker
                     v-model="registerForm.birth"
                     type="date"
                     size="middle"
-                    placeholder="请选择您的生日">
+                    placeholder="请选择您的生日"
+                    clear-icon="none"
+                    style="text-align: left"
+            >
             </el-date-picker>
         </el-form-item>
         <el-form-item prop="password">
             <el-input type="text" v-model="registerForm.password" auto-complete="off"
-                      prefix-icon="el-icon-key"
                       placeholder="请输入密码" show-password/>
         </el-form-item>
         <el-button type="primary" style="width: 100%" @click="register">注册</el-button>
