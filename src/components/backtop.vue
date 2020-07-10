@@ -20,5 +20,6 @@
         text-align: center;
         line-height: 40px;
         color: #1989fa;
+        bottom: 0;
     }
 </style>

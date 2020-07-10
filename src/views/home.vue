@@ -1,13 +1,15 @@
 <template>
-    <div class="home">
+    <div class="home" style="width: 100%">
+        <Backtop></Backtop>
+
         <el-header id="float">
             <Header ></Header>
         </el-header>
-        <el-container style="width: 100%;margin-bottom: 70px;z-index: -1">
+        <el-container class="backtop" style="width: 100%;margin-bottom: 70px;z-index: -1">
             <router-view ></router-view>
+
         </el-container>
         <el-footer>
-            <Backtop></Backtop>
             <Footer style="margin-top: 2%"></Footer>
         </el-footer>
     </div>
