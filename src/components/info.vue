@@ -1,11 +1,13 @@
 <template>
     <el-card  shadow="hover">
         <div class="card">
-            <el-divider class="divi"></el-divider>
-            <span class="graytext">个人资料完成度</span>
+            <el-divider class="divider"></el-divider>
+            <span class="gray-text">个人资料完成度</span>
             <el-progress :percentage=info.percentage></el-progress>
-            <el-divider class="divi"></el-divider>
-            <el-button class="but" type="text" >编辑个人资料>></el-button>
+            <el-divider class="divider"></el-divider>
+            <div class="btn">
+                <el-button type="text" >编辑个人资料>></el-button>
+            </div>
         </div>
     </el-card>
 </template>
@@ -16,7 +18,7 @@
         data(){
             return{
                 info:{
-                    percentage:50
+                    percentage: 50
                 }
             }
         }
@@ -24,16 +26,17 @@
 </script>
 
 <style scoped>
-    .graytext{
+    .gray-text{
         color: darkgray;
     }
-    .card{
+    .card {
         width: 100%;
     }
-    .divi{
+    .divider {
         margin-top: 5%;
     }
-    .but{
-       height: 1%;
+    .btn {
+        margin-top: -15px;
+        margin-bottom: -15px;
     }
 </style>

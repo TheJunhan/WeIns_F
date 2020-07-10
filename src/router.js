@@ -4,7 +4,7 @@ import signup from './views/signup';
 import home from './views/home';
 import catalog from './views/catalog';
 import issue from './components/issue';
-import personcenter from "./views/personcenter";
+import personcenter from './views/personcenter';
 
 Vue.use(Router);
 
