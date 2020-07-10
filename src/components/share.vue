@@ -68,6 +68,9 @@
         methods: {
             submit() {
                 this.$message.success('转发成功！');
+
+                this.$emit('change',)
+
             }
         }
     }
