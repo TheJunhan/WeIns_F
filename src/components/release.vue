@@ -36,14 +36,14 @@
                         <el-button type="primary" size="mini">发布</el-button>
                     </div>
                     <div class="issue-state">
-                        <el-dropdown size="mini">
+                        <el-dropdown size="mini" trigger="click" >
                         <span class="el-dropdown-link">
-                        {{state}}<i class="el-icon-arrow-down el-icon--right"></i>
+                        可见：{{state}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
-                            <el-dropdown-menu slot="dropdown" style="width: 80px" >
-                                <el-dropdown-item>公开</el-dropdown-item>
-                                <el-dropdown-item>粉丝</el-dropdown-item>
-                                <el-dropdown-item>仅自己可见</el-dropdown-item>
+                            <el-dropdown-menu slot="dropdown" style="width: 80px"   >
+                                <p v-on:click="handleCommand(0)"><el-dropdown-item>公开</el-dropdown-item></p>
+                                <p v-on:click="handleCommand(1)"><el-dropdown-item>粉丝</el-dropdown-item></p>
+                                <p v-on:click="handleCommand(2)"><el-dropdown-item>仅自己</el-dropdown-item></p>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
@@ -76,6 +76,11 @@
             },
             topic() {
                 this.$message.success('topic!');
+            },
+            handleCommand(command) {
+                if(command==0) this.state="公开";
+                if(command==1) this.state="粉丝";
+                if(command==2) this.state="仅自己";
             }
         }
     }
