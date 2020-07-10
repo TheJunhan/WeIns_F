@@ -37,7 +37,7 @@
 <style scoped>
     .back{
         width: 100%;
-        height: 500px;
+        height: 100%;
         /*display: flex;*/
         background: url("../assets/image/poster_1.png");
     }
