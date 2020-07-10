@@ -4,14 +4,16 @@
             <div class="head">
                 <Card class="card"></Card>
             </div>
-            <div class="side">
-                <Counter class="counter"></Counter>
-                <Info></Info>
-                <Footstep></Footstep>
-            </div>
-            <div class="main">
-                <Myblogs></Myblogs>
-                <Information></Information>
+            <div class="container">
+                <div class="side">
+                    <Counter class="counter"></Counter>
+                    <Info class="info"></Info>
+                    <Footstep class="footstep"></Footstep>
+                </div>
+                <div class="main">
+                    <Information></Information>
+                    <Myblogs></Myblogs>
+                </div>
             </div>
         </div>
     </div>
@@ -36,12 +38,18 @@
     }
 
     .person {
-        width: 80%;
-        margin-left: 10%;
+        width: 90%;
+        margin-left: 5%;
     }
 
     .head {
         width: 100%;
+    }
+
+    .container {
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 20px;
     }
 
     .card {
@@ -54,11 +62,20 @@
     }
 
     .counter {
-        margin-left: 10%;
+
+    }
+
+    .info {
+        margin-top: 10px;
+    }
+
+    .footstep {
+        margin-top: 10px;
     }
 
     .main {
         float: left;
-        width: 80%;
+        margin-left: 3%;
+        width: 77%;
     }
 </style>
