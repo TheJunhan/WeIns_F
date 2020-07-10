@@ -1,25 +1,31 @@
 <template>
     <div class="share">
         <div class="destination">
-            <div class="prefix">
-                <span>转发到</span>
-            </div>
             <div class="tabs">
-                <el-tabs v-model="active_tab" @tab-click="handleClick" type="card">
-                    <el-tab-pane label="用户管理" name="1">用户管理</el-tab-pane>
-                    <el-tab-pane label="配置管理" name="2">配置管理</el-tab-pane>
-                    <el-tab-pane label="角色管理" name="3">角色管理</el-tab-pane>
+                <el-tabs v-model="active_tab">
+                    <el-tab-pane label="我的动态" name="1"></el-tab-pane>
+                    <el-tab-pane label="好友圈" name="2"></el-tab-pane>
                 </el-tabs>
             </div>
         </div>
-        <div class="quote">
-            <el-input type="textarea" v-model="blog.content.text"/>
+        <div class="main">
+            <div class="tips" v-if="active_tab === 2">
+                <el-tag>nmsl</el-tag>
+            </div>
+            <div class="quote">
+                @{{this.$props.user}}: {{this.$props.content}}
+            </div>
+            <div class="comment">
+                <el-input type="textarea" v-model="blog.content.text" :placeholder="holder"/>
+            </div>
         </div>
-        <div class="comment">
-
-        </div>
-        <div class="footer">
-            <div class="footer-left">同时评论{{this.$props.user}}</div>
+        <div class="foot">
+            <div class="check">
+                <el-checkbox v-model="checked">同时评论给 {{this.$props.user}}</el-checkbox>
+            </div>
+            <div class="btn">
+                <el-button type="primary" @click="submit" size="mini">发布</el-button>
+            </div>
         </div>
     </div>
 </template>
@@ -33,6 +39,8 @@
         },
         data() {
             return {
+                comment_to_flag: false,
+                holder: '//@',
                 active_tab: '1',
                 blog: {
                     id: 0,
@@ -55,10 +63,11 @@
             }
         },
         created() {
+            this.holder += this.$props.user + ':转发动态';
         },
         methods: {
             submit() {
-
+                this.$message.success('转发成功！');
             }
         }
     }
@@ -66,14 +75,45 @@
 
 <style scoped>
     .share {
+        width: 100%;
         background-color: white;
+        flex-direction: column;
     }
 
-    .prefix {
-        float: left;
+    .quote {
+        width: 100%;
+        text-align: left;
     }
 
     .tabs {
+        margin-top: -30px;
+        height: 30px;
+    }
+
+    .main {
+        margin-top: 20px;
+    }
+
+    .quote {
+        background-color: #F2F2F5;
+    }
+
+    .comment {
+        margin-top: 10px;
+    }
+
+    .foot {
+        margin-top: 10px;
+        margin-bottom: -10px;
+        width: 100%;
+        height: 40px;
+    }
+
+    .check {
         float: left;
+    }
+
+    .btn {
+        float: right;
     }
 </style>
