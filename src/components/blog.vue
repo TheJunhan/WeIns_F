@@ -7,25 +7,27 @@
                 </div>
                 <div class="container">
                     <div class="header">
-                        <el-button  class="name_button" type="text" style="float: left">{{blog.user.name}}</el-button>
-                        <div class="timestamp">
-                            {{blog.time}}
-                        </div>
+                        <el-row>
+                            <el-col :span="21">
+                                <div class="name">
+                                    <el-button type="text" style="float: left">{{blog.user.name}}</el-button>
+                                </div>
+                                <div class="timestamp">{{blog.time}}</div>
+                            </el-col>
+                            <el-col :span="3">
+                                <el-button type="text" size="mini" icon="el-icon-arrow-down"></el-button>
+                            </el-col>
+                        </el-row>
                     </div>
 
                     <div class="content" style="z-index: 998;" >
                         <div class="text" >
                             {{blog.content.text}}
                         </div>
-                        <div class="images" v-if="blog.content.image !== null" >
-                            <ul>
-                                <div style="background-color: red">
-                                    <li style="" v-for="image in blog.content.images" :key="image.image" >
-                                        <img @click="maxPic(image)"  :src="image.image" class="img"  style="z-index: 998"/>
-                                    </li>
-                                </div>
-
-                            </ul>
+                        <div class="images" v-if="blog.content.image !== null">
+                            <ul><li style="" v-for="image in blog.content.images" :key="image.image" >
+                                <img @click="maxPic(image)"  :src="image.image" class="img"  style="z-index: 998"/>
+                            </li></ul>
                         </div>
                     </div>
                 </div>
@@ -55,11 +57,11 @@
                         </el-col>
                     </el-row>
 
-                    <el-dialog :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态">
+                    <el-dialog :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态到">
                         <Share :id="blog.id" :user="blog.user.name" :content="blog.content.text" @change="change"></Share>
                     </el-dialog>
-                    <el-dialog :visible.sync="dialogVisible" width="80%"  :show-close="false">
-                        <el-image :src="this.showpic" class="bigimg" ></el-image>
+                    <el-dialog :visible.sync="dialogVisible" width="40%"  :show-close="false">
+                        <el-image :src="this.showpic" class="big-img"></el-image>
                     </el-dialog>
                 </div>
             </div>
@@ -126,7 +128,6 @@
 
             },
             share() {
-                // 分享
                 this.blog.share_flag = true;
             },
             change(){
@@ -152,7 +153,8 @@
                 }
                 else {
                     this.$message.success('点赞成功！');
-                    this.blog.like_flag = true; // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
+                    this.blog.like_flag = true;
+                    // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
                     this.blog.like ++;
                 }
             },
@@ -194,23 +196,19 @@
 
     .header {
         width: 100%;
-        flex-direction: column;
-        display:-webkit-flex;
-        display: flex;
-        -webkit-flex-direction: column;
     }
 
-    .name_button {
+    .name {
+        float: left;
+        width: 100%;
         text-align: left;
     }
 
     .timestamp {
-        flex-direction: column;
+        float: left;
         text-align: left;
-        margin-left: 1%;
         color: darkgray;
     }
-
 
     .content {
         width: 100%;
@@ -229,10 +227,8 @@
         margin-top: 1%;
         cursor: pointer;
     }
-    .bigimg{
-        height: 600px;
-        width: 600px;
-
+    .big-img{
+        width: 100%;
     }
 
     .footer {

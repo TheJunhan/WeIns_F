@@ -9,10 +9,7 @@
             </div>
         </div>
         <div class="main">
-            <div class="tips" v-if="active_tab === 2">
-                <el-tag>nmsl</el-tag>
-            </div>
-            <div class="quote">
+            <div class="quote text-overflow">
                 @{{this.$props.user}}: {{this.$props.content}}
             </div>
             <div class="comment">
@@ -99,6 +96,14 @@
 
     .quote {
         background-color: #F2F2F5;
+    }
+
+    .text-overflow {
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        height: 40%;
+        overflow: hidden;
+        white-space: nowrap;
     }
 
     .comment {
