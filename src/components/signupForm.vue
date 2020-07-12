@@ -14,7 +14,7 @@
                     v-model="registerForm.birth"
                     type="date"
                     size="middle"
-                    placeholder="请选择您的生日"
+                    placeholder="请选择生日"
                     clear-icon="none"
                     style="text-align: left"
             >

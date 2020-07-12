@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="btn">
-            <el-button type="text" >查看更多>></el-button>
+            <el-button type="text" @click="more">查看更多>></el-button>
         </div>
     </el-card>
 </template>
