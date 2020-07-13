@@ -11,9 +11,10 @@
         </el-form-item>
         <el-form-item >
             <el-date-picker
-                    v-model="registerForm.birth"
+                    v-model="registerForm.birthday"
                     type="date"
                     size="middle"
+                    format="yyyy-MM-dd"
                     placeholder="请选择生日"
                     clear-icon="none"
                     style="text-align: left"
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-    // import axios from 'axios';
+    import axios from 'axios';
     export default {
         name: "SignUpForm",
         data() {
@@ -38,11 +39,11 @@
                     phone    : '',
                     name     : '',
                     password : '',
-                    birth    : '',
-                    role     : 1,
+                    birthday : '',
+                    type     : 0, // 默认为普通用户
+                    sex      : 1, // 默认为男（1）
                     avatar: {
-                        id: Number,
-                        iconBase64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                        base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                     }
                 },
                 rules: {
@@ -85,6 +86,17 @@
 
                 return true;
             },
+            birth_format(date) {
+                let birth = date.getFullYear() + '-';
+                if (date.getMonth() < 10)
+                    birth += '0';
+                birth += (date.getMonth() + '-');
+
+                if (date.getDate() < 10)
+                    birth += '0';
+
+                return (birth + date.getDate());
+            },
             register() {
                 let form = this.registerForm;
                 let phone = form.phone;
@@ -125,17 +137,26 @@
                     return;
                 }
 
-                this.$router.replace('/home')
+                form.birthday = this.birth_format(form.birthday);
 
-                // let url = 'http://localhost:8181/user/save';
-                // axios.post(url, form).then((response) =>{
-                //     if (response.data === "error")
-                //         this.$message.error("此用户名已存在！");
-                //     else {
-                //         this.$message.success('注册成功！');
-                //         this.$router.replace('/login');
-                //     }
-                // });
+                let url = 'http://localhost:8088/user/reg';
+                axios.post(url, form).then((response) =>{
+                    //这里还缺少错误处理，比如网络错误什么的
+                    switch (response.data) {
+                        case "phone error":
+                            this.$message.error("这个手机号已注册过啦！");
+                            break;
+                        case "name error":
+                            this.$message.error("这个名字已经有人用过啦！");
+                            break;
+                        case "success":
+                            this.$message.success("注册成功！");
+                            this.$router.replace('/home');
+                            break;
+                        default:
+                            break;
+                    }
+                });
             }
         }
     }
