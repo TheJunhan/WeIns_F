@@ -1,5 +1,8 @@
 <template>
     <div class="extern">
+        <el-header id="float">
+            <Header ></Header>
+        </el-header>
         <div class="person">
             <div class="head">
                 <Card class="card"></Card>
@@ -26,9 +29,12 @@
     import Info from "../components/info";
     import Myblogs from "../components/myblogs";
     import Information from "../components/information";
+    import Header from '../components/topnav'
 
     export default {
-        components: { Info, Information, Myblogs, Footstep, Counter, Card }
+        name:"personcenter",
+
+        components: { Info, Information, Myblogs, Footstep, Counter, Card ,Header }
     }
 </script>
 

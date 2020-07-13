@@ -273,9 +273,7 @@
             }
         },
 
-    activated() {
-        this.dialogVisible=false;
-    }
+
     }
 </script>
 

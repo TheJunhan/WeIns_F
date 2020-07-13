@@ -91,6 +91,7 @@
         margin-top: 5%;
         background-color: white;
         border-radius: 2px;
+        text-align: center;
     }
 
     .tag {
