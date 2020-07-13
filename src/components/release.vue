@@ -22,7 +22,6 @@
                         </el-col>
                         <el-col :span="4">
                             <el-upload
-
                                     action=''
                                     style="width: 80%;z-index: 998"
                                     class="avatar-uploader"
@@ -66,7 +65,8 @@
                                 style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 30%;height: 30px;text-align: left;line-height: 30px">{{item['filename']}}</span>
                         </el-col>
                         <el-row>
-                            <el-button style="margin-left: 100%" @click="removefile(i)" type="text" size="mini" icon="el-icon-close">删除
+                            <el-button style="margin-left: 100%" @click="removefile(i)" type="text" size="mini"
+                                       icon="el-icon-close">删除
                             </el-button>
                         </el-row>
                     </el-row>
@@ -113,7 +113,7 @@
                 uploaded: false,
                 filelist: [],
                 uploadmode: false,
-                lock:0
+                lock: 0
 
             }
         },
@@ -124,7 +124,7 @@
             emoji() {
                 this.$message.success('emoji!');
             },
-            uploadsuccess(){
+            uploadsuccess() {
                 this.$message.success('上传成功')
             },
             topic() {
@@ -168,27 +168,26 @@
 
                 });
             },
-            getFile1(file){
-                if(this.lock==2) {
+            getFile1(file) {
+                if (this.lock == 2) {
                     this.$message.warning("图片和视频无法同时上传！");
                     return;
-                }
-                else{
-                    if(this.filelist.length>=6) this.$message.warning("做多上传6张图片！");
-                    this.lock=1;
+                } else {
+                    if (this.filelist.length >= 6) this.$message.warning("做多上传6张图片！");
+                    this.lock = 1;
                     this.getFile(file);
                 }
 
 
             },
-            getFile2(file){
-                if(this.lock==1) this.$message.warning("图片和视频无法同时上传！");
-                else{
-                    if(this.filelist.length>=1) {
+            getFile2(file) {
+                if (this.lock == 1) this.$message.warning("图片和视频无法同时上传！");
+                else {
+                    if (this.filelist.length >= 1) {
                         this.$message.warning("视频太多了，老板做不出来！");
                         return;
                     }
-                    this.lock=2;
+                    this.lock = 2;
                     this.getFile(file);
                 }
             },
@@ -198,14 +197,10 @@
                 if (this.filelist.length == 0) {
 
                     this.uploaded = false;
-                    this.lock=0;
+                    this.lock = 0;
                 }
                 console.log(this.lock)
-
-
             }
-
-
         }
     }
 </script>
