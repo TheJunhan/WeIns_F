@@ -87,11 +87,11 @@
                         </el-col>
                     </el-row>
 
-                    <el-dialog :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态到">
+                    <el-dialog :append-to-body="true" :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态到">
                         <Share :id="blog.id" :user="blog.user.name" :content="blog.content.text"
                                @change="change"></Share>
                     </el-dialog>
-                    <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false">
+                    <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true" style="z-index: 999">
                         <el-image :src="this.showpic" class="big-img"></el-image>
                     </el-dialog>
                 </div>
@@ -188,15 +188,19 @@
                 }
             },
             maxPic(image) {
-
+                alert(this.dialogVisible)
                 this.dialogVisible = true;
                 this.showpic = image.image;
+                alert(123)
 
             },
             comment() {
                 this.$message.success('评论成功！');
             },
 
+        },
+        activated() {
+            this.dialogVisible=false;
         }
     }
 </script>

@@ -20,7 +20,7 @@
 
 
                 <div class="el-dropdown-link">
-                    <p class="el-dropdown-link can-point" @click="home"><i class="el-icon-s-home el-icon--left"></i>首页</p>
+                    <router-link to="/issue"><p class="el-dropdown-link can-point"><i class="el-icon-s-home el-icon--left"></i>首页</p></router-link>
 
                 </div>
                 <span class="dd">|</span>
@@ -36,7 +36,7 @@
                         我的<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                         <el-dropdown-menu slot="dropdown" style="width: 100px">
-                            <span class="el-dropdown-link canpoint" @click="persioncenter"><el-dropdown-item>个人信息</el-dropdown-item></span>
+                            <router-link to="/person"><span class="el-dropdown-link canpoint" ><el-dropdown-item>个人信息</el-dropdown-item></span></router-link>
 
                             <span class="el-dropdown-link canpoint" @click="persioncenter"><el-dropdown-item>我的足迹</el-dropdown-item></span>
                         </el-dropdown-menu>
@@ -64,7 +64,7 @@
             </div>
         </div>
 
-        <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false">
+        <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="true" :append-to-body="true">
             <Login></Login>
         </el-dialog>
 
@@ -140,7 +140,7 @@
                 this.dialogVisible = true;
             },
             home() {
-                this.$router.push('/home')
+                this.$router.push('/issue')
             },
             persioncenter() {
                 this.$router.push('/person')
@@ -149,6 +149,9 @@
         mounted() {
             this.restaurants = this.loadAll();
         },
+        activated() {
+            this.dialogVisible=false;
+        }
     }
 
 
