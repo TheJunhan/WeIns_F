@@ -1,33 +1,59 @@
 <template>
     <div>
-        <el-card  class="extern" shadow="hover">
+        <el-card class="extern" shadow="hover">
             <div class="blog">
                 <div class="avatar">
                     <el-avatar :src="blog.user.avatar.iconBase64"></el-avatar>
                 </div>
                 <div class="container">
-                    <div class="header">
-                        <el-row>
-                            <el-col :span="21">
+                    <div class="header" style="z-index: 998;">
+                        <el-row style="height: 20px">
+                            <el-col :span="18">
                                 <div class="name">
                                     <el-button type="text" style="float: left">{{blog.user.name}}</el-button>
                                 </div>
                                 <div class="timestamp">{{blog.time}}</div>
+                                <div class="timestamp">当前可见：{{}}</div>
                             </el-col>
+
                             <el-col :span="3">
-                                <el-button type="text" size="mini" icon="el-icon-arrow-down"></el-button>
+                                <div >
+                                    <el-dropdown trigger="click" style="outline: none">
+                                    <span
+                                            class="el-dropdown-link btn send time-send small-hand"
+                                            id="custom-sebd-btn"
+                                    >选项<i class="el-icon-arrow-down el-icon--right"></i>
+                                    </span>
+
+                                        <el-dropdown-menu slot="dropdown" style="width: 12%">
+
+                                            <el-dropdown-item class="menuitem">设置权为私密</el-dropdown-item>
+
+                                            <el-dropdown-item class="menuitem">设置为所有人可见</el-dropdown-item>
+
+                                            <el-dropdown-item class="menuitem">设置为好友可见</el-dropdown-item>
+
+                                            <el-dropdown-item class="menuitem" v-if="this.$route.params.is_superuser">删除</el-dropdown-item>
+
+                                        </el-dropdown-menu>
+
+                                    </el-dropdown>
+                                </div>
+
                             </el-col>
                         </el-row>
                     </div>
 
-                    <div class="content" style="z-index: 998;" >
-                        <div class="text" >
+                    <div class="content" style="z-index: 998;">
+                        <div class="text">
                             {{blog.content.text}}
                         </div>
                         <div class="images" v-if="blog.content.image !== null">
-                            <ul><li style="" v-for="image in blog.content.images" :key="image.image" >
-                                <img @click="maxPic(image)"  :src="image.image" class="img"  style="z-index: 998"/>
-                            </li></ul>
+                            <ul>
+                                <li style="" v-for="image in blog.content.images" :key="image.image">
+                                    <img @click="maxPic(image)" :src="image.image" class="img" style="z-index: 998"/>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -35,17 +61,21 @@
                     <el-row>
                         <el-col :span="6">
                             <div v-if="blog.collect_flag === true">
-                                <el-button type="text" icon="el-icon-folder-remove" @click="collect">{{blog.collect}}</el-button>
+                                <el-button type="text" icon="el-icon-folder-remove" @click="collect">{{blog.collect}}
+                                </el-button>
                             </div>
                             <div v-else>
-                                <el-button type="text" icon="el-icon-folder-add" @click="collect">{{blog.collect}}</el-button>
+                                <el-button type="text" icon="el-icon-folder-add" @click="collect">{{blog.collect}}
+                                </el-button>
                             </div>
                         </el-col>
                         <el-col :span="6">
                             <el-button type="text" icon="el-icon-top-right" @click="share">{{blog.share}}</el-button>
                         </el-col>
                         <el-col :span="6">
-                            <el-button type="text" icon="el-icon-chat-dot-square" @click="comment">{{blog.comment.count}}</el-button>
+                            <el-button type="text" icon="el-icon-chat-dot-square" @click="comment">
+                                {{blog.comment.count}}
+                            </el-button>
                         </el-col>
                         <el-col :span="6">
                             <div v-if="blog.like_flag === true">
@@ -57,10 +87,11 @@
                         </el-col>
                     </el-row>
 
-                    <el-dialog :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态到">
-                        <Share :id="blog.id" :user="blog.user.name" :content="blog.content.text" @change="change"></Share>
+                    <el-dialog :append-to-body="true" :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态到">
+                        <Share :id="blog.id" :user="blog.user.name" :content="blog.content.text"
+                               @change="change"></Share>
                     </el-dialog>
-                    <el-dialog :visible.sync="dialogVisible" width="40%"  :show-close="false">
+                    <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true" style="z-index: 999">
                         <el-image :src="this.showpic" class="big-img"></el-image>
                     </el-dialog>
                 </div>
@@ -77,7 +108,7 @@
     import Share from '../components/share';
 
     export default {
-        components: { Share },
+        components: {Share},
         data() {
             return {
                 blog: {
@@ -94,13 +125,13 @@
                         text: '大家好,我是上海交通大学软件学院的最咸的咸鱼！不会有人比我还菜吧，不会吧不会吧！项目做得太差劲了！哭哭!',
                         images: [{
                             image: image
-                        },{
+                        }, {
                             image: image2
-                        },{
+                        }, {
                             image: image2
-                        },{
+                        }, {
                             image: image2
-                        },{
+                        }, {
                             image: image
                         }]
                     },
@@ -115,8 +146,8 @@
                     },
                     comment_flag: false
                 },
-                dialogVisible:false,
-                showpic:"",
+                dialogVisible: false,
+                showpic: "",
             }
         },
         created() {
@@ -130,43 +161,46 @@
             share() {
                 this.blog.share_flag = true;
             },
-            change(){
+            change() {
                 this.blog.share_flag = false;
             },
             collect() {
-                if(this.blog.collect_flag) {
+                if (this.blog.collect_flag) {
                     this.$message.error('取消收藏！');
-                    this.blog.collect --;
+                    this.blog.collect--;
                     this.blog.collect_flag = false;
-                }
-                else {
+                } else {
                     this.$message.success('收藏成功！');
                     this.blog.collect_flag = true;
-                    this.blog.collect ++;
+                    this.blog.collect++;
                 }
             },
             like() {
-                if(this.blog.like_flag) {
+                if (this.blog.like_flag) {
                     this.$message.error('取消赞！');
                     this.blog.like_flag = false;
-                    this.blog.like --;
-                }
-                else {
+                    this.blog.like--;
+                } else {
                     this.$message.success('点赞成功！');
                     this.blog.like_flag = true;
                     // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
-                    this.blog.like ++;
+                    this.blog.like++;
                 }
             },
-            maxPic(image){
-
-              this.dialogVisible=true;
-              this.showpic=image.image;
+            maxPic(image) {
+                alert(this.dialogVisible)
+                this.dialogVisible = true;
+                this.showpic = image.image;
+                alert(123)
 
             },
             comment() {
                 this.$message.success('评论成功！');
-            }
+            },
+
+        },
+        activated() {
+            this.dialogVisible=false;
         }
     }
 </script>
@@ -205,9 +239,10 @@
     }
 
     .timestamp {
-        float: left;
+        /*float: left;*/
         text-align: left;
         color: darkgray;
+        font-size: 10px;
     }
 
     .content {
@@ -216,6 +251,8 @@
         background: rgba(255, 255, 255, 0.4);
     }
 
+    .menuitem{
+    }
     .text {
         text-align: left;
     }
@@ -227,7 +264,8 @@
         margin-top: 1%;
         cursor: pointer;
     }
-    .big-img{
+
+    .big-img {
         width: 100%;
     }
 
