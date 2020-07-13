@@ -13,6 +13,8 @@
                 <div class="main">
                     <Information></Information>
                     <Myblogs></Myblogs>
+                    <R_Comment></R_Comment>
+                    <comment></comment>
                 </div>
             </div>
         </div>
@@ -26,9 +28,11 @@
     import Info from "../components/info";
     import Myblogs from "../components/myblogs";
     import Information from "../components/information";
+    import R_Comment from "../components/release_comment";
+    import comment from "../components/comment";
 
     export default {
-        components: { Info, Information, Myblogs, Footstep, Counter, Card }
+        components: { Info, Information, Myblogs, Footstep, Counter, Card, comment, R_Comment }
     }
 </script>
 
