@@ -18,7 +18,8 @@ new Vue({
   render: h => h(App),
   data:function(){
       return{
-        logged:false
+          logged:false,
+          is_superuser:false
       }
 
   }

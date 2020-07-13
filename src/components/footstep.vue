@@ -1,18 +1,22 @@
 <template>
     <el-card shadow="hover">
-       <p class="head">赞</p>
-        <div class="divi">
-            <el-divider ></el-divider>
+        <p class="head">赞</p>
+        <div class="main">
+            <div class="divider">
+                <el-divider></el-divider>
+            </div>
+            <img class="pic" src="../assets/image/poster_1.png" alt="picture"/>
+            <div class="content">
+                <p class="name-text">{{footstep.name}}</p>
+                <p class="content-text text-overflow">{{footstep.context}}</p>
+            </div>
+            <div class="divider">
+                <el-divider></el-divider>
+            </div>
         </div>
-        <img class="pic" src="../assets/image/poster_1.png" alt="picture"/>
-        <div class="content">
-            <p class="nametext">{{footstep.name}}</p>
-            <p class="contenttext text-overflow">{{footstep.context}}</p>
+        <div class="btn">
+            <el-button type="text" @click="more">查看更多>></el-button>
         </div>
-        <div class="divi">
-            <el-divider ></el-divider>
-        </div>
-        <el-button class="but" type="text" >查看更多>></el-button>
     </el-card>
 </template>
 
@@ -23,8 +27,8 @@
             return{
                 footstep:{
                     img:"",
-                    name:"weins",
-                    context:"大家好,我是上海交通大学软件学院的最咸的咸鱼！大家好,我是上海交通大学软件学院的最咸的咸鱼！大家好,我是上海交通大学软件学院的最咸的咸鱼！"
+                    name: "WeIns",
+                    context:"大家好,我是上海交通大学软件学院的最咸的咸鱼！大家好,我是上海交通大学软件学院的最咸的咸鱼！"
                 }
             }
         }
@@ -37,29 +41,34 @@
         height:40%;
         float: left;
     }
+
+    .main {
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+
     .content{
         width: 55%;
         height:40%;
         float: left;
         margin-left: 3%;
     }
-    .divi{
+    .divider{
         padding-top: 3%;
-        /*margin-bottom: 10%;*/
         clear: both;
     }
     .head{
         height: 10%;
         text-align: left;
     }
-    .nametext{
+    .name-text{
         font-size: larger;
         text-align: center;
+        color: antiquewhite;
     }
-    .contenttext{
+    .content-text{
         color: #A7CFE8;
         text-align: left;
-        /*text-after-overflow: ellipsis;*/
         font-size: small;
     }
     .text-overflow {
@@ -69,5 +78,8 @@
         overflow: hidden;
         white-space: nowrap;
     }
-
+    .btn {
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
 </style>
