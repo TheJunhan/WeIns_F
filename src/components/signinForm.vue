@@ -7,14 +7,11 @@
             <div class="form">
                 <el-form ref="form" :model="form" @keyup.native.enter="onSubmit" label-width="11%">
                     <el-form-item props="phone">
-<!--                        <i class="el-icon-user el-icon&#45;&#45;left"></i>-->
                         <el-input  type="text" v-model="form.phone"  auto-complete="off" placeholder="请输入手机号码"/>
-
-<!--                                  prefix-icon="el-icon-user"-->
                     </el-form-item>
                     <el-form-item prop="password">
                         <el-input type="text" v-model="form.password" auto-complete="off"
-                                  placeholder="请输入账户密码" />
+                                  placeholder="请输入账户密码" show-password/>
                     </el-form-item>
                 </el-form>
             </div>
@@ -42,14 +39,15 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         data() {
             return {
+                checked: false,
+                isSubmit: false,
                 form: {
                     phone: '',
                     password: '',
-                    checked: false,
-                    isSubmit: false,
                 },
                 rules: {
                     phone: [
@@ -70,8 +68,33 @@
         methods: {
             onSubmit() {
                 if (!this.isSubmit) {
-                    this.$message.success("submit!")
-                    this.isSubmit = true;
+                    this.isSubmit = true; // 防止恶意多次点击
+
+                    let url = 'http://localhost:8088/user/login' +
+                        '?ph=' + this.form.phone +
+                        '&pwd=' + this.form.password;
+
+                    axios.post(url).then((response) => {
+                        let user = response.data;
+                        if (user.id >= 0) {
+                            // 登录后这里还要存各种session的数据
+                            this.$message.success('用户 ' + user.name + ' 登录成功！');
+                            // TO DO
+
+                        }
+
+                        else {
+                            if (user.id === -1) {
+                                this.$message.error('此账户不存在！');
+                            }
+
+                            if (user.id === -2) {
+                                this.$message.error('密码错误，请重新输入！');
+                            }
+
+                            this.isSubmit = false;
+                        }
+                    })
                 }
             },
             signup() {
@@ -91,6 +114,7 @@
         margin-top: 5%;
         background-color: white;
         border-radius: 2px;
+        text-align: center;
     }
 
     .tag {

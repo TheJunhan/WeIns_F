@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="footer">
+                <div class="footer" style="text-align: center">
                     <el-row>
                         <el-col :span="6">
                             <div v-if="blog.collect_flag === true">

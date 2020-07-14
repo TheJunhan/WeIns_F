@@ -20,7 +20,7 @@
 
 
                 <div class="el-dropdown-link">
-                    <router-link to="/issue"><p class="el-dropdown-link can-point"><i class="el-icon-s-home el-icon--left"></i>首页</p></router-link>
+                    <p class="el-dropdown-link can-point" @click="home"><i class="el-icon-s-home el-icon--left"></i>首页</p>
 
                 </div>
                 <span class="dd">|</span>
@@ -36,9 +36,10 @@
                         我的<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                         <el-dropdown-menu slot="dropdown" style="width: 100px">
-                            <router-link to="/person"><span class="el-dropdown-link canpoint" ><el-dropdown-item>个人信息</el-dropdown-item></span></router-link>
-
-                            <span class="el-dropdown-link canpoint" @click="persioncenter"><el-dropdown-item>我的足迹</el-dropdown-item></span>
+                            <router-link to="/person">
+                                <span class="el-dropdown-link can-point" ><el-dropdown-item>个人信息</el-dropdown-item></span>
+                            </router-link>
+                            <span class="el-dropdown-link can-point" @click="persioncenter"><el-dropdown-item>我的足迹</el-dropdown-item></span>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -64,7 +65,7 @@
             </div>
         </div>
 
-        <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="true" :append-to-body="true">
+        <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false">
             <Login></Login>
         </el-dialog>
 
@@ -140,7 +141,7 @@
                 this.dialogVisible = true;
             },
             home() {
-                this.$router.push('/issue')
+                this.$router.push('/home')
             },
             persioncenter() {
                 this.$router.push('/person')
