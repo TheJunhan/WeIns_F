@@ -13,7 +13,8 @@ components/
     sign*Form       // 登录-注册的表单
     topnav          // 顶部导航栏
     backtop         // 回到顶部
-    release         // 发布动态
+    release_blog    // 发布动态
+    release_comment // 发表评论
     counter         // 计数器组件
     personalcard    // 个人主页的展板
     share           // 转发的弹出框

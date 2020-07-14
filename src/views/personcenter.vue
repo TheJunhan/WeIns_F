@@ -1,8 +1,5 @@
 <template>
     <div class="extern">
-        <el-header id="float">
-            <Header ></Header>
-        </el-header>
         <div class="person">
             <div class="head">
                 <Card class="card"></Card>
@@ -16,6 +13,8 @@
                 <div class="main">
                     <Information></Information>
                     <Myblogs></Myblogs>
+                    <R_Comment></R_Comment>
+                    <comment></comment>
                 </div>
             </div>
         </div>
@@ -29,12 +28,11 @@
     import Info from "../components/info";
     import Myblogs from "../components/myblogs";
     import Information from "../components/information";
-    import Header from '../components/topnav'
+    import R_Comment from "../components/release_comment";
+    import comment from "../components/comment";
 
     export default {
-        name:"personcenter",
-
-        components: { Info, Information, Myblogs, Footstep, Counter, Card ,Header }
+        components: { Info, Information, Myblogs, Footstep, Counter, Card, comment, R_Comment }
     }
 </script>
 

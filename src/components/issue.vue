@@ -36,7 +36,7 @@
     import Side from '../components/sidenav';
     import Login from "./signinForm";
     import Blog from "./blog";
-    import Release from "./release";
+    import Release from "./release_blog";
 
     export default {
         name: "issue",
