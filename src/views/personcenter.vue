@@ -18,8 +18,6 @@
                     <Myblogs></Myblogs>
                     <R_Comment></R_Comment>
                     <comment></comment>
-                    <comment></comment>
-                    <comment></comment>
                 </div>
             </div>
         </div>
