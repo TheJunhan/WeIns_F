@@ -98,6 +98,7 @@
                 return (birth + date.getDate());
             },
             register() {
+                this.$router.push('/home');
                 let form = this.registerForm;
                 let phone = form.phone;
                 if (phone.length === 0) {
@@ -140,8 +141,10 @@
                 form.birthday = this.birth_format(form.birthday);
 
                 let url = 'http://localhost:8088/user/reg';
-                axios.post(url, form).then((response) =>{
+                axios.post(url, form)
+                    .then((response) =>{
                     //这里还缺少错误处理，比如网络错误什么的
+                        console.log(response)
                     switch (response.data) {
                         case "phone error":
                             this.$message.error("这个手机号已注册过啦！");
@@ -151,12 +154,15 @@
                             break;
                         case "success":
                             this.$message.success("注册成功！");
-                            this.$router.replace('/home');
+                            this.$router.push('/home');
                             break;
                         default:
                             break;
                     }
-                });
+                }).catch(err=>{
+                    console.log(err)
+                })
+                ;
             }
         }
     }

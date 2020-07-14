@@ -53,9 +53,9 @@
                         </p>
                         <el-dropdown-menu slot="dropdown"
                                           style="width: 80px;font-size: 10px">
-                            <p v-if="!this.$route.params.logged" style="width: 80px" v-on:click="log(0)"><el-dropdown-item >登陆</el-dropdown-item></p>
-                            <p v-if="!this.$route.params.logged" style="width: 80px" v-on:click="log(1)"><el-dropdown-item>注册</el-dropdown-item></p>
-                            <p v-if="this.$route.params.logged" style="width: 80px" v-on:click="log(2)"><el-dropdown-item>注销</el-dropdown-item></p>
+                            <p v-if="!this.$root.logged" style="width: 80px" v-on:click="log(0)"><el-dropdown-item >登陆</el-dropdown-item></p>
+                            <p v-if="!this.$root.logged" style="width: 80px" v-on:click="log(1)"><el-dropdown-item>注册</el-dropdown-item></p>
+                            <p v-if="this.$root.logged" style="width: 80px" v-on:click="log(2)"><el-dropdown-item>注销</el-dropdown-item></p>
                         </el-dropdown-menu>
 
                     </el-dropdown>
@@ -133,6 +133,15 @@
             log(i) {
               if(i==0)this.dialogVisible = true;
               else if (i==1) this.$router.push("/signup");
+              if(i==2){
+                  //注销
+                  this.$root.logged=false;
+                  this.$root.is_superuser="";
+                  this.$router.push("/home");
+                  sessionStorage.clear();
+                  this.$message.success("已注销");
+              }
+
             },
             signup() {
                 this.$router.push('/signup')

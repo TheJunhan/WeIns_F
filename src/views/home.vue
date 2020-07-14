@@ -5,7 +5,6 @@
             <Header ></Header>
         </el-header>
         <el-container style="width: 100%;margin-bottom: 70px">
-<!--            <router-view ></router-view>-->
             <div class="category">
 <!--                <router-view></router-view>-->
 <!--                <div class="issue">-->
