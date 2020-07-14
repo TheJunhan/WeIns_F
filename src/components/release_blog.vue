@@ -186,9 +186,9 @@
                 this.dialogVisible=true;
             },
             handleCommand(command) {
-                if (command == 0) this.state = "公开";
-                if (command == 1) this.state = "粉丝";
-                if (command == 2) this.state = "仅自己";
+                if (command === 0) this.state = "公开";
+                if (command === 1) this.state = "粉丝";
+                if (command === 2) this.state = "仅自己";
             },
             changemode() {
                 this.uploadmode = !this.uploadmode
@@ -224,7 +224,7 @@
                 });
             },
             getFile1(file) {
-                if (this.lock == 2) {
+                if (this.lock === 2) {
                     this.$message.warning("图片和视频无法同时上传！");
                     return;
                 } else {
@@ -236,7 +236,7 @@
 
             },
             getFile2(file) {
-                if (this.lock == 1) this.$message.warning("图片和视频无法同时上传！");
+                if (this.lock === 1) this.$message.warning("图片和视频无法同时上传！");
                 else {
                     if (this.filelist.length >= 1) {
                         this.$message.warning("视频太多了，老板做不出来！");
@@ -249,7 +249,7 @@
             removefile(i) {
 
                 this.filelist.splice(i, 1);
-                if (this.filelist.length == 0) {
+                if (this.filelist.length === 0) {
 
                     this.uploaded = false;
                     this.lock = 0;
@@ -263,7 +263,7 @@
                 this.choosen_tags.push(this.Tags[i]);
             },
             searchtags(){
-                var T=new Array();
+                let T = new Array();
                 for(let i in this.Tags){
                     if(this.Tags[i].indexOf(this.taginput)!=-1){
                         T.push(this.Tags[i]);
@@ -273,9 +273,7 @@
             }
         },
 
-    activated() {
-        this.dialogVisible=false;
-    }
+
     }
 </script>
 
