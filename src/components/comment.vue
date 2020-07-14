@@ -1,6 +1,6 @@
 <template>
-    <el-card  shadow="hover">
-        <div class="com">
+    <el-card class="com" shadow="hover">
+        <div >
             <div class="ava">
                 <el-avatar class="comava" shape="square" :size="50" :src="comment.squareUrl"></el-avatar>
             </div>
@@ -17,19 +17,22 @@
 <!--                        <el-button class="re" type="text" icon="el-icon-chat-dot-round">回复</el-button>-->
 <!--                        <el-button class="like" type="text" icon="el-icon-star-off">喜欢</el-button>-->
                     <el-row>
-                        <el-col class="icon1" :span="8">
+                        <el-col class="icon1" :span="6">
                             <p>{{comment.time}}</p>
                         </el-col>
-                        <el-col class="icon2" :span="8">
-                            <el-button type="text" class="re">回复</el-button>
+                        <el-col class="icon2" :span="6">
+                            <el-button type="text" icon="el-icon-warning-outline">投诉</el-button>
                         </el-col>
-                        <el-col class="icon2" :span="8">
-                            <el-button class="like" type="text" icon="el-icon-star-off">喜欢</el-button>
+                        <el-col class="icon2" :span="6">
+                            <el-button type="text" icon="el-icon-chat-dot-square">回复</el-button>
+                        </el-col>
+                        <el-col class="icon2" :span="6">
+                            <el-button type="text" icon="el-icon-star-off">喜欢</el-button>
                         </el-col>
                     </el-row>
                 </div>
             </div>
-            <div class="down">
+            <div v-if="comment.flag == true" class="down">
                 <el-dropdown trigger="click" style="outline: none">
                     <span
                             class="el-dropdown-link btn send time-send small-hand"
@@ -50,6 +53,25 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
+            <div class="recomment" >
+                    <div  class="con2" >
+                        <ul >
+                            <li  style="clear: both" v-for="recom in comment.arr" :key="recom.name">
+                                <div class="re" >
+<!--                                    <p class="content-text3">{{recom.name}} :</p>-->
+                                    <div class="content-text4">
+                                        <span style="color: dodgerblue">{{recom.name}}</span> : {{recom.con}}
+                                    </div>
+                                    <p class="content-text5">{{comment.time}}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <el-divider></el-divider>
+                    <div class="morebutton" v-if="comment.morethan5==true">
+                        <el-button type="text">查看更多回复>></el-button>
+                    </div>
+            </div>
         </div>
     </el-card>
 
@@ -62,10 +84,12 @@
         return {
             comment:{
                 squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-                name:"weinssssssssssssssssssssssssssssss",
+                name:"weins",
                 time: '2020-07-09 21:57',
                 text:"好的!!!!!!!!!!!!!!!!!!!!!!!!！好的好的好的好的好的好的好的好的好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹",
-                nums:5
+                flag:true,//是否是自己的评论
+                morethan5:true,//是否>五个
+                arr: [{name:"a",con:"hskjljd;rgresk,hfaluiehwlufhsdn,nkiulehliauhdcjasknaskd,nakhdualwihucxm,nufehaliueliafndskjnc,mxnzeu.fhsjd,nf,cmxjdalkdli",time: '2020-07-09 21:57'},{name:"wdada",con:"asdadadwdawadwd",time: '2020-07-09 21:57'},{name:"wad",con:"wdacfasfefe",time: '2020-07-09 21:57'},{name:"ef",con:"efegreghtgt",time: '2020-07-09 21:57'},{name:"rgr",con:"erggregrg",time: '2020-07-09 21:57'}],
             }
 
         }
@@ -78,7 +102,6 @@
         width: 15%;
     }
     .content{
-        /*background-color: pink;*/
         width: 70%;
         float: left;
         margin-left: 5%;
@@ -96,19 +119,19 @@
     .con{
         clear: both;
       }
+    .con2{
+        margin-bottom: 5%;
+     }
     .icons{
         clear: both;
         }
     .content-text1{
-        /*background-color: darkgray;*/
         text-align: left;
         float: left;
         color: dodgerblue;
     }
     .content-text2{
-        /*background-color: #c6c6c6;*/
         text-align: left;
-        /*margin-left: 3%;*/
         float: left;
     }
     .icon1{
@@ -122,4 +145,44 @@
         float: right;
         text-align: right;
     }
+    .recomment{
+        background-color: #eaeaec;
+        margin-left: 11%;
+        clear:both;
+        width: 70%;
+        /*display: flex;*/
+    }
+    /*.content-text3{*/
+    /*    text-align: left;*/
+    /*    float: left;*/
+    /*    color: dodgerblue;*/
+    /*}*/
+    .content-text4{
+        /*width: 60%;*/
+        /*background-color:white;*/
+        word-break:break-all;
+        float: left;
+        display: flex;
+    }
+    .content-text4:hover{
+        background-color: white;
+    }
+    .morebutton{
+        float: right;
+        clear: both;
+       /*background-color: red;*/
+    }
+    .com{
+        background-color: #f2f2f5;
+    }
+    .content-text5{
+        width: 20%;
+        float: right;
+        margin-top:1.5%;
+        color: darkgray;
+        font-size: small;
+    }
+    /*.re{*/
+    /*    background-color: red;*/
+    /*}*/
 </style>

@@ -1,15 +1,15 @@
 <template>
     <el-card  shadow="hover">
         <div class="card">
-            <div class="cube" style="border-right:1px solid darkgray;" @click="following">
+            <div class="cube" style="border-right:1px solid darkgray;text-align: center" @click="following">
                 <el-button class="but" type="text" > {{counter.following}}</el-button>
                 <div class="con" >关注</div>
             </div>
-            <div class="cube" style="border-right:1px solid darkgray;" @click="follower">
+            <div class="cube" style="border-right:1px solid darkgray;text-align: center" @click="follower">
                 <el-button class="but" type="text"> {{counter.follower}}</el-button>
                 <div class="con">粉丝</div>
             </div>
-            <div class="cube" @click="blogs">
+            <div class="cube" style="text-align: center" @click="blogs">
                 <el-button class="but" type="text" > {{counter.blogs}}</el-button>
                 <div class="con">动态</div>
             </div>

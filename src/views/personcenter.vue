@@ -1,5 +1,8 @@
 <template>
     <div class="extern">
+        <el-header id="float">
+            <Header ></Header>
+        </el-header>
         <div class="person">
             <div class="head">
                 <Card class="card"></Card>
