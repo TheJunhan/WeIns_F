@@ -1,28 +1,22 @@
+import axios from "axios";
 
-let postRequest = (url, json, callback) => {
+let postRequest = (url, data, callback) => {
 
-    let opts = {
-        method: "POST",
-        body: JSON.stringify(json),
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: "include"
-    };
-    console.log("begin fetch");
 
-    fetch(url,opts)
-        .then((response) => {
-            return response.json()
+        axios.defaults.baseURL='http://127.0.0.1:8000/'
+        axios.post(url,data)
+            .then(res=>{
+                console.log(res)
+                console.log(res.data)
+                callback(res.data)
+            }).catch(err=>{
+            console.log(err)
         })
-        .then((data) => {
-            callback(data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    console.log("end fetch ");
+
 
 };
 
 export {postRequest}
+
+
+

@@ -1,36 +1,56 @@
 import Vue from  'vue';
-import Router from 'vue-router';
+import VueRouter from 'vue-router'
+
 import signup from './views/signup';
 import home from './views/home';
-import catalog from './views/catalog';
-import issue from './components/issue';
 import personcenter from './views/personcenter';
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
-export default new Router({
-    routes: [
-        {
-            path: '/',
-            redirect: '/home'
-        },
+const routes= [
+
         {
             path: '/signup',
             component: signup,
         },
         {
             path: '/home',
-            component: home,
-            redirect: '/catalog',
-            children: [{
-                path: '/catalog', component: catalog,
-                redirect: '/issue',
-                children: [{
-                    path: '/issue', component: issue
-                },{
-                    path: '/person', component: personcenter
-                }]
-            }]
-        }
+            component: home
+        },
+        {
+            path: '/person',
+            component: personcenter
+        },
+        // {
+        //     path: '/home',
+        //     component: home,
+        //     children: [{
+        //         path: '/catalog', component: catalog,
+        //         children: [{
+        //             path: '/issue', component: issue
+        //         },{
+        //             path: '/person', component: personcenter
+        //         }]
+        //     }]
+        // }
+        {
+            path: '/*',
+            redirect: '/home'
+        },
+
     ]
+var router =  new VueRouter({
+    routes,
+    mode:"history"
 })
+// router.beforeEach((to, from, next) => {
+//     console.log(1);
+//     if(sessionStorage.getItem("user")!=null) next();
+//     else if(to.path=="/home") {next()}
+//     else{
+//         next("/home");
+//     }
+//
+// });
+
+export default router;
