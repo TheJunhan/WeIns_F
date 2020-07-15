@@ -3,40 +3,40 @@
         <el-header id="float">
             <Header ></Header>
         </el-header>
-<!--        <div class="person">-->
-<!--            <div class="head">-->
-<!--                <Card class="card"></Card>-->
-<!--            </div>-->
-<!--            <div class="container">-->
-<!--                <div class="side">-->
-<!--                    <Counter class="counter"></Counter>-->
-<!--                    <Info class="info"></Info>-->
-<!--                    <Footstep class="footstep"></Footstep>-->
-<!--                </div>-->
-<!--                <div class="main">-->
-<!--                    <Information></Information>-->
-<!--                    <Myblogs></Myblogs>-->
-<!--                    <R_Comment></R_Comment>-->
-<!--                    <comment></comment>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="person">
+            <div class="head">
+                <Card class="card"></Card>
+            </div>
+            <div class="container">
+                <div class="side">
+                    <Counter class="counter"></Counter>
+                    <Info class="info"></Info>
+                    <Footstep class="footstep"></Footstep>
+                </div>
+                <div class="main">
+                    <Information></Information>
+                    <Myblogs></Myblogs>
+                    <R_Comment></R_Comment>
+                    <comment></comment>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    // import Counter from "../components/counter";
-    // import Card from '../components/personalcard';
-    // import Footstep from "../components/footstep";
-    // import Info from "../components/info";
-    // import Myblogs from "../components/myblogs";
-    // import Information from "../components/information";
-    // import R_Comment from "../components/release_comment";
-    // import comment from "../components/comment";
+    import Counter from "../components/counter";
+    import Card from '../components/personalcard';
+    import Footstep from "../components/footstep";
+    import Info from "../components/info";
+    import Myblogs from "../components/myblogs";
+    import Information from "../components/information";
+    import R_Comment from "../components/release_comment";
+    import comment from "../components/comment";
     import Header from '../components/topnav'
 
     export default {
-        components: {Header }
+        components: {Header,Counter,Info ,Footstep,Information,Card,R_Comment, comment,Myblogs}
     }
 </script>
 
