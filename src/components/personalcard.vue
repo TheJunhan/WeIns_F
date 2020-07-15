@@ -1,7 +1,7 @@
 <template>
     <el-card style="width: 80%;text-align: center;margin-left: 10%">
         <div class="back">
-            <img class="pic" src='../assets/image/logo.png' alt="picture"/>
+            <img class="pic" src='../assets/image/logo.png' alt="picture" v-on:click="home"/>
             <div class="text1" >
                 {{personalcard.name}}
             </div>
@@ -10,7 +10,7 @@
             </div>
 
         </div>
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" >
+        <el-menu class="el-menu-demo" mode="horizontal"  >
             <el-menu-item  class="menu" index="1">我的主页</el-menu-item>
             <el-menu-item class="menu" index="2">管理中心</el-menu-item>
         </el-menu>
@@ -31,6 +31,9 @@
                     // photo:image2
                 }
             }
+        },
+        methods:{
+
         }
     }
 </script>

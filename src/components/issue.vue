@@ -3,7 +3,7 @@
         <div class="side" style="position: fixed;height: 300px;margin-top: 30px">
             <Side style="float: left; margin-left: 2%;"></Side>
         </div>
-        <div class="container">
+        <div class="container" :class="{logged:this.$root.logged}">
             <div class="release">
                 <Release></Release>
             </div>
@@ -23,7 +23,7 @@
                 <Blog></Blog>
             </div>
         </div>
-        <div>
+        <div v-if="this.$root.logged==false">
             <el-card class="login" v-if="true">
                 <Login style="width: 100%;"></Login>
             </el-card>
@@ -40,6 +40,7 @@
 
     export default {
         name: "issue",
+
         components: { Release, Login, Side, Blog },
         data() {
             return {
@@ -82,5 +83,8 @@
         margin-top: 100px;
         scroll-behavior: auto;
         display: block;
+    }
+    .logged{
+        width: 80%;
     }
 </style>

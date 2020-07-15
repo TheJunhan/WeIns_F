@@ -76,7 +76,13 @@
 
                     axios.post(url).then((response) => {
                         let user = response.data;
+                        console.log(user);
                         if (user.id >= 0) {
+                            this.$root.logged=true;
+                            this.$root.is_superuser=(user.type==0 ? false : true);
+                            sessionStorage.setItem("phone",user.phone);
+                            sessionStorage.setItem("name",user.name);
+                            sessionStorage.setItem("id",user.id);
                             // 登录后这里还要存各种session的数据
                             this.$message.success('用户 ' + user.name + ' 登录成功！');
                             // TO DO
