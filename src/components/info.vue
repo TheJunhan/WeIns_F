@@ -1,15 +1,18 @@
 <template>
-    <el-card  shadow="hover">
-        <div class="card">
-            <el-divider class="divider"></el-divider>
-            <span class="gray-text">个人资料完成度</span>
-            <el-progress :percentage=info.percentage></el-progress>
-            <el-divider class="divider"></el-divider>
-            <div class="btn">
-                <el-button type="text" >编辑个人资料>></el-button>
+    <div>
+        <el-card  shadow="hover">
+            <div class="card">
+                <el-divider class="divider"></el-divider>
+                <span class="gray-text">个人资料完成度</span>
+                <el-progress :percentage=info.percentage></el-progress>
+                <el-divider class="divider"></el-divider>
+                <div class="btn">
+                    <el-button type="text" >编辑个人资料>></el-button>
+                </div>
             </div>
-        </div>
-    </el-card>
+        </el-card>
+    </div>
+
 </template>
 
 <script>

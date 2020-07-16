@@ -30,6 +30,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: "SignUpForm",
         data() {
@@ -123,40 +124,40 @@
                 form.birthday = this.birth_format(date);
 
                 let url = 'http://localhost:8088/user/reg';
-                // axios.post(url, form)
-                //     .then((response) =>{
-                //     //这里还缺少错误处理，比如网络错误什么的
-                //         console.log(response)
-                //     switch (response.data) {
-                //         case "phone error":
-                //             this.$message.error("这个手机号已注册过啦！");
-                //             break;
-                //         case "name error":
-                //             this.$message.error("这个名字已经有人用过啦！");
-                //             break;
-                //         case "success":
-                //             this.errmessage="注册成功！";
-                //             this.$message.success("注册成功！");
-                //
-                //             this.$router.push('/home');
-                //             break;
-                //         default:
-                //             break;
-                //     }
-                // }).catch(err=>{
-                //     console.log(err)
-                // })
-                // ;
+                axios.post(url, form)
+                    .then((response) =>{
+                    //这里还缺少错误处理，比如网络错误什么的
+                        console.log(response)
+                    switch (response.data) {
+                        case "phone error":
+                            this.$message.error("这个手机号已注册过啦！");
+                            break;
+                        case "name error":
+                            this.$message.error("这个名字已经有人用过啦！");
+                            break;
+                        case "success":
+                            this.errmessage="注册成功！";
+                            this.$message.success("注册成功！");
+
+                            this.$router.push('/home');
+                            break;
+                        default:
+                            break;
+                    }
+                }).catch(err=>{
+                    console.log(err)
+                })
+                ;
                 console.log("end")
-                this.errmessage="bad";
-                return this.axios.post(url).then(res=>{
-                    if(res=='success') {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                });
+                // this.errmessage="bad";
+                // return this.axios.post(url).then(res=>{
+                //     if(res=='success') {
+                //         return true;
+                //     }
+                //     else {
+                //         return false;
+                //     }
+                // });
 
 
             }

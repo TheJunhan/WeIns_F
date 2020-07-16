@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    // import axios from 'axios';
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -76,41 +76,41 @@
                     let url = 'http://localhost:8088/user/login' +
                         '?ph=' + this.form.phone +
                         '&pwd=' + this.form.password;
+                    console.log(url);
+                    axios.post(url).then((response) => {
+                        let user = response.data;
+                        console.log(user);
+                        if (user.id >= 0) {
+                            this.$root.logged=true;
+                            this.$root.is_superuser=(user.type==0 ? false : true);
+                            sessionStorage.setItem("phone",user.phone);
+                            sessionStorage.setItem("name",user.name);
+                            sessionStorage.setItem("id",user.id);
+                            // 登录后这里还要存各种session的数据
+                            this.errmessage='用户 ' + user.name + ' 登录成功！';
+                            this.$message.success(this.errmessage);
+                            // TO DO
+                            // return true;
+                        }
 
-                    // axios.post(url).then((response) => {
-                    //     let user = response.data;
-                    //     console.log(user);
-                    //     if (user.id >= 0) {
-                    //         this.$root.logged=true;
-                    //         this.$root.is_superuser=(user.type==0 ? false : true);
-                    //         sessionStorage.setItem("phone",user.phone);
-                    //         sessionStorage.setItem("name",user.name);
-                    //         sessionStorage.setItem("id",user.id);
-                    //         // 登录后这里还要存各种session的数据
-                    //         this.errmessage='用户 ' + user.name + ' 登录成功！';
-                    //         this.$message.success(this.errmessage);
-                    //         // TO DO
-                    //
-                    //     }
-                    //
-                    //     else {
-                    //         if (user.id === -1) {
-                    //             this.errmessage='此账户不存在！';
-                    //             this.$message.error('此账户不存在！');
-                    //         }
-                    //
-                    //         if (user.id === -2) {
-                    //             this.errmessage='密码错误，请重新输入！';
-                    //             this.$message.error('密码错误，请重新输入！');
-                    //         }
-                    //
-                    //         this.isSubmit = false;
-                    //     }
-                    // })
-                    return this.axios.post(url).then(res=>{
-                        if(res=='success') return true;
-                        else return false;
+                        else {
+                            if (user.id === -1) {
+                                this.errmessage='此账户不存在！';
+                                this.$message.error('此账户不存在！');
+                            }
+
+                            if (user.id === -2) {
+                                this.errmessage='密码错误，请重新输入！';
+                                this.$message.error('密码错误，请重新输入！');
+                            }
+
+                            this.isSubmit = false;
+                        }
                     });
+                    // return this.axios.post(url).then(res=>{
+                    //     if(res=='success') return true;
+                    //     else return false;
+                    // });
                 }
                 return false;
             },
