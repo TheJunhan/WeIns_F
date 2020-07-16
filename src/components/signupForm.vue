@@ -149,15 +149,15 @@
                 })
                 ;
                 console.log("end")
-                // this.errmessage="bad";
-                // return this.axios.post(url).then(res=>{
-                //     if(res=='success') {
-                //         return true;
-                //     }
-                //     else {
-                //         return false;
-                //     }
-                // });
+                this.errmessage="bad";
+                return this.axios.post(url).then(res=>{
+                    if(res=='success') {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                });
 
 
             }

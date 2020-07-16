@@ -76,8 +76,9 @@
                     let url = 'http://localhost:8088/user/login' +
                         '?ph=' + this.form.phone +
                         '&pwd=' + this.form.password;
-                    console.log(url);
+
                     axios.post(url).then((response) => {
+                       console.log(response);
                         let user = response.data;
                         console.log(user);
                         if (user.id >= 0) {
@@ -90,7 +91,7 @@
                             this.errmessage='用户 ' + user.name + ' 登录成功！';
                             this.$message.success(this.errmessage);
                             // TO DO
-                            // return true;
+
                         }
 
                         else {
@@ -106,11 +107,11 @@
 
                             this.isSubmit = false;
                         }
+                    })
+                    return this.axios.post(url).then(res=>{
+                        if(res=='success') return true;
+                        else return false;
                     });
-                    // return this.axios.post(url).then(res=>{
-                    //     if(res=='success') return true;
-                    //     else return false;
-                    // });
                 }
                 return false;
             },
