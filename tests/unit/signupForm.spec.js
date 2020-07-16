@@ -60,7 +60,7 @@ describe("test function",()=>{
     });
     it('test nonage',()=>{
         expect (wrapper.vm.nonage(new Date('2020-07-24'.replace(/-/g,"/")))).toEqual(false);
-        expect (wrapper.vm.nonage(new Date('2006-07-15'.replace(/-/g,"/")))).toEqual(false);
+        expect (wrapper.vm.nonage(new Date('2006-07-16'.replace(/-/g,"/")))).toEqual(false);
         expect (wrapper.vm.nonage(new Date('2006-07-14'.replace(/-/g,"/")))).toEqual(true);
         expect (wrapper.vm.nonage(new Date('2006-06-14'.replace(/-/g,"/")))).toEqual(true);
 
