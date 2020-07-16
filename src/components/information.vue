@@ -98,26 +98,55 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         data() {
             return {
                 basic_flag: false,
                 contact_flag: false,
                 user: {
+                    id:0,
                     name: '交通大学',
-                    birth: '1896-04-07',
-                    sex: '♂',
+                    birthday: '1896-04-07',
+                    sex: 1,
                     reg_time: '2020-07-09',
-                    age: '19',
+                    age: 19,
                     email: 'se128@sjtu.edu.cn',
                     phone: '021-34200000',
+                    userMongo:{
+                        avatar:''
+                    }
                 }
             }
         },
+        mounted(){
+            this.getinfo();
+        },
         methods: {
+            getinfo(){
+                 let url = 'http://localhost:8088/user/getOne';
+                 let id=sessionStorage.getItem("id");
+                 const data = {
+                     params: {id}
+                 }
+
+                 axios.get(url,data).then((response) => {
+                    this.user= response.data;
+                 }).catch(err=>{
+                     console.log(err);
+                 });
+            },
             basic() {
                 if (this.basic_flag) {
                     this.basic_flag = false;
+                    let url = 'http://localhost:8088/user/update';
+                    let user = this.user;
+                    axios.post(url, user)
+                        .then((response) =>{
+                            console.log(response);
+                        }).catch(err=>{
+                        console.log(err);
+                    })
                     this.$message.success('保存成功！');
                 }
 
@@ -127,11 +156,21 @@
                 }
             },
             contact() {
-                if (this.contact_flag) {
-                    this.contact_flag = false;
-                    this.$message.success('保存成功！');
-                }
 
+                // getinfo(){
+                // }
+                if (this.contact_flag) {
+                this.contact_flag = false;
+                    let url = 'http://localhost:8088/user/update';
+                    let user = this.user;
+                    axios.post(url, user)
+                        .then((response) =>{
+                            console.log(response);
+                        }).catch(err=>{
+                        console.log(err);
+                    })
+                this.$message.success('保存成功！');
+            }
                 else {
                     this.$message.success('启用编辑！');
                     this.contact_flag = true;

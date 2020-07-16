@@ -1,23 +1,26 @@
 <template>
-    <el-card shadow="hover">
-        <p class="head">赞</p>
-        <div class="main">
-            <div class="divider">
-                <el-divider></el-divider>
+    <div>
+        <el-card shadow="hover">
+            <p class="head">赞</p>
+            <div class="main">
+                <div class="divider">
+                    <el-divider></el-divider>
+                </div>
+                <img class="pic" src="../assets/image/poster_1.png" alt="picture"/>
+                <div class="content">
+                    <p class="name-text">{{footstep.name}}</p>
+                    <p class="content-text text-overflow">{{footstep.context}}</p>
+                </div>
+                <div class="divider">
+                    <el-divider></el-divider>
+                </div>
             </div>
-            <img class="pic" src="../assets/image/poster_1.png" alt="picture"/>
-            <div class="content">
-                <p class="name-text">{{footstep.name}}</p>
-                <p class="content-text text-overflow">{{footstep.context}}</p>
+            <div class="btn">
+                <el-button type="text" @click="more">查看更多>></el-button>
             </div>
-            <div class="divider">
-                <el-divider></el-divider>
-            </div>
-        </div>
-        <div class="btn">
-            <el-button type="text" @click="more">查看更多>></el-button>
-        </div>
-    </el-card>
+        </el-card>
+    </div>
+
 </template>
 
 <script>
