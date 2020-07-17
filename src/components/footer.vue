@@ -31,6 +31,7 @@
 
 <style scoped>
     .bottom {
+        text-align: center;
         font-size: x-small;
         color: #909399;
         width: 100%;

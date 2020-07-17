@@ -28,7 +28,6 @@
                                     :on-remove="removefile"
                                     :on-change="getFile1"
                                     :on-success="uploadsuccess"
-
                                     list-type="picture"
                                     :auto-upload="false"
                                     :show-file-list="false"
@@ -44,7 +43,6 @@
                                     action='' :show-file-list="false"
                                     :on-success="uploadsuccess"
                                     :on-remove="removefile"
-
                                     :on-change="getFile2"
                                     :auto-upload="false"
                                     accept=".mp4"
@@ -73,9 +71,9 @@
                 </div>
 
                 <div class="issue">
-                    <div class="btn">
-                        <el-button type="primary" size="mini">发布</el-button>
-                    </div>
+                    <el-row class="btn">
+                        <el-button type="primary" size="mini" @click="release">发布</el-button>
+                    </el-row>
                     <div class="issue-state">
                         <el-dropdown size="mini" trigger="click">
                         <span class="el-dropdown-link">
@@ -133,9 +131,7 @@
                 </el-row>
                 <el-row style="margin-top: 10px;margin-bottom: 5px">
                     <el-tag
-
                             :key="tag"
-
                             v-for="(tag,i) in Tags"
                             :disable-transitions="false"
                             @close="handleClose(i)"
@@ -154,6 +150,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
         data() {
             return {
@@ -168,12 +166,80 @@
                 choosen_tags:[],
                 taginput:"",
                 oldtags:[],  //no use
-                message:""
+                message:"",
             }
         },
         methods: {
             counter() {
                 return this.text.length;
+            },
+            typify() {
+                if (this.state === '公开')
+                    return 3;
+                else if (this.state === '粉丝')
+                    return 1;
+                else
+                    return 0;
+            },
+            curr_time() {
+                let date = new Date();
+                let res = date.getFullYear() + '-';
+                if (date.getMonth() < 9)
+                    res += '0';
+                let month=date.getMonth()+1;
+                res += (month+ '-');
+
+                if (date.getDate() < 10)
+                    res += '0';
+
+                res += date.getDate() + ' ';
+
+                if (date.getHours() < 10)
+                    res += '0';
+
+                res += date.getHours() + ':';
+
+                if (date.getMinutes() < 10)
+                    res += '0';
+
+                res += date.getMinutes();
+
+                return res;
+            },
+            release() {
+                console.log(this.curr_time())
+                // args:
+                // Integer uid, Integer type, String content, String post_day, String video,
+                // String imag, String label, String username, String useravatar
+
+                let url = 'http://localhost:8088/blog/setBlog'
+                    + '?uid=' + 1
+                    + '&type=' + 3
+                    + '&content=' + 'helloworld'
+                    + '&post_day='+ '2020-07-17'
+                    + '&video=' + 'video!'
+                    + '&imag=' + JSON.stringify(["https://th.bing.com/th/id/OIP.4nhobljc9jvFADfpxc69dwHaGY?w=191&h=180&c=7&o=5&pid=1.7",
+                    "https://th.bing.com/th/id/OIP.s0gsekWpOfEReWyqThwvPgHaLk?w=115&h=180&c=7&o=5&pid=1.7",
+                    "https://th.bing.com/th/id/OIP.HfH5MLmc-52O5TblyoArvwHaFj?w=243&h=182&c=7&o=5&pid=1.7"])
+                    + '&label=' + JSON.stringify([{id: 4, content: "游戏", flag: 0}, {id: 5, content: "美食", flag: 0}])
+                    + '&username=' + '徐珺涵'
+                    + '&userAvatar=' + 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg';
+
+                axios.get(url
+                    // uid: sessionStorage.getItem("id"),
+                    // content: this.text,
+                    // type: this.typify(),
+                    // post_day: this.curr_time(),
+                    // video: null,
+                    // imag: JSON.stringify(this.filelist),
+                    // label: JSON.stringify(this.choosen_tags),
+                    // username: sessionStorage.getItem("name"),
+                    // userAvatar: JSON.parse(sessionStorage.getItem("userMongo")).avatar
+                ).then((response) =>{
+                    console.log(response);
+                }).catch(err=> {
+                    console.log(err);
+                });
             },
             emoji() {
                 this.$message.success('emoji!');
@@ -256,8 +322,6 @@
                     this.getFile(file);
                     return true;
                 }
-
-
             },
             getFile2(file) {
                 if (this.lock === 1) this.$message.warning("图片和视频无法同时上传！");

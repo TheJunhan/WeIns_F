@@ -100,7 +100,7 @@
 </template>
 
 <script>
-    // import axios from 'axios';
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -179,18 +179,18 @@
                 let user = this.user;
                 console.log(user);
 
-                // axios.post(url, user).then((response) =>{
-                //     if (response.data === "error") {
-                //         this.$message.error("这个用户名已经有人用啦！");
-                //         this.generator(); // 回溯
-                //     }
-                //     else {
-                //         this.$message.success('保存成功！');
-                //         this.sessionUpdate();
-                //     }
-                // }).catch(err=>{
-                //     console.log(err);
-                // });
+                axios.post(url, user).then((response) =>{
+                    if (response.data === "error") {
+                        this.$message.error("这个用户名已经有人用啦！");
+                        this.generator(); // 回溯
+                    }
+                    else {
+                        this.$message.success('保存成功！');
+                        this.sessionUpdate();
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
                 return this.axios.post(url).then(res=>{
                     if(res=="success") return true;
                     else return false;

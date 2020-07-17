@@ -17,8 +17,13 @@ new Vue({
 
   data:function(){
       return{
-          logged:false,
-          is_superuser:false
+          logged: false,
+          is_superuser: false,
+
+          my_person_center_info: true,
+          my_person_center_blogs: false,
+          my_person_center_follower: false,
+          my_person_center_following: false,
       }
 
   },

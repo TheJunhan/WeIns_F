@@ -91,12 +91,17 @@
 
                     <el-dialog :append-to-body="true" :visible.sync="blog.share_flag" width="40%" :show-close="false"
                                title="转发动态到">
-                        <Share :id="blog.id" :user="blog.user.name" :content="blog.content.text"
-                               @change="change"></Share>
+                        <share :id="blog.id" :user="blog.user.name" :content="blog.content.text"
+                               @change="change"></share>
                     </el-dialog>
                     <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true"
                                style="z-index: 999">
                         <el-image :src="this.showpic" class="big-img"></el-image>
+                    </el-dialog>
+
+                    <el-dialog :append-to-body="true" :visible.sync="blog.comment_flag" width="40%" :show-close="false">
+                        <release_comment></release_comment>
+                        <comment></comment>
                     </el-dialog>
                 </div>
             </div>
@@ -110,10 +115,13 @@
     import image from '../assets/image/poster_1.png';
     import image2 from '../assets/image/poster_2.png';
     import share from '../components/share';
+    import comment from "./comment";
+    import release_comment from "./release_comment";
 
     export default {
-        name:"blog",
-
+        components: {
+            share, comment, release_comment
+        },
         data() {
             return {
                 blog: {
@@ -159,6 +167,12 @@
                 });
             },
             share() {
+                if (this.$root.logged === false) {
+                    this.$message.info("请登录后再进行操作");
+                    return false;
+                }
+
+
                 this.blog.share_flag = true;
                 return true;
             },
@@ -168,6 +182,10 @@
 
             },
             collect() {
+                if (this.$root.logged === false) {
+                    this.$message.info("请登录后再进行操作");
+                    return false;
+                }
                 if (this.blog.collect_flag) {
                     this.$message.error('取消收藏！');
                     this.blog.collect--;
@@ -181,6 +199,10 @@
                 }
             },
             like() {
+                if (this.$root.logged === false) {
+                    this.$message.info("请登录后再进行操作");
+                    return false;
+                }
                 if (this.blog.like_flag) {
                     this.$message.error('取消赞！');
                     this.blog.like_flag = false;
@@ -201,7 +223,11 @@
 
             },
             comment() {
-                this.$message.success('评论成功！');
+                if (this.$root.logged === false) {
+                    this.$message.info("请登录后再进行操作");
+                    return false;
+                }
+                this.blog.comment_flag = true;
                 return true;
             },
 
@@ -210,7 +236,6 @@
         mounted() {
             this.generate();
         },
-        components: {share},
     }
 </script>
 
