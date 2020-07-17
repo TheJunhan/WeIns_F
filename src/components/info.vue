@@ -38,6 +38,7 @@
         methods: {
             information() {
                 // TO DO
+                this.$router.push('/person/info');
                 this.$message.success("导航到个人信息界面！");
             }
         }
