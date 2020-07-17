@@ -20,8 +20,6 @@
 </template>
 
 <script>
-    // import image1 from '../assets/image/poster_1.png';
-    // import image2 from '../assets/image/poster_2.png';
     // import axios from "axios";
 
     export default {
@@ -50,11 +48,8 @@
             generator() {
                 this.user.id = sessionStorage.getItem("id");
                 this.user.name = sessionStorage.getItem("name");
-                this.user.reg_time = sessionStorage.getItem("reg_time");
-                this.user.phone = sessionStorage.getItem("phone");
                 this.user.sex = sessionStorage.getItem("sex");
                 this.user.userMongo.avatar = JSON.parse(sessionStorage.getItem("userMongo")).avatar;
-                this.user.birthday = sessionStorage.getItem("birthday");
             }
         }
     }
