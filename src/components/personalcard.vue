@@ -12,7 +12,7 @@
 
                 </div>
                 <el-menu class="el-menu-demo" mode="horizontal"  >
-                    <el-menu-item  class="menu" index="1">我的主页</el-menu-item>
+                    <router-link to="/person/info"><el-menu-item  class="menu" index="1">我的主页</el-menu-item></router-link>
                     <el-menu-item class="menu" index="2">管理中心</el-menu-item>
                 </el-menu>
         </el-card>
@@ -36,7 +36,7 @@
                     email: 'se128@sjtu.edu.cn',
                     phone: '021-34200000',
                     userMongo: {
-                        avatar: ''
+                        avatar: "123"
                     }
                 }
             }
@@ -49,7 +49,7 @@
                 this.user.id = sessionStorage.getItem("id");
                 this.user.name = sessionStorage.getItem("name");
                 this.user.sex = sessionStorage.getItem("sex");
-                this.user.userMongo.avatar = JSON.parse(sessionStorage.getItem("userMongo")).avatar;
+                this.user.userMongo.avatar =sessionStorage.getItem("userMongo")!=null ? JSON.parse(sessionStorage.getItem("userMongo")).avatar : null;
             }
         }
     }

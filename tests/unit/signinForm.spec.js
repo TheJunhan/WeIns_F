@@ -15,7 +15,10 @@ const axios = {
   post:async ()=>"success"
 };
 
-
+const $router = {
+  push: jest.fn()
+  // ... 其他属性
+}
 describe("init", () => {
   it("init state", () => {
     const wrapper = shallowMount(signinForm, {
@@ -96,7 +99,8 @@ describe("signinForm", ()=>{
 describe("login and axios " ,async ()=>{
       const wrapper = mount(signinForm, {
       mocks: {
-        axios
+        axios,
+        $router
       },
       localVue
     });

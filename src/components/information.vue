@@ -100,7 +100,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    // import axios from 'axios';
     export default {
         data() {
             return {
@@ -138,15 +138,16 @@
             sexStrToNum(){
                 if (this.sexStr === "男") {
                     this.user.sex = "1";
-                    return;
+                    return true;
                 }
 
                 if (this.sexStr === "女") {
                     this.user.sex = "0";
-                    return;
+                    return true;
                 }
 
                 this.user.sex = "-1";
+                return false
             },
             age() {
                 let date = new Date();
@@ -161,52 +162,64 @@
                 this.user.sex = sessionStorage.getItem("sex");
                 this.user.birthday = sessionStorage.getItem("birthday");
                 this.userMongo = JSON.parse(sessionStorage.getItem("userMongo"));
+                if(sessionStorage.getItem("birthday")==null) this.user.birthday="2002-03-03"
                 this.sexStr = this.sex();
+
             },
             sessionUpdate() {
                 sessionStorage.setItem("name", this.user.name);
                 sessionStorage.setItem("userMongo", JSON.stringify(this.user.userMongo))
                 sessionStorage.setItem("sex", this.user.sex);
                 sessionStorage.setItem("birthday", this.user.birthday);
+                return true;
             },
             update() {
                 let url = 'http://localhost:8088/user/update';
                 this.sexStrToNum();
                 let user = this.user;
+                console.log(user);
 
-                axios.post(url, user).then((response) =>{
-                    if (response.data === "error") {
-                        this.$message.error("这个用户名已经有人用啦！");
-                        this.generator(); // 回溯
-                    }
-                    else {
-                        this.$message.success('保存成功！');
-                        this.sessionUpdate();
-                    }
-                }).catch(err=>{
-                    console.log(err);
-                });
+                // axios.post(url, user).then((response) =>{
+                //     if (response.data === "error") {
+                //         this.$message.error("这个用户名已经有人用啦！");
+                //         this.generator(); // 回溯
+                //     }
+                //     else {
+                //         this.$message.success('保存成功！');
+                //         this.sessionUpdate();
+                //     }
+                // }).catch(err=>{
+                //     console.log(err);
+                // });
+                return this.axios.post(url).then(res=>{
+                    if(res=="success") return true;
+                    else return false;
+                })
             },
             basic() {
                 if (this.basic_flag) {
                     this.basic_flag = false;
                     this.update();
+                    return false;
                 }
 
                 else {
                     this.$message.success('启用编辑！');
                     this.basic_flag = true;
+                    return true;
                 }
             },
             contact() {
                 if (this.contact_flag) {
                     this.contact_flag = false;
                     this.update();
+                    return false;
                 }
 
                 else {
                     this.$message.success('启用编辑！');
                     this.contact_flag = true;
+                    return true;
                 }
             }
         }

@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import signup from './views/signup';
 import home from './views/home';
 
+
 // person center router
 import personcenter from './views/personcenter';
 import myblogs from "./components/myblogs";
@@ -34,10 +35,10 @@ const routes= [
                 path: '/info', components: information
             },
             {
-                path: '/myblogs', components: myblogs
+                path: 'myblogs', components: myblogs
             },
             {
-                path: '/follow', components: follow
+                path: 'follow', components: follow
             }
         ]
     },
