@@ -50,10 +50,7 @@
                                 </div>
                             </el-form-item>
                             <el-form-item label="注册时间">
-                                <div v-if="basic_flag === true">
-                                    <el-input v-model="user.reg_time" size="mini"></el-input>
-                                </div>
-                                <div v-else>
+                                <div>
                                     <span style="float: left" class="span-text">{{user.reg_time}}</span>
                                 </div>
                             </el-form-item>
@@ -103,7 +100,7 @@
 </template>
 
 <script>
-    // import axios from 'axios';
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -132,22 +129,24 @@
                         return "男";
                     case "0":
                         return "女";
+                    case "-1":
+                        return "未知";
                     default:
                         return "未知";
                 }
             },
             sexStrToNum(){
                 if (this.sexStr === "男") {
-                    this.user.sex = 1;
+                    this.user.sex = "1";
                     return;
                 }
 
                 if (this.sexStr === "女") {
-                    this.user.sex = 0;
+                    this.user.sex = "0";
                     return;
                 }
 
-                this.user.sex = -1;
+                this.user.sex = "-1";
             },
             age() {
                 let date = new Date();
@@ -162,28 +161,36 @@
                 this.user.sex = sessionStorage.getItem("sex");
                 this.user.birthday = sessionStorage.getItem("birthday");
                 this.userMongo = JSON.parse(sessionStorage.getItem("userMongo"));
+                this.sexStr = this.sex();
+            },
+            sessionUpdate() {
+                sessionStorage.setItem("name", this.user.name);
+                sessionStorage.setItem("userMongo", JSON.stringify(this.user.userMongo))
+                sessionStorage.setItem("sex", this.user.sex);
+                sessionStorage.setItem("birthday", this.user.birthday);
             },
             update() {
                 let url = 'http://localhost:8088/user/update';
                 this.sexStrToNum();
                 let user = this.user;
 
-                console.log(url);
-                console.log(user);
-                console.log(this.user);
-                console.log(this.user.userMongo);
-
-                // axios.post(url, user).then((response) =>{
-                //     console.log(response);
-                // }).catch(err=>{
-                //     console.log(err);
-                // });
+                axios.post(url, user).then((response) =>{
+                    if (response.data === "error") {
+                        this.$message.error("这个用户名已经有人用啦！");
+                        this.generator(); // 回溯
+                    }
+                    else {
+                        this.$message.success('保存成功！');
+                        this.sessionUpdate();
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
             },
             basic() {
                 if (this.basic_flag) {
                     this.basic_flag = false;
                     this.update();
-                    this.$message.success('保存成功！');
                 }
 
                 else {
@@ -195,7 +202,6 @@
                 if (this.contact_flag) {
                     this.contact_flag = false;
                     this.update();
-                    this.$message.success('保存成功！');
                 }
 
                 else {
