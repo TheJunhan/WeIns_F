@@ -4,10 +4,10 @@
             <div class="card">
                 <el-divider class="divider"></el-divider>
                 <span class="gray-text">个人资料完成度</span>
-                <el-progress :percentage=info.percentage></el-progress>
+                <el-progress :percentage=percentage></el-progress>
                 <el-divider class="divider"></el-divider>
                 <div class="btn">
-                    <el-button type="text" >编辑个人资料>></el-button>
+                    <el-button type="text" @click="information">编辑个人资料>></el-button>
                 </div>
             </div>
         </el-card>
@@ -20,9 +20,25 @@
         name: "info",
         data(){
             return{
-                info:{
-                    percentage: 50
-                }
+                percentage: 0
+            }
+        },
+        created() {
+            let total = 8.0;
+            let count = 6;
+            if (sessionStorage.getItem("sex") !== "-1")
+                count++;
+
+            if (JSON.parse(sessionStorage.getItem("userMongo")).avatar !==
+                "http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg")
+                count++;
+
+            this.percentage = (count / total) * 100;
+        },
+        methods: {
+            information() {
+                // TO DO
+                this.$message.success("导航到个人信息界面！");
             }
         }
     }

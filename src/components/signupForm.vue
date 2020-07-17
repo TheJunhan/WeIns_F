@@ -42,7 +42,7 @@
                     password : '',
                     birthday : '',
                     type     : 0, // 默认为普通用户
-                    sex      : 1, // 默认为男（1）
+                    sex      : -1, // 未知性别
                     userMongo: {
                         avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                     }
@@ -53,9 +53,13 @@
         methods: {
             nonage(date) { // 判断是否满14周岁
                 let curr = new Date();
-                if((curr.getFullYear()-date.getFullYear()>14 )||(curr.getFullYear()-date.getFullYear()==14)&&(curr.getMonth() > date.getMonth()||(curr.getMonth()==date.getMonth()&&curr.getDate()>date.getDate())))
+                if((curr.getFullYear()-date.getFullYear()>14 )
+                    || (curr.getFullYear() - date.getFullYear() === 14)
+                    && (curr.getMonth() > date.getMonth()
+                    || (curr.getMonth() === date.getMonth() && curr.getDate()>date.getDate())))
                     return true;
-                else return false;
+                else
+                    return false;
             },
             birth_format(date) {
                 let birth = date.getFullYear() + '-';
