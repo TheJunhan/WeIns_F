@@ -291,10 +291,10 @@
                 this.choosen_tags.push(this.Tags[i]);
                 return true;
             },
-            searchtags(){
+            searchtags() {
                 let T = new Array();
                 for(let i in this.Tags){
-                    if(this.Tags[i].indexOf(this.taginput)!=-1){
+                    if (this.Tags[i].indexOf(this.taginput) !== -1) {
                         T.push(this.Tags[i]);
                     }
                 }
@@ -302,9 +302,9 @@
                 return true;
             },
             init(){
-                const url="https://localhost:8080/gettags"
+                const url="https://localhost:8088/gettags"
                 return this.axios.post(url).then(res=>{
-                    if(res=='success'){
+                    if(res === 'success'){
                         this.oldtags=["交大","软院","菜鸡","瓜皮","东川路","东三区","小霸王","挂科小能手","ics太简单了"];
                         this.Tags=this.oldtags;
                         return true;

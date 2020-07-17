@@ -23,7 +23,7 @@
                 <Blog></Blog>
             </div>
         </div>
-        <div v-if="this.$root.logged==false">
+        <div v-if="this.$root.logged==false" id="issue_div_logindiv">
             <el-card class="login" v-if="true">
                 <Login style="width: 100%;"></Login>
             </el-card>
@@ -47,11 +47,9 @@
                 issue: '',
             }
         },
-        created() {
+        mounted() {
 
-        },
-
-
+        }
     }
 </script>
 

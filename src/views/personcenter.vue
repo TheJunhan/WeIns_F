@@ -14,11 +14,12 @@
                     <Footstep class="footstep"></Footstep>
                 </div>
                 <div class="main">
-                    <Information></Information>
-                    <Blogs></Blogs>
-                    <R_Comment></R_Comment>
-                    <Comment></Comment>
-                    <Follow></Follow>
+<!--                    <Information></Information>-->
+<!--                    <Blogs></Blogs>-->
+<!--                    <R_Comment></R_Comment>-->
+<!--                    <Comment></Comment>-->
+<!--                    <Follow></Follow>-->
+                    <router-view></router-view>
                 </div>
             </div>
         </div>
@@ -33,18 +34,18 @@
     import Card from '../components/personalcard';
     import Footstep from "../components/footstep";
     import Info from "../components/info";
-    import Blogs from "../components/myblogs";
-    import Information from "../components/information";
-    import R_Comment from "../components/release_comment";
-    import Comment from "../components/comment";
     import Header from '../components/topnav';
     import Foot from '../components/footer';
-    import Follow from '../components/follow';
+    // import Blogs from "../components/myblogs";
+    // import Information from "../components/information";
+    // import R_Comment from "../components/release_comment";
+    // import Comment from "../components/comment";
+    // import Follow from '../components/follow';
 
     export default {
         components: {
-            Header, Counter, Info , Footstep, Information,
-            Card, R_Comment, Comment, Blogs, Foot, Follow
+            Header, Counter, Info , Footstep, Card, Foot,
+            // Information, R_Comment, Comment, Blogs, Follow
         }
     }
 </script>

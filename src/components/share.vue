@@ -29,6 +29,7 @@
 
 <script>
     export default {
+        name:"share",
         props: {
             id: Number,
             user: String,
@@ -59,14 +60,15 @@
                 }
             }
         },
-        created() {
+        mounted() {
             this.holder += this.$props.user + ':转发动态';
         },
         methods: {
             submit() {
                 this.$message.success('转发成功！');
 
-                this.$emit('change',)
+                this.$emit('change',);
+                return true;
 
             }
         }

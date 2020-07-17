@@ -12,7 +12,7 @@
 
                 </div>
                 <el-menu class="el-menu-demo" mode="horizontal"  >
-                    <el-menu-item  class="menu" index="1">我的主页</el-menu-item>
+                    <router-link to="/person/info"><el-menu-item  class="menu" index="1">我的主页</el-menu-item></router-link>
                     <el-menu-item class="menu" index="2">管理中心</el-menu-item>
                 </el-menu>
         </el-card>
@@ -20,8 +20,6 @@
 </template>
 
 <script>
-    // import image1 from '../assets/image/poster_1.png';
-    // import image2 from '../assets/image/poster_2.png';
     // import axios from "axios";
 
     export default {
@@ -38,7 +36,7 @@
                     email: 'se128@sjtu.edu.cn',
                     phone: '021-34200000',
                     userMongo: {
-                        avatar: ''
+                        avatar: "123"
                     }
                 }
             }
@@ -50,11 +48,8 @@
             generator() {
                 this.user.id = sessionStorage.getItem("id");
                 this.user.name = sessionStorage.getItem("name");
-                this.user.reg_time = sessionStorage.getItem("reg_time");
-                this.user.phone = sessionStorage.getItem("phone");
                 this.user.sex = sessionStorage.getItem("sex");
-                this.user.userMongo.avatar = JSON.parse(sessionStorage.getItem("userMongo")).avatar;
-                this.user.birthday = sessionStorage.getItem("birthday");
+                this.user.userMongo.avatar =sessionStorage.getItem("userMongo")!=null ? JSON.parse(sessionStorage.getItem("userMongo")).avatar : null;
             }
         }
     }
