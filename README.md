@@ -22,9 +22,9 @@ components/
     info            // 个人资料完整度
     information     // 个人资料
     myblogs         // 我的动态
+    follow          // 显示关注/粉丝
 
 views/
-    catalog         // dynamic展示
     home            // 主页
     signup          // 注册界面
     personcenter    // 个人中心

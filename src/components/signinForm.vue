@@ -76,21 +76,51 @@
                     let url = 'http://localhost:8088/user/login' +
                         '?ph=' + this.form.phone +
                         '&pwd=' + this.form.password;
-                    console.log(url);
+
                     axios.post(url).then((response) => {
+                       console.log(response);
                         let user = response.data;
                         console.log(user);
                         if (user.id >= 0) {
-                            this.$root.logged=true;
-                            this.$root.is_superuser=(user.type==0 ? false : true);
-                            sessionStorage.setItem("phone",user.phone);
-                            sessionStorage.setItem("name",user.name);
-                            sessionStorage.setItem("id",user.id);
-                            // 登录后这里还要存各种session的数据
-                            this.errmessage='用户 ' + user.name + ' 登录成功！';
-                            this.$message.success(this.errmessage);
-                            // TO DO
-                            // return true;
+
+                            if (user.type < 0) {
+                                this.$message.error("该账户已被封禁！");
+                                this.isSubmit = false;
+                            }
+
+                            else {
+                                this.$root.logged = true;
+                                this.$root.is_superuser=(user.type !== 0);
+
+                                // 登录后这里存各种session的数据
+                                sessionStorage.setItem("phone", user.phone);
+                                sessionStorage.setItem("name", user.name);
+                                sessionStorage.setItem("id", user.id);
+                                sessionStorage.setItem("userMongo", JSON.stringify(user.userMongo))
+                                sessionStorage.setItem("type", user.type);
+                                sessionStorage.setItem("sex", user.sex);
+                                sessionStorage.setItem("birthday", user.birthday);
+                                sessionStorage.setItem("reg_time", user.reg_time);
+
+                                // 记住密码
+                                if (this.checked) {
+                                    sessionStorage.setItem("pwd", this.form.password);
+                                }
+
+                                if (user.type === 0) {
+                                    this.errmessage = '用户 ' + user.name + ' 登录成功！';
+                                }
+
+                                else if (user.type === 8) {
+                                    this.errmessage = '老板好！';
+                                }
+
+                                else {
+                                    this.errmessage = '管理员用户' + user.name + '登录成功';
+                                }
+
+                                this.$message.success(this.errmessage);
+                            }
                         }
 
                         else {
@@ -106,16 +136,15 @@
 
                             this.isSubmit = false;
                         }
+                    })
+                    return this.axios.post(url).then(res=>{
+                        return res === 'success';
                     });
-                    // return this.axios.post(url).then(res=>{
-                    //     if(res=='success') return true;
-                    //     else return false;
-                    // });
                 }
                 return false;
             },
             signup() {
-                // this.$router.push('/signup');
+                this.$router.push('/signup');
                 return true;
             },
         }

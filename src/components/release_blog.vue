@@ -164,11 +164,11 @@
                 uploadmode: false,
                 lock: 0,
                 dialogVisible:false,
-                Tags:["交大","软院","菜鸡","瓜皮","东川路","东三区","小霸王","挂科小能手","ics太简单了"],
-                choosen_tags:["软院","瓜皮"],
+                Tags:[],
+                choosen_tags:[],
                 taginput:"",
-                oldtags:["交大","软院","菜鸡","瓜皮","东川路","东三区","小霸王","挂科小能手","ics太简单了"]  //no use
-
+                oldtags:[],  //no use
+                message:""
             }
         },
         methods: {
@@ -177,21 +177,37 @@
             },
             emoji() {
                 this.$message.success('emoji!');
+                this.message='emoji!';
+                return true;
             },
             uploadsuccess() {
                 this.$message.success('上传成功')
+                this.message='上传成功';
+                return true;
             },
             topic() {
                 this.$message.success('topic!');
-                this.dialogVisible=true;
+                this.message='topic!';
+                return true;
             },
             handleCommand(command) {
-                if (command === 0) this.state = "公开";
-                if (command === 1) this.state = "粉丝";
-                if (command === 2) this.state = "仅自己";
+                if (command === 0) {
+                    this.state = "公开";
+                    return 0;
+                }
+                if (command === 1) {
+                    this.state = "粉丝";
+                    return 1;
+                }
+                if (command === 2) {
+                    this.state = "仅自己";
+                    return 2;
+                }
+                return -1;
             },
             changemode() {
                 this.uploadmode = !this.uploadmode
+                return true;
             },
             getBase64(file) {
                 return new Promise(function (resolve, reject) {
@@ -222,15 +238,23 @@
                     console.log(this.filelist)
 
                 });
+                return true;
             },
             getFile1(file) {
+                console.log("file:")
+                console.log(file);
                 if (this.lock === 2) {
                     this.$message.warning("图片和视频无法同时上传！");
-                    return;
+                    this.message="图片和视频无法同时上传！";
+                    return false;
                 } else {
-                    if (this.filelist.length >= 6) this.$message.warning("做多上传6张图片！");
+                    if (this.filelist.length >= 6) {
+                        this.$message.warning("做多上传6张图片！");
+                        return false;
+                    }
                     this.lock = 1;
                     this.getFile(file);
+                    return true;
                 }
 
 
@@ -240,11 +264,13 @@
                 else {
                     if (this.filelist.length >= 1) {
                         this.$message.warning("视频太多了，老板做不出来！");
-                        return;
+                        return false;
                     }
                     this.lock = 2;
                     this.getFile(file);
+                    return true;
                 }
+                return false;
             },
             removefile(i) {
 
@@ -254,13 +280,16 @@
                     this.uploaded = false;
                     this.lock = 0;
                 }
-                console.log(this.lock)
+                console.log(this.lock);
+                return true;
             },
             handleClose(i){
                 this.choosen_tags.splice(i,1);
+                return true;
             },
             addTag(i){
                 this.choosen_tags.push(this.Tags[i]);
+                return true;
             },
             searchtags(){
                 let T = new Array();
@@ -270,8 +299,24 @@
                     }
                 }
                 this.Tags=T;
+                return true;
+            },
+            init(){
+                const url="https://localhost:8080/gettags"
+                return this.axios.post(url).then(res=>{
+                    if(res=='success'){
+                        this.oldtags=["交大","软院","菜鸡","瓜皮","东川路","东三区","小霸王","挂科小能手","ics太简单了"];
+                        this.Tags=this.oldtags;
+                        return true;
+                    }
+                    else return false;
+                })
+
             }
         },
+        created() {
+            this.init();
+        }
 
 
     }

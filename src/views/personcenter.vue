@@ -1,7 +1,7 @@
 <template>
     <div class="extern">
-        <el-header id="float">
-            <Header ></Header>
+        <el-header>
+            <Header></Header>
         </el-header>
         <div class="person">
             <div class="head">
@@ -15,12 +15,16 @@
                 </div>
                 <div class="main">
                     <Information></Information>
-                    <Myblogs></Myblogs>
+                    <Blogs></Blogs>
                     <R_Comment></R_Comment>
-                    <comment></comment>
+                    <Comment></Comment>
+                    <Follow></Follow>
                 </div>
             </div>
         </div>
+        <el-footer>
+            <Foot style="margin-top: 30px; text-align: center;"></Foot>
+        </el-footer>
     </div>
 </template>
 
@@ -29,24 +33,32 @@
     import Card from '../components/personalcard';
     import Footstep from "../components/footstep";
     import Info from "../components/info";
-    import Myblogs from "../components/myblogs";
+    import Blogs from "../components/myblogs";
     import Information from "../components/information";
     import R_Comment from "../components/release_comment";
-    import comment from "../components/comment";
-    import Header from '../components/topnav'
+    import Comment from "../components/comment";
+    import Header from '../components/topnav';
+    import Foot from '../components/footer';
+    import Follow from '../components/follow';
 
     export default {
-        components: {Header,Counter,Info ,Footstep,Information,Card,R_Comment, comment,Myblogs}
+        components: {
+            Header, Counter, Info , Footstep, Information,
+            Card, R_Comment, Comment, Blogs, Foot, Follow
+        }
     }
 </script>
 
 <style scoped>
     .extern {
         width: 100%;
+        background-color: #A7CFE8;
     }
 
     .person {
         width: 90%;
+        display: flex;
+        flex-direction: column;
         margin-left: 5%;
     }
 
@@ -62,6 +74,7 @@
 
     .card {
         width: 80%;
+        margin-left: 10%;
     }
 
     .side {

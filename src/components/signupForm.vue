@@ -42,9 +42,9 @@
                     password : '',
                     birthday : '',
                     type     : 0, // 默认为普通用户
-                    sex      : 1, // 默认为男（1）
-                    avatar: {
-                        base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                    sex      : -1, // 未知性别
+                    userMongo: {
+                        avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                     }
                 },
 
@@ -53,9 +53,13 @@
         methods: {
             nonage(date) { // 判断是否满14周岁
                 let curr = new Date();
-                if((curr.getFullYear()-date.getFullYear()>14 )||(curr.getFullYear()-date.getFullYear()==14)&&(curr.getMonth() > date.getMonth()||(curr.getMonth()==date.getMonth()&&curr.getDate()>date.getDate())))
+                if((curr.getFullYear()-date.getFullYear()>14 )
+                    || (curr.getFullYear() - date.getFullYear() === 14)
+                    && (curr.getMonth() > date.getMonth()
+                    || (curr.getMonth() === date.getMonth() && curr.getDate()>date.getDate())))
                     return true;
-                else return false;
+                else
+                    return false;
             },
             birth_format(date) {
                 let birth = date.getFullYear() + '-';
@@ -114,20 +118,17 @@
                 console.log(form.birthday)
                 let date = new Date(form.birthday);
                 console.log(date);
-                if(this.nonage(date)==false) {
-                    this.errmessage="未成年人不能注册账户！";
+                if (this.nonage(date) === false) {
+                    this.errmessage = "未满14周岁不能注册账户！";
 
-                    this.$message.error("未成年人不能注册账户！");
+                    this.$message.error("未满14周岁不能注册账户！");
                     return false;
                 }
 
                 form.birthday = this.birth_format(date);
 
                 let url = 'http://localhost:8088/user/reg';
-                axios.post(url, form)
-                    .then((response) =>{
-                    //这里还缺少错误处理，比如网络错误什么的
-                        console.log(response)
+                axios.post(url, form).then((response) =>{
                     switch (response.data) {
                         case "phone error":
                             this.$message.error("这个手机号已注册过啦！");
@@ -146,19 +147,13 @@
                     }
                 }).catch(err=>{
                     console.log(err)
-                })
-                ;
-                console.log("end")
-                // this.errmessage="bad";
-                // return this.axios.post(url).then(res=>{
-                //     if(res=='success') {
-                //         return true;
-                //     }
-                //     else {
-                //         return false;
-                //     }
-                // });
+                });
 
+                console.log("end")
+                this.errmessage="bad";
+                return this.axios.post(url).then(res=>{
+                    return res === 'success';
+                });
 
             }
         }
