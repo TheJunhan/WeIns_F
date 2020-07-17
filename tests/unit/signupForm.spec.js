@@ -43,7 +43,7 @@ describe("init", () => {
             password : '',
             birthday : '',
             type     : 0, // 默认为普通用户
-            sex      : 1, // 默认为男（1）
+            sex      : -1, // 默认为男（1）
             avatar: {
                 base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
             }
@@ -60,7 +60,7 @@ describe("test function",()=>{
     });
     it('test nonage',()=>{
         expect (wrapper.vm.nonage(new Date('2020-07-24'.replace(/-/g,"/")))).toEqual(false);
-        expect (wrapper.vm.nonage(new Date('2006-07-16'.replace(/-/g,"/")))).toEqual(false);
+        expect (wrapper.vm.nonage(new Date('2006-07-17'.replace(/-/g,"/")))).toEqual(false);
         expect (wrapper.vm.nonage(new Date('2006-07-14'.replace(/-/g,"/")))).toEqual(true);
         expect (wrapper.vm.nonage(new Date('2006-06-14'.replace(/-/g,"/")))).toEqual(true);
 

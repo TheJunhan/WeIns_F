@@ -17,7 +17,7 @@
                             </el-col>
 
                             <el-col :span="3">
-                                <div >
+                                <div>
                                     <el-dropdown trigger="click" style="outline: none">
                                     <span
                                             class="el-dropdown-link btn send time-send small-hand"
@@ -33,7 +33,9 @@
 
                                             <el-dropdown-item class="menuitem">设置为好友可见</el-dropdown-item>
 
-                                            <el-dropdown-item class="menuitem" v-if="this.$route.params.is_superuser">删除</el-dropdown-item>
+                                            <el-dropdown-item class="menuitem" v-if="this.$root.is_superuser">
+                                                删除
+                                            </el-dropdown-item>
 
                                         </el-dropdown-menu>
 
@@ -87,11 +89,13 @@
                         </el-col>
                     </el-row>
 
-                    <el-dialog :append-to-body="true" :visible.sync="blog.share_flag" width="40%" :show-close="false" title="转发动态到">
+                    <el-dialog :append-to-body="true" :visible.sync="blog.share_flag" width="40%" :show-close="false"
+                               title="转发动态到">
                         <Share :id="blog.id" :user="blog.user.name" :content="blog.content.text"
                                @change="change"></Share>
                     </el-dialog>
-                    <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true" style="z-index: 999">
+                    <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true"
+                               style="z-index: 999">
                         <el-image :src="this.showpic" class="big-img"></el-image>
                     </el-dialog>
                 </div>
@@ -105,35 +109,31 @@
 <script>
     import image from '../assets/image/poster_1.png';
     import image2 from '../assets/image/poster_2.png';
-    import Share from '../components/share';
+    import share from '../components/share';
 
     export default {
-        components: {Share},
+        name:"blog",
+
         data() {
             return {
                 blog: {
                     id: 0,
                     user: {
                         name: '交通大学',
-                        avatar: {
-                            // default avatar, must be iconBase64 mode
+                        avatar: {// default avatar, must be iconBase64 mode
                             iconBase64: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
                         }
                     },
                     time: '2020-07-09 21:57',
                     content: {
                         text: '大家好,我是上海交通大学软件学院的最咸的咸鱼！不会有人比我还菜吧，不会吧不会吧！项目做得太差劲了！哭哭!',
-                        images: [{
-                            image: image
-                        }, {
-                            image: image2
-                        }, {
-                            image: image2
-                        }, {
-                            image: image2
-                        }, {
-                            image: image
-                        }]
+                        images: [
+                            {image: image},
+                            {image: image2},
+                            {image: image2},
+                            {image: image2},
+                            {image: image}
+                            ]
                     },
                     like: 1453,
                     like_flag: false,
@@ -141,38 +141,43 @@
                     collect_flag: false,
                     share: 424,
                     share_flag: false,
-                    comment: {
-                        count: 3214,
-                    },
+                    comment: {count: 3214,},
                     comment_flag: false
                 },
                 dialogVisible: false,
                 showpic: "",
             }
         },
-        created() {
-            this.generate();
-        },
+
         methods: {
             // 拉取数据
             generate() {
-
+                const url="https://localhost:8080/blog"
+                return this.axios.post(url).then(res=>{
+                    if(res=='success') return true;
+                    else return false;
+                });
             },
             share() {
                 this.blog.share_flag = true;
+                return true;
             },
             change() {
                 this.blog.share_flag = false;
+                return true;
+
             },
             collect() {
                 if (this.blog.collect_flag) {
                     this.$message.error('取消收藏！');
                     this.blog.collect--;
                     this.blog.collect_flag = false;
+                    return false;
                 } else {
                     this.$message.success('收藏成功！');
                     this.blog.collect_flag = true;
                     this.blog.collect++;
+                    return true;
                 }
             },
             like() {
@@ -180,28 +185,32 @@
                     this.$message.error('取消赞！');
                     this.blog.like_flag = false;
                     this.blog.like--;
+                    return false;
                 } else {
                     this.$message.success('点赞成功！');
                     this.blog.like_flag = true;
                     // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
                     this.blog.like++;
+                    return true;
                 }
             },
             maxPic(image) {
-                alert(this.dialogVisible)
                 this.dialogVisible = true;
                 this.showpic = image.image;
-                alert(123)
+                return true;
 
             },
             comment() {
                 this.$message.success('评论成功！');
+                return true;
             },
 
         },
-        activated() {
-            this.dialogVisible=false;
-        }
+
+        mounted() {
+            this.generate();
+        },
+        components: {share},
     }
 </script>
 
@@ -251,8 +260,9 @@
         background: rgba(255, 255, 255, 0.4);
     }
 
-    .menuitem{
+    .menuitem {
     }
+
     .text {
         text-align: left;
     }

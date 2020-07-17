@@ -1,194 +1,286 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1594890195648" clover="3.2.0">
-  <project timestamp="1594890195648" name="All files">
-    <metrics statements="176" coveredstatements="128" conditionals="65" coveredconditionals="51" methods="48" coveredmethods="30" elements="289" coveredelements="209" complexity="0" loc="176" ncloc="176" packages="1" files="4" classes="4"/>
-    <file name="release_blog.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/release_blog.vue">
-      <metrics statements="84" coveredstatements="60" conditionals="22" coveredconditionals="17" methods="23" coveredmethods="16"/>
-      <line num="159" count="2" type="stmt"/>
-      <line num="176" count="11" type="stmt"/>
-      <line num="179" count="2" type="stmt"/>
-      <line num="180" count="2" type="stmt"/>
-      <line num="181" count="2" type="stmt"/>
-      <line num="184" count="1" type="stmt"/>
-      <line num="185" count="1" type="stmt"/>
-      <line num="186" count="1" type="stmt"/>
-      <line num="189" count="1" type="stmt"/>
-      <line num="190" count="1" type="stmt"/>
-      <line num="191" count="1" type="stmt"/>
-      <line num="194" count="4" type="cond" truecount="2" falsecount="0"/>
-      <line num="195" count="1" type="stmt"/>
-      <line num="196" count="1" type="stmt"/>
-      <line num="198" count="3" type="cond" truecount="2" falsecount="0"/>
-      <line num="199" count="1" type="stmt"/>
-      <line num="200" count="1" type="stmt"/>
-      <line num="202" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="203" count="1" type="stmt"/>
-      <line num="204" count="1" type="stmt"/>
-      <line num="206" count="1" type="stmt"/>
-      <line num="209" count="2" type="stmt"/>
-      <line num="210" count="2" type="stmt"/>
-      <line num="213" count="0" type="stmt"/>
-      <line num="214" count="0" type="stmt"/>
-      <line num="215" count="0" type="stmt"/>
-      <line num="216" count="0" type="stmt"/>
-      <line num="217" count="0" type="stmt"/>
-      <line num="218" count="0" type="stmt"/>
-      <line num="220" count="0" type="stmt"/>
-      <line num="221" count="0" type="stmt"/>
-      <line num="223" count="0" type="stmt"/>
-      <line num="224" count="0" type="stmt"/>
-      <line num="229" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="231" count="0" type="stmt"/>
-      <line num="232" count="0" type="stmt"/>
-      <line num="233" count="0" type="stmt"/>
-      <line num="237" count="0" type="stmt"/>
-      <line num="238" count="0" type="stmt"/>
-      <line num="241" count="0" type="stmt"/>
-      <line num="244" count="2" type="stmt"/>
-      <line num="245" count="2" type="stmt"/>
-      <line num="246" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="247" count="1" type="stmt"/>
-      <line num="248" count="1" type="stmt"/>
-      <line num="249" count="1" type="stmt"/>
-      <line num="251" count="1" type="cond" truecount="1" falsecount="1"/>
-      <line num="252" count="1" type="stmt"/>
-      <line num="253" count="1" type="stmt"/>
-      <line num="255" count="0" type="stmt"/>
-      <line num="256" count="0" type="stmt"/>
-      <line num="257" count="0" type="stmt"/>
-      <line num="263" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="265" count="1" type="cond" truecount="1" falsecount="1"/>
-      <line num="266" count="1" type="stmt"/>
-      <line num="267" count="1" type="stmt"/>
-      <line num="269" count="0" type="stmt"/>
-      <line num="270" count="0" type="stmt"/>
-      <line num="271" count="0" type="stmt"/>
-      <line num="273" count="1" type="stmt"/>
-      <line num="277" count="2" type="stmt"/>
-      <line num="278" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="280" count="1" type="stmt"/>
-      <line num="281" count="1" type="stmt"/>
-      <line num="283" count="2" type="stmt"/>
-      <line num="284" count="2" type="stmt"/>
-      <line num="287" count="1" type="stmt"/>
-      <line num="288" count="1" type="stmt"/>
-      <line num="291" count="1" type="stmt"/>
-      <line num="292" count="1" type="stmt"/>
-      <line num="295" count="1" type="stmt"/>
-      <line num="296" count="1" type="stmt"/>
-      <line num="297" count="9" type="cond" truecount="2" falsecount="0"/>
-      <line num="298" count="2" type="stmt"/>
-      <line num="301" count="1" type="stmt"/>
-      <line num="302" count="1" type="stmt"/>
-      <line num="305" count="3" type="stmt"/>
-      <line num="306" count="3" type="stmt"/>
-      <line num="307" count="3" type="cond" truecount="1" falsecount="1"/>
-      <line num="308" count="3" type="stmt"/>
-      <line num="309" count="3" type="stmt"/>
-      <line num="310" count="3" type="stmt"/>
-      <line num="311" count="0" type="stmt"/>
-      <line num="318" count="2" type="stmt"/>
-    </file>
-    <file name="signinForm.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/signinForm.vue">
-      <metrics statements="8" coveredstatements="8" conditionals="4" coveredconditionals="3" methods="4" coveredmethods="4"/>
-      <line num="47" count="4" type="stmt"/>
-      <line num="73" count="3" type="cond" truecount="2" falsecount="0"/>
-      <line num="74" count="1" type="stmt"/>
-      <line num="76" count="1" type="stmt"/>
-      <line num="112" count="1" type="stmt"/>
-      <line num="113" count="2" type="cond" truecount="1" falsecount="1"/>
-      <line num="117" count="2" type="stmt"/>
-      <line num="121" count="1" type="stmt"/>
-    </file>
-    <file name="signupForm.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/signupForm.vue">
-      <metrics statements="53" coveredstatements="52" conditionals="31" coveredconditionals="30" methods="5" coveredmethods="5"/>
-      <line num="36" count="3" type="stmt"/>
-      <line num="54" count="8" type="stmt"/>
-      <line num="55" count="16" type="cond" truecount="7" falsecount="0"/>
-      <line num="60" count="4" type="stmt"/>
-      <line num="61" count="7" type="cond" truecount="2" falsecount="0"/>
-      <line num="63" count="4" type="stmt"/>
-      <line num="64" count="4" type="stmt"/>
-      <line num="66" count="6" type="cond" truecount="2" falsecount="0"/>
-      <line num="69" count="4" type="stmt"/>
-      <line num="72" count="8" type="stmt"/>
-      <line num="73" count="8" type="stmt"/>
-      <line num="74" count="8" type="cond" truecount="2" falsecount="0"/>
-      <line num="75" count="1" type="stmt"/>
-      <line num="76" count="1" type="stmt"/>
-      <line num="77" count="1" type="stmt"/>
-      <line num="79" count="7" type="stmt"/>
-      <line num="80" count="7" type="cond" truecount="2" falsecount="0"/>
-      <line num="81" count="1" type="stmt"/>
-      <line num="82" count="1" type="stmt"/>
-      <line num="83" count="1" type="stmt"/>
-      <line num="87" count="6" type="stmt"/>
-      <line num="88" count="6" type="cond" truecount="2" falsecount="0"/>
-      <line num="89" count="1" type="stmt"/>
-      <line num="91" count="1" type="stmt"/>
-      <line num="92" count="1" type="stmt"/>
-      <line num="93" count="5" type="cond" truecount="4" falsecount="0"/>
-      <line num="94" count="1" type="stmt"/>
-      <line num="96" count="1" type="stmt"/>
-      <line num="97" count="1" type="stmt"/>
-      <line num="100" count="4" type="stmt"/>
-      <line num="101" count="4" type="cond" truecount="2" falsecount="0"/>
-      <line num="102" count="1" type="stmt"/>
-      <line num="104" count="1" type="stmt"/>
-      <line num="105" count="1" type="stmt"/>
-      <line num="106" count="3" type="cond" truecount="4" falsecount="0"/>
-      <line num="107" count="1" type="stmt"/>
-      <line num="109" count="1" type="stmt"/>
-      <line num="110" count="1" type="stmt"/>
-      <line num="113" count="2" type="stmt"/>
-      <line num="114" count="2" type="stmt"/>
-      <line num="115" count="2" type="stmt"/>
-      <line num="116" count="2" type="cond" truecount="2" falsecount="0"/>
-      <line num="117" count="1" type="stmt"/>
-      <line num="119" count="1" type="stmt"/>
-      <line num="120" count="1" type="stmt"/>
-      <line num="123" count="1" type="stmt"/>
-      <line num="125" count="1" type="stmt"/>
-      <line num="150" count="1" type="stmt"/>
-      <line num="151" count="1" type="stmt"/>
-      <line num="152" count="1" type="stmt"/>
-      <line num="153" count="1" type="cond" truecount="1" falsecount="1"/>
-      <line num="154" count="1" type="stmt"/>
-      <line num="157" count="0" type="stmt"/>
-    </file>
-    <file name="topnav.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/topnav.vue">
-      <metrics statements="31" coveredstatements="8" conditionals="8" coveredconditionals="1" methods="16" coveredmethods="5"/>
-      <line num="76" count="1" type="stmt"/>
-      <line num="80" count="2" type="stmt"/>
-      <line num="102" count="2" type="stmt"/>
-      <line num="103" count="2" type="stmt"/>
-      <line num="104" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="105" count="0" type="stmt"/>
-      <line num="113" count="0" type="stmt"/>
-      <line num="114" count="0" type="stmt"/>
-      <line num="120" count="1" type="stmt"/>
-      <line num="121" count="1" type="cond" truecount="1" falsecount="1"/>
-      <line num="122" count="0" type="stmt"/>
-      <line num="123" count="0" type="stmt"/>
-      <line num="124" count="0" type="stmt"/>
-      <line num="126" count="0" type="stmt"/>
-      <line num="129" count="1" type="stmt"/>
-      <line num="130" count="0" type="stmt"/>
-      <line num="135" count="0" type="stmt"/>
-      <line num="138" count="0" type="stmt"/>
-      <line num="141" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="143" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="145" count="0" type="stmt"/>
-      <line num="146" count="0" type="stmt"/>
-      <line num="147" count="0" type="stmt"/>
-      <line num="148" count="0" type="stmt"/>
-      <line num="149" count="0" type="stmt"/>
-      <line num="153" count="0" type="stmt"/>
-      <line num="156" count="0" type="stmt"/>
-      <line num="159" count="0" type="stmt"/>
-      <line num="162" count="0" type="stmt"/>
-      <line num="166" count="2" type="stmt"/>
-      <line num="169" count="0" type="stmt"/>
-    </file>
+<coverage generated="1594946683300" clover="3.2.0">
+  <project timestamp="1594946683300" name="All files">
+    <metrics statements="244" coveredstatements="196" conditionals="81" coveredconditionals="63" methods="59" coveredmethods="47" elements="384" coveredelements="306" complexity="0" loc="244" ncloc="244" packages="2" files="10" classes="10"/>
+    <package name="assets.image">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="poster_1.png" path="/Users/user/Desktop/web2.0/WeIns_F/src/assets/image/poster_1.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+      </file>
+      <file name="poster_2.png" path="/Users/user/Desktop/web2.0/WeIns_F/src/assets/image/poster_2.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="components">
+      <metrics statements="242" coveredstatements="194" conditionals="81" coveredconditionals="63" methods="59" coveredmethods="47"/>
+      <file name="blog.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/blog.vue">
+        <metrics statements="35" coveredstatements="35" conditionals="6" coveredconditionals="5" methods="10" coveredmethods="10"/>
+        <line num="110" count="2" type="stmt"/>
+        <line num="111" count="2" type="stmt"/>
+        <line num="112" count="2" type="stmt"/>
+        <line num="118" count="2" type="stmt"/>
+        <line num="155" count="3" type="stmt"/>
+        <line num="156" count="3" type="stmt"/>
+        <line num="157" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="162" count="1" type="stmt"/>
+        <line num="163" count="1" type="stmt"/>
+        <line num="166" count="1" type="stmt"/>
+        <line num="167" count="1" type="stmt"/>
+        <line num="171" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="172" count="1" type="stmt"/>
+        <line num="173" count="1" type="stmt"/>
+        <line num="174" count="1" type="stmt"/>
+        <line num="175" count="1" type="stmt"/>
+        <line num="177" count="1" type="stmt"/>
+        <line num="178" count="1" type="stmt"/>
+        <line num="179" count="1" type="stmt"/>
+        <line num="180" count="1" type="stmt"/>
+        <line num="184" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="185" count="1" type="stmt"/>
+        <line num="186" count="1" type="stmt"/>
+        <line num="187" count="1" type="stmt"/>
+        <line num="188" count="1" type="stmt"/>
+        <line num="190" count="1" type="stmt"/>
+        <line num="191" count="1" type="stmt"/>
+        <line num="193" count="1" type="stmt"/>
+        <line num="194" count="1" type="stmt"/>
+        <line num="198" count="1" type="stmt"/>
+        <line num="199" count="1" type="stmt"/>
+        <line num="200" count="1" type="stmt"/>
+        <line num="204" count="1" type="stmt"/>
+        <line num="205" count="1" type="stmt"/>
+        <line num="211" count="2" type="stmt"/>
+      </file>
+      <file name="issue.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/issue.vue">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+      </file>
+      <file name="release_blog.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/release_blog.vue">
+        <metrics statements="84" coveredstatements="60" conditionals="22" coveredconditionals="17" methods="23" coveredmethods="16"/>
+        <line num="159" count="2" type="stmt"/>
+        <line num="176" count="11" type="stmt"/>
+        <line num="179" count="2" type="stmt"/>
+        <line num="180" count="2" type="stmt"/>
+        <line num="181" count="2" type="stmt"/>
+        <line num="184" count="1" type="stmt"/>
+        <line num="185" count="1" type="stmt"/>
+        <line num="186" count="1" type="stmt"/>
+        <line num="189" count="1" type="stmt"/>
+        <line num="190" count="1" type="stmt"/>
+        <line num="191" count="1" type="stmt"/>
+        <line num="194" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="195" count="1" type="stmt"/>
+        <line num="196" count="1" type="stmt"/>
+        <line num="198" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="199" count="1" type="stmt"/>
+        <line num="200" count="1" type="stmt"/>
+        <line num="202" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="203" count="1" type="stmt"/>
+        <line num="204" count="1" type="stmt"/>
+        <line num="206" count="1" type="stmt"/>
+        <line num="209" count="2" type="stmt"/>
+        <line num="210" count="2" type="stmt"/>
+        <line num="213" count="0" type="stmt"/>
+        <line num="214" count="0" type="stmt"/>
+        <line num="215" count="0" type="stmt"/>
+        <line num="216" count="0" type="stmt"/>
+        <line num="217" count="0" type="stmt"/>
+        <line num="218" count="0" type="stmt"/>
+        <line num="220" count="0" type="stmt"/>
+        <line num="221" count="0" type="stmt"/>
+        <line num="223" count="0" type="stmt"/>
+        <line num="224" count="0" type="stmt"/>
+        <line num="229" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="231" count="0" type="stmt"/>
+        <line num="232" count="0" type="stmt"/>
+        <line num="233" count="0" type="stmt"/>
+        <line num="237" count="0" type="stmt"/>
+        <line num="238" count="0" type="stmt"/>
+        <line num="241" count="0" type="stmt"/>
+        <line num="244" count="2" type="stmt"/>
+        <line num="245" count="2" type="stmt"/>
+        <line num="246" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="247" count="1" type="stmt"/>
+        <line num="248" count="1" type="stmt"/>
+        <line num="249" count="1" type="stmt"/>
+        <line num="251" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="252" count="1" type="stmt"/>
+        <line num="253" count="1" type="stmt"/>
+        <line num="255" count="0" type="stmt"/>
+        <line num="256" count="0" type="stmt"/>
+        <line num="257" count="0" type="stmt"/>
+        <line num="263" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="265" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="266" count="1" type="stmt"/>
+        <line num="267" count="1" type="stmt"/>
+        <line num="269" count="0" type="stmt"/>
+        <line num="270" count="0" type="stmt"/>
+        <line num="271" count="0" type="stmt"/>
+        <line num="273" count="1" type="stmt"/>
+        <line num="277" count="2" type="stmt"/>
+        <line num="278" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="280" count="1" type="stmt"/>
+        <line num="281" count="1" type="stmt"/>
+        <line num="283" count="2" type="stmt"/>
+        <line num="284" count="2" type="stmt"/>
+        <line num="287" count="1" type="stmt"/>
+        <line num="288" count="1" type="stmt"/>
+        <line num="291" count="1" type="stmt"/>
+        <line num="292" count="1" type="stmt"/>
+        <line num="295" count="1" type="stmt"/>
+        <line num="296" count="1" type="stmt"/>
+        <line num="297" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="298" count="2" type="stmt"/>
+        <line num="301" count="1" type="stmt"/>
+        <line num="302" count="1" type="stmt"/>
+        <line num="305" count="3" type="stmt"/>
+        <line num="306" count="3" type="stmt"/>
+        <line num="307" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="308" count="3" type="stmt"/>
+        <line num="309" count="3" type="stmt"/>
+        <line num="310" count="3" type="stmt"/>
+        <line num="311" count="0" type="stmt"/>
+        <line num="318" count="2" type="stmt"/>
+      </file>
+      <file name="share.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/share.vue">
+        <metrics statements="4" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+      </file>
+      <file name="sidenav.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/sidenav.vue">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      </file>
+      <file name="signinForm.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/signinForm.vue">
+        <metrics statements="29" coveredstatements="10" conditionals="12" coveredconditionals="3" methods="6" coveredmethods="4"/>
+        <line num="44" count="4" type="stmt"/>
+        <line num="47" count="4" type="stmt"/>
+        <line num="73" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
+        <line num="83" count="0" type="stmt"/>
+        <line num="84" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="86" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="88" count="0" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
+        <line num="91" count="0" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="98" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="100" count="0" type="stmt"/>
+        <line num="103" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="105" count="0" type="stmt"/>
+        <line num="108" count="0" type="stmt"/>
+        <line num="111" count="0" type="stmt"/>
+        <line num="113" count="1" type="stmt"/>
+        <line num="114" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="118" count="2" type="stmt"/>
+        <line num="122" count="1" type="stmt"/>
+      </file>
+      <file name="signupForm.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/signupForm.vue">
+        <metrics statements="53" coveredstatements="52" conditionals="31" coveredconditionals="30" methods="5" coveredmethods="5"/>
+        <line num="37" count="3" type="stmt"/>
+        <line num="55" count="8" type="stmt"/>
+        <line num="56" count="16" type="cond" truecount="7" falsecount="0"/>
+        <line num="65" count="4" type="stmt"/>
+        <line num="66" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="68" count="4" type="stmt"/>
+        <line num="69" count="4" type="stmt"/>
+        <line num="71" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="74" count="4" type="stmt"/>
+        <line num="77" count="8" type="stmt"/>
+        <line num="78" count="8" type="stmt"/>
+        <line num="79" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="81" count="1" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="84" count="7" type="stmt"/>
+        <line num="85" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="92" count="6" type="stmt"/>
+        <line num="93" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="94" count="1" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="97" count="1" type="stmt"/>
+        <line num="98" count="5" type="cond" truecount="4" falsecount="0"/>
+        <line num="99" count="1" type="stmt"/>
+        <line num="101" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="105" count="4" type="stmt"/>
+        <line num="106" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="107" count="1" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="110" count="1" type="stmt"/>
+        <line num="111" count="3" type="cond" truecount="4" falsecount="0"/>
+        <line num="112" count="1" type="stmt"/>
+        <line num="114" count="1" type="stmt"/>
+        <line num="115" count="1" type="stmt"/>
+        <line num="118" count="2" type="stmt"/>
+        <line num="119" count="2" type="stmt"/>
+        <line num="120" count="2" type="stmt"/>
+        <line num="121" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="122" count="1" type="stmt"/>
+        <line num="124" count="1" type="stmt"/>
+        <line num="125" count="1" type="stmt"/>
+        <line num="128" count="1" type="stmt"/>
+        <line num="130" count="1" type="stmt"/>
+        <line num="155" count="1" type="stmt"/>
+        <line num="156" count="1" type="stmt"/>
+        <line num="157" count="1" type="stmt"/>
+        <line num="158" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="159" count="1" type="stmt"/>
+        <line num="162" count="0" type="stmt"/>
+      </file>
+      <file name="topnav.vue" path="/Users/user/Desktop/web2.0/WeIns_F/src/components/topnav.vue">
+        <metrics statements="32" coveredstatements="30" conditionals="10" coveredconditionals="8" methods="9" coveredmethods="8"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="106" count="3" type="stmt"/>
+        <line num="107" count="3" type="stmt"/>
+        <line num="108" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="109" count="3" type="stmt"/>
+        <line num="110" count="0" type="stmt"/>
+        <line num="117" count="1" type="stmt"/>
+        <line num="118" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="119" count="8" type="stmt"/>
+        <line num="121" count="1" type="stmt"/>
+        <line num="122" count="1" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="126" count="1" type="stmt"/>
+        <line num="130" count="1" type="stmt"/>
+        <line num="131" count="1" type="stmt"/>
+        <line num="135" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="136" count="1" type="stmt"/>
+        <line num="137" count="1" type="stmt"/>
+        <line num="138" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="140" count="1" type="stmt"/>
+        <line num="141" count="1" type="stmt"/>
+        <line num="142" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="145" count="1" type="stmt"/>
+        <line num="146" count="1" type="stmt"/>
+        <line num="147" count="1" type="stmt"/>
+        <line num="148" count="1" type="stmt"/>
+        <line num="149" count="1" type="stmt"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="151" count="1" type="stmt"/>
+        <line num="158" count="2" type="stmt"/>
+        <line num="166" count="2" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>

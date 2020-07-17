@@ -20,7 +20,9 @@
 
 
                 <div class="el-dropdown-link">
-                    <p class="el-dropdown-link can-point" @click="home"><i class="el-icon-s-home el-icon--left"></i>首页</p>
+                    <router-link to="/home">
+                        <p class="el-dropdown-link can-point"><i class="el-icon-s-home el-icon--left"></i>首页</p>
+                    </router-link>
 
                 </div>
                 <span class="dd">|</span>
@@ -39,7 +41,9 @@
                             <router-link to="/person">
                                 <span class="el-dropdown-link can-point" ><el-dropdown-item>个人信息</el-dropdown-item></span>
                             </router-link>
-                            <span class="el-dropdown-link can-point" @click="persioncenter"><el-dropdown-item>我的足迹</el-dropdown-item></span>
+                            <router-link to="/person">
+                                <span class="el-dropdown-link can-point" ><el-dropdown-item>我的足迹</el-dropdown-item></span>
+                            </router-link>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -100,61 +104,57 @@
         methods: {
             loadAll() {
                 const url="https://localhost:8088/ddd"
-                return this.axios.post(url,(res)=>{
-                        if(res==true){
+                return this.axios.post(url).then(res=>{
+                        if(res=='success'){
                             return true;
                         }
                         else return false;
                 })
 
             },
-            querySearchAsync(queryString, cb) {
+            querySearchAsync(queryString,cbe) {
+
                 let items = this.items;
-                let results = queryString ? items.filter(this.createStateFilter(queryString)) : items;
-                clearTimeout(this.timeout);
-                this.timeout = setTimeout(() => {
-                    cb(results);
-                }, 3000 * Math.random());
+                let results = queryString ? items.filter((state) => {
+                    return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                }) : items;
+                    clearTimeout(this.timeout);
+                    this.timeout = setTimeout(() => {
+                        cbe(results);
+                    }, 3000 * Math.random());
+
                return results;
             },
-            createStateFilter(queryString) {
-                return (state) => {
-                    return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-                };
 
-            },
             handleSelect(item) {
                 console.log(item);
+                return item;
             },
-            handleSelectDao(key, keyPath) {
-                console.log(key, keyPath);
-            },
+
             log(i) {
-                if(i==0)this.dialogVisible = true;
-                else if (i==1) this.$router.push("/signup");
-                if(i==2){
+                if(i==0){
+                    this.dialogVisible = true;
+                    return 0;
+                }
+                else if (i==1) {
+                    this.$router.push("/signup");
+                    return 1;
+                }
+                else if(i==2){
                     //注销
                     this.$root.logged=false;
                     this.$root.is_superuser="";
                     this.$router.push("/home");
                     sessionStorage.clear();
                     this.$message.success("已注销");
+                    return 2;
                 }
+                else return -1;
             },
-            signup() {
-                this.$router.push('/signup')
-            },
-            signin() {
-                this.dialogVisible = true;
-            },
-            home() {
-                this.$router.push('/home')
-            },
-            persioncenter() {
-                this.$router.push('/person')
-            }
+
         },
         mounted() {
+
             this.items=[{"value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号"},
             {"value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号"},
             {"value": "新旺角茶餐厅", "address": "上海市普陀区真北路988号创邑金沙谷6号楼113"},
@@ -162,12 +162,10 @@
             {"value": "胖仙女纸杯蛋糕（上海凌空店）", "address": "上海市长宁区金钟路968号1幢18号楼一层商铺18-101"},
             {"value": "贡茶", "address": "上海市长宁区金钟路633号"},
             {"value": "豪大大香鸡排超级奶爸", "address": "上海市嘉定区曹安公路曹安路1685号"},
-            {"value": "茶芝兰（奶茶，手抓饼）", "address": "上海市普陀区同普路1435号"}]
+            {"value": "茶芝兰（奶茶，手抓饼）", "address": "上海市普陀区同普路1435号"}];
+            this.loadAll();
 
         },
-        activated() {
-            this.dialogVisible=false;
-        }
     }
 </script>
 
