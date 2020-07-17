@@ -10,6 +10,11 @@ const axios = {
     get: async () => "success",
     post:async ()=>"success"
 };
+
+const $router = {
+    push: jest.fn()
+    // ... 其他属性
+}
 /**
  * mock的axios
  * 可以根据需要添加其他函数功能
@@ -28,7 +33,8 @@ describe("init", () => {
     it("init state", () => {
         const wrapper = shallowMount(signupForm, {
             mocks: {
-                axios
+                axios,
+                $router
             },
             localVue
         });
@@ -43,9 +49,9 @@ describe("init", () => {
             password : '',
             birthday : '',
             type     : 0, // 默认为普通用户
-            sex      : -1, // 默认为男（1）
-            avatar: {
-                base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+            sex      : -1, // 未知性别
+            userMongo: {
+                avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
             }
         });
     });
@@ -54,7 +60,8 @@ describe("init", () => {
 describe("test function",()=>{
     const wrapper = shallowMount(signupForm, {
         mocks: {
-            axios
+            axios,
+            $router
         },
         localVue
     });
@@ -79,7 +86,8 @@ describe("test function",()=>{
 describe("test axios", async()=>{
     const wrapper = mount(signupForm, {
         mocks: {
-            axios
+            axios,
+            $router
         },
         localVue
     });
@@ -91,9 +99,9 @@ describe("test axios", async()=>{
                 password : '12345678',
                 birthday : 'Tue Jul 05 2005',
                 type     : 0, // 默认为普通用户
-                sex      : 1, // 默认为男（1）
-                avatar: {
-                    base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                sex      : -1, // 未知性别
+                userMongo: {
+                    avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                 }
             }
         })
@@ -103,9 +111,9 @@ describe("test axios", async()=>{
             password : '12345678',
             birthday : 'Tue Jul 05 2005',
             type     : 0, // 默认为普通用户
-            sex      : 1, // 默认为男（1）
-            avatar: {
-                base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+            sex      : -1, // 未知性别
+            userMongo: {
+                avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
             }
         });
         expect(wrapper.vm.register()).resolves.toBeTruthy();
@@ -116,14 +124,14 @@ describe("test axios", async()=>{
                 password : '12345678',
                 birthday : 'Tue Jul 05 2018',
                 type     : 0, // 默认为普通用户
-                sex      : 1, // 默认为男（1）
-                avatar: {
-                    base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                sex      : -1, // 未知性别
+                userMongo: {
+                    avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                 }
             }
         });
         expect(wrapper.vm.register()).toEqual(false);
-        expect(wrapper.vm.errmessage).toEqual("未成年人不能注册账户！");
+        expect(wrapper.vm.errmessage).toEqual("未满14周岁不能注册账户！");
 
         wrapper.setData({
             registerForm:{
@@ -132,9 +140,9 @@ describe("test axios", async()=>{
                 password : '12345678',
                 birthday : 'Tue Jul 05 2002',
                 type     : 0, // 默认为普通用户
-                sex      : 1, // 默认为男（1）
-                avatar: {
-                    base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                sex      : -1, // 未知性别
+                userMongo: {
+                    avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                 }
             }
         });
@@ -148,9 +156,9 @@ describe("test axios", async()=>{
                 password : '12345678',
                 birthday : 'Tue Jul 05 2002',
                 type     : 0, // 默认为普通用户
-                sex      : 1, // 默认为男（1）
-                avatar: {
-                    base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                sex      : -1, // 未知性别
+                userMongo: {
+                    avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                 }
             }
         });
@@ -164,9 +172,9 @@ describe("test axios", async()=>{
                 password : '12345678',
                 birthday : 'Tue Jul 05 2002',
                 type     : 0, // 默认为普通用户
-                sex      : 1, // 默认为男（1）
-                avatar: {
-                    base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                sex      : -1, // 未知性别
+                userMongo: {
+                    avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                 }
             }
         });
@@ -180,9 +188,9 @@ describe("test axios", async()=>{
                 password : '12345678',
                 birthday : 'Tue Jul 05 2002',
                 type     : 0, // 默认为普通用户
-                sex      : 1, // 默认为男（1）
-                avatar: {
-                    base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                sex      : -1, // 未知性别
+                userMongo: {
+                    avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                 }
             }
         });
@@ -196,9 +204,9 @@ describe("test axios", async()=>{
                 password : 'dddddddddddddddddddd',
                 birthday : 'Tue Jul 05 2002',
                 type     : 0, // 默认为普通用户
-                sex      : 1, // 默认为男（1）
-                avatar: {
-                    base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                sex      : -1, // 未知性别
+                userMongo: {
+                    avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                 }
             }
         });
@@ -213,9 +221,9 @@ describe("test axios", async()=>{
                 password : '',
                 birthday : 'Tue Jul 05 2002',
                 type     : 0, // 默认为普通用户
-                sex      : 1, // 默认为男（1）
-                avatar: {
-                    base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                sex      : -1, // 未知性别
+                userMongo: {
+                    avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                 }
             }
         });

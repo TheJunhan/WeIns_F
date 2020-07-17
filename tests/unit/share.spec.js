@@ -26,4 +26,8 @@ describe("init share", () => {
         expect(wrapper.vm.comment_to_flag).toEqual(false);
 
     });
+
+    it("func",()=>{
+        expect(wrapper.vm.submit()).toEqual(true);
+    })
 });
