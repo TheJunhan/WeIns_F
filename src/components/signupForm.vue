@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    // import axios from 'axios';
     export default {
         name: "SignUpForm",
         data() {
@@ -43,8 +43,8 @@
                     birthday : '',
                     type     : 0, // 默认为普通用户
                     sex      : -1, // 未知性别
-                    userMongo: {
-                        avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
+                    avatar: {
+                        base64: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
                     }
                 },
 
@@ -118,42 +118,51 @@
                 console.log(form.birthday)
                 let date = new Date(form.birthday);
                 console.log(date);
-                if (this.nonage(date) === false) {
-                    this.errmessage = "未满14周岁不能注册账户！";
+                if(this.nonage(date)==false) {
+                    this.errmessage="未成年人不能注册账户！";
 
-                    this.$message.error("未满14周岁不能注册账户！");
+                    this.$message.error("未成年人不能注册账户！");
                     return false;
                 }
 
                 form.birthday = this.birth_format(date);
 
                 let url = 'http://localhost:8088/user/reg';
-                axios.post(url, form).then((response) =>{
-                    switch (response.data) {
-                        case "phone error":
-                            this.$message.error("这个手机号已注册过啦！");
-                            break;
-                        case "name error":
-                            this.$message.error("这个名字已经有人用过啦！");
-                            break;
-                        case "success":
-                            this.errmessage="注册成功！";
-                            this.$message.success("注册成功！");
-
-                            this.$router.push('/home');
-                            break;
-                        default:
-                            break;
-                    }
-                }).catch(err=>{
-                    console.log(err)
-                });
-
+                // axios.post(url, form)
+                //     .then((response) =>{
+                //     //这里还缺少错误处理，比如网络错误什么的
+                //         console.log(response)
+                //     switch (response.data) {
+                //         case "phone error":
+                //             this.$message.error("这个手机号已注册过啦！");
+                //             break;
+                //         case "name error":
+                //             this.$message.error("这个名字已经有人用过啦！");
+                //             break;
+                //         case "success":
+                //             this.errmessage="注册成功！";
+                //             this.$message.success("注册成功！");
+                //
+                //             this.$router.push('/home');
+                //             break;
+                //         default:
+                //             break;
+                //     }
+                // }).catch(err=>{
+                //     console.log(err)
+                // })
+                // ;
                 console.log("end")
                 this.errmessage="bad";
                 return this.axios.post(url).then(res=>{
-                    return res === 'success';
+                    if(res=='success') {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 });
+
 
             }
         }

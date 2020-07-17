@@ -29,6 +29,7 @@
 
 <script>
     export default {
+        name:"share",
         props: {
             id: Number,
             user: String,
