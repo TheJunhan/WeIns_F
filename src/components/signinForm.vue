@@ -96,7 +96,7 @@
                                 sessionStorage.setItem("phone", user.phone);
                                 sessionStorage.setItem("name", user.name);
                                 sessionStorage.setItem("id", user.id);
-                                sessionStorage.setItem("userMongo", user.userMongo);
+                                sessionStorage.setItem("userMongo", JSON.stringify(user.userMongo))
                                 sessionStorage.setItem("type", user.type);
                                 sessionStorage.setItem("sex", user.sex);
                                 sessionStorage.setItem("birthday", user.birthday);

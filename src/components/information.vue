@@ -30,18 +30,23 @@
                             </el-form-item>
                             <el-form-item label="性别">
                                 <div v-if="basic_flag === true">
-                                    <el-input v-model="user.sex" size="mini"></el-input>
+                                    <el-input v-model="sexStr" size="mini"></el-input>
                                 </div>
                                 <div v-else>
-                                    <span style="float: left" class="span-text">{{user.sex}}</span>
+                                    <span style="float: left" class="span-text">{{sex()}}</span>
+                                </div>
+                            </el-form-item>
+                            <el-form-item label="年龄">
+                                <div>
+                                    <span style="float: left" class="span-text">{{age()}}</span>
                                 </div>
                             </el-form-item>
                             <el-form-item label="生日">
                                 <div v-if="basic_flag === true">
-                                    <el-input v-model="user.birth" size="mini"></el-input>
+                                    <el-input v-model="user.birthday" size="mini"></el-input>
                                 </div>
                                 <div v-else>
-                                    <span style="float: left" class="span-text">{{user.birth}}</span>
+                                    <span style="float: left" class="span-text">{{user.birthday}}</span>
                                 </div>
                             </el-form-item>
                             <el-form-item label="注册时间">
@@ -98,55 +103,86 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    // import axios from 'axios';
     export default {
         data() {
             return {
                 basic_flag: false,
                 contact_flag: false,
+                sexStr: '未知',
                 user: {
-                    id:0,
+                    id: 0,
                     name: '交通大学',
                     birthday: '1896-04-07',
-                    sex: 1,
+                    sex: -1,
                     reg_time: '2020-07-09',
-                    age: 19,
                     email: 'se128@sjtu.edu.cn',
                     phone: '021-34200000',
-                    userMongo:{
-                        avatar:''
-                    }
+                    userMongo: {}
                 }
             }
         },
-        mounted(){
-            this.getinfo();
+        created() {
+            this.generator();
         },
         methods: {
-            getinfo(){
-                 let url = 'http://localhost:8088/user/getOne';
-                 let id=sessionStorage.getItem("id");
-                 const data = {
-                     params: {id}
-                 }
+            sex() {
+                switch (this.user.sex) {
+                    case "1":
+                        return "男";
+                    case "0":
+                        return "女";
+                    default:
+                        return "未知";
+                }
+            },
+            sexStrToNum(){
+                if (this.sexStr === "男") {
+                    this.user.sex = 1;
+                    return;
+                }
 
-                 axios.get(url,data).then((response) => {
-                    this.user= response.data;
-                 }).catch(err=>{
-                     console.log(err);
-                 });
+                if (this.sexStr === "女") {
+                    this.user.sex = 0;
+                    return;
+                }
+
+                this.user.sex = -1;
+            },
+            age() {
+                let date = new Date();
+                let year = Number(this.user.birthday.substr(0, 4));
+                return date.getFullYear() - year;
+            },
+            generator() {
+                this.user.id = sessionStorage.getItem("id");
+                this.user.name = sessionStorage.getItem("name");
+                this.user.reg_time = sessionStorage.getItem("reg_time");
+                this.user.phone = sessionStorage.getItem("phone");
+                this.user.sex = sessionStorage.getItem("sex");
+                this.user.birthday = sessionStorage.getItem("birthday");
+                this.userMongo = JSON.parse(sessionStorage.getItem("userMongo"));
+            },
+            update() {
+                let url = 'http://localhost:8088/user/update';
+                this.sexStrToNum();
+                let user = this.user;
+
+                console.log(url);
+                console.log(user);
+                console.log(this.user);
+                console.log(this.user.userMongo);
+
+                // axios.post(url, user).then((response) =>{
+                //     console.log(response);
+                // }).catch(err=>{
+                //     console.log(err);
+                // });
             },
             basic() {
                 if (this.basic_flag) {
                     this.basic_flag = false;
-                    let url = 'http://localhost:8088/user/update';
-                    let user = this.user;
-                    axios.post(url, user)
-                        .then((response) =>{
-                            console.log(response);
-                        }).catch(err=>{
-                        console.log(err);
-                    })
+                    this.update();
                     this.$message.success('保存成功！');
                 }
 
@@ -156,21 +192,12 @@
                 }
             },
             contact() {
-
-                // getinfo(){
-                // }
                 if (this.contact_flag) {
-                this.contact_flag = false;
-                    let url = 'http://localhost:8088/user/update';
-                    let user = this.user;
-                    axios.post(url, user)
-                        .then((response) =>{
-                            console.log(response);
-                        }).catch(err=>{
-                        console.log(err);
-                    })
-                this.$message.success('保存成功！');
-            }
+                    this.contact_flag = false;
+                    this.update();
+                    this.$message.success('保存成功！');
+                }
+
                 else {
                     this.$message.success('启用编辑！');
                     this.contact_flag = true;
