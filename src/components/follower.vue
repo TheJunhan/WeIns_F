@@ -3,14 +3,14 @@
         <el-card shadow="hover" style="background-color: #f2f2f5;">
             <div class="card">
                 <div class="avatar">
-                    <el-avatar :size="50" :src="avatarUrl"></el-avatar>
+                    <el-avatar :size="50" :src="userMongo.avatar"></el-avatar>
                 </div>
                 <div class="content" style="border-left:1px solid lightgray;text-align: center">
-                    <p style="text-align: left; margin-left: 10%; margin-bottom: 5%;color: #ec2025">{{following.name}}</p>
+                    <p style="text-align: left; margin-left: 10%; margin-bottom: 5%;color: #ec2025">{{name}}</p>
                     <p style="text-align: left; margin-left: 10%; margin-bottom: 5%;">关注了你</p>
                     <div class="buttons">
-                        <el-button type="text" icon="el-icon-plus">关注</el-button>
-                        <el-button type="text" style="float: right">去他/她的主页>></el-button>
+                        <el-button type="text" icon="el-icon-plus" @click="follow">关注</el-button>
+                        <el-button type="text" style="float: right" @click="home">去他/她的主页>></el-button>
                     </div>
 
                 </div>
@@ -20,14 +20,50 @@
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
         name: "following",
+        props: {
+            uid: Number,
+        },
         data(){
             return{
-                following :{
-                    avatarUrl:"https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-                    name:"weins",
+                id: 0,
+                name: 'weins',
+                userMongo: {
+                    avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
                 }
+            }
+        },
+        created() {
+            this.id = this.$props.uid;
+            let url = 'http://localhost:8088/user/getOne?id=' + this.id;
+
+            axios.get(url).then((response) =>{
+                this.name = response.data.name;
+                this.userMongo = response.data.userMongo;
+            }).catch(err=> {
+                console.log(err);
+            });
+        },
+        methods: {
+            follow() {
+                let url = 'http://localhost:8088/user/follow?' +
+                    'sub=' + sessionStorage.getItem("id") +
+                    '&obj=' + this.id +
+                    '&flag=1';
+
+                axios.post(url).then((response) => {
+                    if (response.data === 'success')
+                        this.$message.success('关注 ' + this.name + ' 成功！');
+                }).catch(err=> {
+                    console.log(err);
+                });
+            },
+            home() {
+                // TO DO
+                this.$message.success("导航到 " + this.name + "的主页");
             }
         }
     }
