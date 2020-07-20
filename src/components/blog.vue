@@ -122,6 +122,9 @@
         components: {
             share, comment, release_comment
         },
+        props: {
+            blogs: Object
+        },
         data() {
             return {
                 blog: {
@@ -160,7 +163,7 @@
         methods: {
             // 拉取数据
             generate() {
-                const url="https://localhost:8080/blog"
+                let url="https://localhost:8088/blog/"
                 return this.axios.post(url).then(res=>{
                     if(res=='success') return true;
                     else return false;

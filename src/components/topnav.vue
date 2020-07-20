@@ -28,10 +28,10 @@
                 <router-link to="/userTable" class="el-dropdown-link">
                     <p class="el-dropdown-link can-point" ><i class="el-icon-search el-icon--left"></i>发现</p>
                 </router-link>
-                <span class="dd" v-if="this.logged === true">|</span>
+                <span class="dd" v-if="this.$root.logged === true">|</span>
 
 
-                <div class="el-dropdown-link" v-if="this.logged === true">
+                <div class="el-dropdown-link" v-if="this.$root.logged === true">
                     <el-dropdown>
                     <span class="el-dropdown-link">
                         我的<i class="el-icon-arrow-down el-icon--right"></i>

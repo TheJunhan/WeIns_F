@@ -3,15 +3,15 @@
         <el-card  shadow="hover">
             <div class="card">
                 <div class="cube" style="border-right:1px solid darkgray;text-align: center" @click="following">
-                    <el-button class="but" type="text" > {{counter.following}}</el-button>
+                    <el-button class="but" type="text" > {{following_num}}</el-button>
                     <div class="con" >关注</div>
                 </div>
                 <div class="cube" style="border-right:1px solid darkgray;text-align: center" @click="follower">
-                    <el-button class="but" type="text"> {{counter.follower}}</el-button>
+                    <el-button class="but" type="text"> {{follower_num}}</el-button>
                     <div class="con">粉丝</div>
                 </div>
                 <div class="cube" style="text-align: center" @click="blogs">
-                    <el-button class="but" type="text" > {{counter.blogs}}</el-button>
+                    <el-button class="but" type="text" > {{blog_num}}</el-button>
                     <div class="con">动态</div>
                 </div>
             </div>
@@ -20,14 +20,13 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         data() {
             return{
-                counter:{
-                    following: 12,
-                    follower: 99,
-                    blogs: 23
-                }
+                following_num: 12,
+                follower_num: 99,
+                blog_num: 23
             }
         },
         created() {
@@ -39,27 +38,38 @@
                 this.$root.my_person_center_blogs = false;
                 this.$root.my_person_center_follower = false;
                 this.$root.my_person_center_following = true;
-                // this.$message.success(this.counter.following + '关注！');
+                // this.$message.success(this.following_num + '关注！');
             },
             follower() {
                 this.$root.my_person_center_info = false;
                 this.$root.my_person_center_blogs = false;
                 this.$root.my_person_center_follower = true;
                 this.$root.my_person_center_following = false;
-                // this.$message.success(this.counter.follower + '粉丝！');
+                // this.$message.success(this.follower_num + '粉丝！');
             },
             blogs() {
                 this.$root.my_person_center_info = false;
                 this.$root.my_person_center_blogs = true;
                 this.$root.my_person_center_follower = false;
                 this.$root.my_person_center_following = false;
-                // this.$message.success(this.counter.blogs + '动态！');
+                // this.$message.success(this.blog_num + '动态！');
             },
             generator() {
-                let userMongo = JSON.parse(sessionStorage.getItem("userMongo"));
-                this.counter.following = userMongo.following_num;
-                this.counter.follower = userMongo.follower_num;
-                this.counter.blogs = userMongo.blog_num;
+                // let userMongo = JSON.parse(sessionStorage.getItem("userMongo"));
+                // this.following_num = userMongo.following_num;
+                // this.follower_num = userMongo.follower_num;
+                // this.blog_num = userMongo.blog_num;
+                let id = sessionStorage.getItem("id");
+                let url = 'http://localhost:8088/user/getOne?id=' + id;
+
+                axios.get(url).then((response) => {
+                    let userMongo = response.data.userMongo;
+                    this.following_num = userMongo.following_num;
+                    this.follower_num = userMongo.follower_num;
+                    this.blog_num = userMongo.blog_num;
+                }).catch(err => {
+                   console.log(err);
+                });
             }
         }
     }
