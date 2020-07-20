@@ -22,7 +22,7 @@
                         <el-form ref="form" :model="user" label-width="80px">
                             <el-form-item label="昵称">
                                 <div v-if="basic_flag === true">
-                                    <el-input v-model="user.name" size="mini"></el-input>
+                                    <el-input v-model="user.name" size="mini" style="width: 40%"></el-input>
                                 </div>
                                 <div v-else>
                                     <span style="float: left" class="span-text">{{user.name}}</span>
