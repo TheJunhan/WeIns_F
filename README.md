@@ -23,6 +23,7 @@ components/
     information     // 个人资料
     myblogs         // 我的动态
     follow          // 显示关注/粉丝
+    userTable       // 用户列表，供管理员查询
 
 views/
     home            // 主页
