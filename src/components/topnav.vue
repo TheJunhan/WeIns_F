@@ -31,7 +31,7 @@
                 <span class="dd" v-if="this.$root.logged === true">|</span>
 
 
-                <div class="el-dropdown-link" v-if="this.$root.logged === true">
+                <div class="el-dropdown-link" >
                     <el-dropdown>
                     <span class="el-dropdown-link">
                         我的<i class="el-icon-arrow-down el-icon--right"></i>
