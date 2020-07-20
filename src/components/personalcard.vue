@@ -9,9 +9,8 @@
                     <div class="text2" >
                         {{this.signature}}
                     </div>
-
                 </div>
-                <el-menu class="el-menu-demo" mode="horizontal"  >
+                <el-menu class="el-menu-demo" mode="horizontal" default-active="1">
                     <el-menu-item class="menu" index="1">我的主页</el-menu-item>
                     <el-menu-item class="menu" index="2">管理中心</el-menu-item>
                 </el-menu>
@@ -30,12 +29,11 @@
                     id: 0,
                     name: '交通大学',
                     birthday: '1896-04-07',
-                    sex: 1,
+                    sex: -1,
                     reg_time: '2020-07-01',
-                    email: 'se128@sjtu.edu.cn',
-                    phone: '021-34200000',
+                    phone: '021134200000',
                     userMongo: {
-                        avatar: "123"
+                        avatar: ''
                     }
                 }
             }

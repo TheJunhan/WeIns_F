@@ -4,6 +4,12 @@
             <div class="tag">
                 账号登录
             </div>
+            <div style="width: 80%; text-align: center; margin-left: 10%">
+                <el-menu mode="horizontal" default-active="1">
+                    <el-menu-item class="menu" index="1">普通用户</el-menu-item>
+                    <el-menu-item class="menu" index="2">管理员</el-menu-item>
+                </el-menu>
+            </div>
             <div class="form">
                 <el-form ref="form" :model="form" @keyup.native.enter="onSubmit" label-width="11%">
                     <el-form-item props="phone">
@@ -13,7 +19,7 @@
                         <el-input
                                 id="signinForm_input_password"
                                 type="text" v-model="form.password" auto-complete="off"
-                                placeholder="请输入账户密码" show-password/>
+                                placeholder="请输入账号密码" show-password/>
                     </el-form-item>
                 </el-form>
             </div>
@@ -52,25 +58,42 @@
                     phone: '',
                     password: '',
                 },
-                rules: {
-                    phone: [
-                        {
-                            required: true, message: '电话号码不能为空', trigger: 'blur'
-                        },{
-                            min: 11, max: 11, message: '电话号码为11位数字'
-                        }],
-                    password: [
-                        {
-                            required: true, message: '密码不能为空', trigger: 'blur'
-                        },{
-                            min: 6, max: 16, message: '密码长度在 6 到 16 个字符', trigger: 'blur'
-                        }],
-                },
             }
+        },
+        created() {
+            if (sessionStorage.getItem("pwd") !== null)
+                this.form.password = sessionStorage.getItem("pwd");
         },
         methods: {
             onSubmit() {
                 if (!this.isSubmit) {
+                    let phone = this.form.phone;
+                    if (phone.length === 0) {
+                        this.errmessage="电话号码不能为空!";
+                        this.$message.error("电话号码不能为空!")
+                        return false;
+                    } else {
+                        let format = /^(1[0-9]{10})$/;
+                        if (!format.test(phone)) {
+                            this.errmessage="电话号码格式不正确!";
+                            this.$message.error("电话号码格式不正确!")
+                            return false;
+                        }
+                    }
+
+                    let pwd = this.form.password;
+                    if (pwd.length === 0) {
+                        this.errmessage="密码不能为空";
+
+                        this.$message.error("密码不能为空") ;
+                        return false;
+                    } else if(pwd.length < 6 || pwd.length > 16) {
+                        this.errmessage="密码长度须在 6 到 16 个字符";
+
+                        this.$message.error("密码长度须在 6 到 16 个字符");
+                        return false;
+                    }
+
                     this.isSubmit = true; // 防止恶意多次点击
 
                     let url = 'http://localhost:8088/user/login' +
@@ -169,6 +192,11 @@
         font-weight: 600;
         padding-top: 20px;
         background-color: white;
+    }
+
+
+    .menu {
+        width: 50%;
     }
 
     .form {

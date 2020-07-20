@@ -161,15 +161,30 @@
                 filelist: [],
                 uploadmode: false,
                 lock: 0,
-                dialogVisible:false,
-                Tags:[],
-                choosen_tags:[],
-                taginput:"",
-                oldtags:[],  //no use
-                message:"",
+                dialogVisible: false,
+                Tags: [],
+                choosen_tags: [],
+                taginput: '',
+                oldtags: [],  //no use
+                message: '',
             }
         },
         methods: {
+            // 刷新
+            fresh() {
+               this.text = '';
+               this.state = '公开';
+               this.uploaded = false;
+               this.filelist = [];
+               this.uploadmode = false;
+               this.lock = 0;
+               this.dialogVisible = false;
+               this.Tags = [];
+               this.choosen_tags = [];
+               this.taginput = '';
+               this.oldtags = [];
+               this.message = '';
+            },
             counter() {
                 return this.text.length;
             },
@@ -207,36 +222,30 @@
                 return res;
             },
             release() {
-                console.log(this.curr_time())
+                if (this.$root.logged === false) {
+                    this.$message.error('请登录后再进行操作！');
+                }
+
                 // args:
                 // Integer uid, Integer type, String content, String post_day, String video,
                 // String imag, String label, String username, String useravatar
 
-                let url = 'http://localhost:8088/blog/setBlog'
-                    + '?uid=' + 1
-                    + '&type=' + 3
-                    + '&content=' + 'helloworld'
-                    + '&post_day='+ '2020-07-17'
-                    + '&video=' + 'video!'
-                    + '&imag=' + JSON.stringify(["https://th.bing.com/th/id/OIP.4nhobljc9jvFADfpxc69dwHaGY?w=191&h=180&c=7&o=5&pid=1.7",
-                    "https://th.bing.com/th/id/OIP.s0gsekWpOfEReWyqThwvPgHaLk?w=115&h=180&c=7&o=5&pid=1.7",
-                    "https://th.bing.com/th/id/OIP.HfH5MLmc-52O5TblyoArvwHaFj?w=243&h=182&c=7&o=5&pid=1.7"])
-                    + '&label=' + JSON.stringify([{id: 4, content: "游戏", flag: 0}, {id: 5, content: "美食", flag: 0}])
-                    + '&username=' + '徐珺涵'
-                    + '&userAvatar=' + 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg';
+                let url = 'http://localhost:8088/blog/setBlog';
 
-                axios.get(url
-                    // uid: sessionStorage.getItem("id"),
-                    // content: this.text,
-                    // type: this.typify(),
-                    // post_day: this.curr_time(),
-                    // video: null,
-                    // imag: JSON.stringify(this.filelist),
-                    // label: JSON.stringify(this.choosen_tags),
-                    // username: sessionStorage.getItem("name"),
-                    // userAvatar: JSON.parse(sessionStorage.getItem("userMongo")).avatar
-                ).then((response) =>{
+                axios.post(url, {
+                    uid: sessionStorage.getItem("id"),
+                    content: this.text,
+                    type: this.typify(),
+                    post_day: this.curr_time(),
+                    video: null,
+                    imag: JSON.stringify(this.filelist),
+                    label: JSON.stringify(this.choosen_tags),
+                    username: sessionStorage.getItem("name"),
+                    useravatar: JSON.parse(sessionStorage.getItem("userMongo")).avatar
+                }).then((response) =>{
                     console.log(response);
+                    this.$message.success("动态发布成功！");
+                    this.fresh();
                 }).catch(err=> {
                     console.log(err);
                 });
