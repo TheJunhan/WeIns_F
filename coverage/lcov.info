@@ -1,5 +1,5 @@
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/assets/image/poster_1.png
+SF:F:\summerholiday\0707\WeIns_F\src\assets\image\poster_1.png
 FNF:0
 FNH:0
 DA:1,2
@@ -9,7 +9,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/assets/image/poster_2.png
+SF:F:\summerholiday\0707\WeIns_F\src\assets\image\poster_2.png
 FNF:0
 FNH:0
 DA:1,2
@@ -19,7 +19,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/blog.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\blog.vue
 FN:117,(anonymous_1)
 FN:154,(anonymous_2)
 FN:156,(anonymous_3)
@@ -89,7 +89,7 @@ BRF:6
 BRH:5
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/information.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\information.vue
 FN:105,(anonymous_1)
 FN:122,(anonymous_2)
 FN:126,(anonymous_3)
@@ -188,7 +188,7 @@ BRF:16
 BRH:14
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/issue.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\issue.vue
 FN:45,(anonymous_1)
 FN:50,(anonymous_2)
 FNF:2
@@ -206,7 +206,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/personalcard.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\personalcard.vue
 FN:26,(anonymous_1)
 FN:44,(anonymous_2)
 FN:48,(anonymous_3)
@@ -229,7 +229,7 @@ BRF:2
 BRH:1
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/release_blog.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\release_blog.vue
 FN:158,(anonymous_1)
 FN:175,(anonymous_2)
 FN:178,(anonymous_3)
@@ -390,7 +390,7 @@ BRF:22
 BRH:17
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/share.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\share.vue
 FN:38,(anonymous_1)
 FN:63,(anonymous_2)
 FN:67,(anonymous_3)
@@ -410,7 +410,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/sidenav.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\sidenav.vue
 FN:34,(anonymous_1)
 FN:40,(anonymous_2)
 FN:46,(anonymous_3)
@@ -429,7 +429,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/signinForm.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\signinForm.vue
 FN:46,(anonymous_1)
 FN:72,(anonymous_2)
 FN:140,(anonymous_3)
@@ -457,7 +457,7 @@ BRF:2
 BRH:2
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/signupForm.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\signupForm.vue
 FN:36,(anonymous_1)
 FN:54,(anonymous_2)
 FN:64,(anonymous_3)
@@ -556,7 +556,7 @@ BRF:29
 BRH:29
 end_of_record
 TN:
-SF:/Users/user/Desktop/web2.0/WeIns_F/src/components/topnav.vue
+SF:F:\summerholiday\0707\WeIns_F\src\components\topnav.vue
 FN:83,(anonymous_1)
 FN:105,(anonymous_2)
 FN:107,(anonymous_3)
