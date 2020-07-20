@@ -14,12 +14,11 @@
                     <Footstep class="footstep"></Footstep>
                 </div>
                 <div class="main">
-<!--                    <Information></Information>-->
-<!--                    <Blogs></Blogs>-->
-<!--                    <R_Comment></R_Comment>-->
-<!--                    <Comment></Comment>-->
-<!--                    <Follow></Follow>-->
-                    <router-view></router-view>
+
+                    <Information v-if="this.$root.my_person_center_info === true"></Information>
+                    <Blogs v-if="this.$root.my_person_center_blogs === true"></Blogs>
+                    <Follow v-if="this.$root.my_person_center_follower === true"></Follow>
+                    <Follow v-if="this.$root.my_person_center_following === true"></Follow>
                 </div>
             </div>
         </div>
@@ -36,16 +35,13 @@
     import Info from "../components/info";
     import Header from '../components/topnav';
     import Foot from '../components/footer';
-    // import Blogs from "../components/myblogs";
-    // import Information from "../components/information";
-    // import R_Comment from "../components/release_comment";
-    // import Comment from "../components/comment";
-    // import Follow from '../components/follow';
+    import Blogs from "../components/myblogs";
+    import Information from "../components/information";
+    import Follow from '../components/follow';
 
     export default {
         components: {
-            Header, Counter, Info , Footstep, Card, Foot,
-            // Information, R_Comment, Comment, Blogs, Follow
+            Header, Counter, Info , Footstep, Card, Foot, Information, Blogs, Follow,
         }
     }
 </script>

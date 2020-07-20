@@ -17,7 +17,6 @@
             </div>
         </el-card>
     </div>
-
 </template>
 
 <script>
@@ -36,13 +35,25 @@
         },
         methods:{
             following() {
-                this.$message.success(this.counter.following + '关注！');
+                this.$root.my_person_center_info = false;
+                this.$root.my_person_center_blogs = false;
+                this.$root.my_person_center_follower = false;
+                this.$root.my_person_center_following = true;
+                // this.$message.success(this.counter.following + '关注！');
             },
             follower() {
-                this.$message.success(this.counter.follower + '粉丝！');
+                this.$root.my_person_center_info = false;
+                this.$root.my_person_center_blogs = false;
+                this.$root.my_person_center_follower = true;
+                this.$root.my_person_center_following = false;
+                // this.$message.success(this.counter.follower + '粉丝！');
             },
             blogs() {
-                this.$message.success(this.counter.blogs + '动态！');
+                this.$root.my_person_center_info = false;
+                this.$root.my_person_center_blogs = true;
+                this.$root.my_person_center_follower = false;
+                this.$root.my_person_center_following = false;
+                // this.$message.success(this.counter.blogs + '动态！');
             },
             generator() {
                 let userMongo = JSON.parse(sessionStorage.getItem("userMongo"));

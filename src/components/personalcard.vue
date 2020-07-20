@@ -12,7 +12,7 @@
 
                 </div>
                 <el-menu class="el-menu-demo" mode="horizontal"  >
-                    <router-link to="/person/info"><el-menu-item  class="menu" index="1">我的主页</el-menu-item></router-link>
+                    <el-menu-item class="menu" index="1">我的主页</el-menu-item>
                     <el-menu-item class="menu" index="2">管理中心</el-menu-item>
                 </el-menu>
         </el-card>
@@ -32,7 +32,6 @@
                     birthday: '1896-04-07',
                     sex: 1,
                     reg_time: '2020-07-01',
-                    age: 14,
                     email: 'se128@sjtu.edu.cn',
                     phone: '021-34200000',
                     userMongo: {

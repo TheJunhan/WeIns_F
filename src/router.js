@@ -3,14 +3,8 @@ import VueRouter from 'vue-router'
 
 import signup from './views/signup';
 import home from './views/home';
-
-
-// person center router
 import personcenter from './views/personcenter';
-import myblogs from "./components/myblogs";
-import information from "./components/information";
-import follow from "./components/follow";
-
+import userTable from "./components/userTable";
 
 Vue.use(VueRouter);
 
@@ -19,7 +13,7 @@ const routes= [
     {
         path: '/signup',
         name: "signup",
-        component: signup,
+        component: signup
     },
     {
         path: '/home',
@@ -29,18 +23,12 @@ const routes= [
     {
         path: '/person',
         name: 'person',
-        component: personcenter,
-        children: [
-            {
-                path: '/info', components: information
-            },
-            {
-                path: 'myblogs', components: myblogs
-            },
-            {
-                path: 'follow', components: follow
-            }
-        ]
+        component: personcenter
+    },
+    {
+        path: '/userTable',
+        name: 'userTable',
+        component: userTable
     },
     {
         path: '/*',

@@ -37,9 +37,11 @@
         },
         methods: {
             information() {
-                // TO DO
-                this.$router.push('/person/info');
-                this.$message.success("导航到个人信息界面！");
+                this.$root.my_person_center_info = true;
+                this.$root.my_person_center_blogs = false;
+                this.$root.my_person_center_follower = false;
+                this.$root.my_person_center_following = false;
+                // this.$message.success("导航到个人信息界面！");
             }
         }
     }

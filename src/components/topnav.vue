@@ -23,12 +23,11 @@
                     <router-link to="/home">
                         <p class="el-dropdown-link can-point"><i class="el-icon-s-home el-icon--left"></i>首页</p>
                     </router-link>
-
                 </div>
                 <span class="dd">|</span>
-                <div class="el-dropdown-link">
+                <router-link to="/userTable" class="el-dropdown-link">
                     <p class="el-dropdown-link can-point" ><i class="el-icon-search el-icon--left"></i>发现</p>
-                </div>
+                </router-link>
                 <span class="dd">|</span>
 
 

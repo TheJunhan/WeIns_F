@@ -1,14 +1,23 @@
 <template>
     <div class="extern">
         <el-card shadow="hover">
-<!--            <ul>-->
-<!--                <li v-for="user in users" :key="user">-->
-<!--                    <Following :uid="user" v-if="Type === following"></Following>-->
-<!--                    <Follower :uid="user" v-if="Type === follower"></Follower>-->
-<!--                </li>-->
-<!--            </ul>-->
-            <follower :uid="3"></follower>
-            <following :uid="2"></following>
+            <el-header>
+                <p class="header">{{header()}}</p>
+            </el-header>
+            <div class="following" v-if="this.$root.my_person_center_following === true">
+                <ul>
+                    <li v-for="user in users" :key="user">
+                        <Following :uid="user"></Following>
+                    </li>
+                </ul>
+            </div>
+            <div class="follower" v-else>
+                <ul>
+                    <li v-for="user in users" :key="user">
+                        <Follower :uid="user"></Follower>
+                    </li>
+                </ul>
+            </div>
         </el-card>
     </div>
 </template>
@@ -18,28 +27,34 @@
     import Follower from "./follower";
 
     export default {
-        components: {Follower,Following},
+        components: { Follower, Following },
         data() {
             return {
-                Type: '',
+                type: 0,
                 users: [2, 3, 4]
             }
-        },
-        props: {
-            type: String // "follower" or "following"
         },
         created() {
             this.generator();
         },
         methods: {
             generator() {
-                // this.Type = this.$props.type;
-                this.Type = 'following';
+                // this.users = JSON.parse(sessionStorage.getItem("userMongo")).followings;
+            },
+            header() {
+                if (this.$root.my_person_center_following === true)
+                    return "我的关注";
+
+                else if (this.$root.my_person_center_follower === true)
+                    return "我的粉丝";
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .header {
+        text-align: center;
+        font-size: x-large;
+    }
 </style>
