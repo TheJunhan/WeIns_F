@@ -2,7 +2,8 @@
     <el-table
             :data="arr"
             stripe
-            border>
+            border
+            width="100%">
         <el-table-column
                 fixed
                 prop="id"
@@ -54,6 +55,7 @@
 <script>
     export default {
         name: "userTable",
+        props :['user'],
         methods: {
             handleClick(row) {
                 console.log(row);
@@ -61,64 +63,18 @@
         },
         data(){
             return{
-                arr:[ {
-                    id: 0,
-                    name: '交通大学',
-                    birthday: '1896-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-01',
-                    email: 'se128@sjtu.edu.cn',
-                    phone: '021-34200000'
-            },  {
-                    id: 1,
-                    name: '复旦大学',
-                    birthday: '1844-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-04',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-            },{
-                    id: 2,
-                    name: '清华大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-            },{
-                    id: 3,
-                    name: '北京大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 4,
-                    name: 'aa大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 5,
-                    name: 'bb大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 6,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                }]
+                arr:[]
             }
+        },
+        watch:{
+            user(){
+                this.arr = this.user;
+            }
+        },
+        mounted(){
+            this.arr = this.user;
+            console.log("receive!");
+            console.log(this.user);
         }
     }
 </script>

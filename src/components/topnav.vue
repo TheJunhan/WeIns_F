@@ -25,7 +25,7 @@
                     </router-link>
                 </div>
                 <span class="dd">|</span>
-                <router-link to="/userTable" class="el-dropdown-link">
+                <router-link to="/manager" class="el-dropdown-link">
                     <p class="el-dropdown-link can-point" ><i class="el-icon-search el-icon--left"></i>发现</p>
                 </router-link>
                 <span class="dd" v-if="this.$root.logged === true">|</span>
