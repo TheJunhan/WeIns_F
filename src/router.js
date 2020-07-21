@@ -5,6 +5,7 @@ import signup from './views/signup';
 import home from './views/home';
 import personcenter from './views/personcenter';
 import userTable from "./components/userTable";
+import manager from "./views/manager";
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,11 @@ const routes= [
         path: '/userTable',
         name: 'userTable',
         component: userTable
+    },
+    {
+        path: '/manager',
+        name: 'manager',
+        component: manager
     },
     {
         path: '/*',
