@@ -28,10 +28,10 @@
                 <router-link to="/userTable" class="el-dropdown-link">
                     <p class="el-dropdown-link can-point" ><i class="el-icon-search el-icon--left"></i>发现</p>
                 </router-link>
-                <span class="dd">|</span>
+                <span class="dd" v-if="this.$root.logged === true">|</span>
 
 
-                <div class="el-dropdown-link">
+                <div class="el-dropdown-link" >
                     <el-dropdown>
                     <span class="el-dropdown-link">
                         我的<i class="el-icon-arrow-down el-icon--right"></i>
@@ -131,15 +131,15 @@
             },
 
             log(i) {
-                if(i==0){
+                if(i === 0){
                     this.dialogVisible = true;
                     return 0;
                 }
-                else if (i==1) {
+                else if (i === 1) {
                     this.$router.push("/signup");
                     return 1;
                 }
-                else if(i==2){
+                else if(i === 2){
                     //注销
                     this.$root.logged=false;
                     this.$root.is_superuser="";

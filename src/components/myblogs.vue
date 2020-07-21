@@ -1,23 +1,26 @@
 <template>
     <el-card class="my-blog" shadow="hover">
-        <Blog></Blog>
-        <el-divider direction="horizon"></el-divider>
-        <Blog></Blog>
-        <el-divider direction="horizon"></el-divider>
-        <Blog></Blog>
+<!--        <Blog></Blog>-->
+<!--        <el-divider direction="horizon"></el-divider>-->
+<!--        <Blog></Blog>-->
+<!--        <el-divider direction="horizon"></el-divider>-->
+<!--        <Blog></Blog>-->
+        <ul>
+            <li v-for="blog in myblogs" :key="blog.id">
+                <Blog :blogs="blog"></Blog>
+            </li>
+        </ul>
     </el-card>
 </template>
 
 <script>
     import Blog from './blog';
-    // import axios from "axios";
+    import axios from "axios";
     export default {
         components: {Blog},
         data() {
             return{
-                myblogs:{
-                    num:0
-                }
+                myblogs: []
             }
         },
         mounted(){
@@ -25,17 +28,15 @@
         },
         methods: {
             getinfo() {
-                // let url = 'http://localhost:8088/user/getOne';
-                // let id = sessionStorage.getItem("id");
-                // const data = {
-                //     params: {id}
-                // }
-                //
-                // axios.get(url, data).then((response) => {
-                //     this.user = response.data;
-                // }).catch(err => {
-                //     console.log(err);
-                // });
+                // let blogs = JSON.parse(sessionStorage.getItem("userMongo")).blogs;
+                let url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + sessionStorage.getItem("id");
+
+                axios.get(url).then((response) => {
+                    console.log(response.data);
+                    this.myblogs = response.data;
+                }).catch(err => {
+                    console.log(err);
+                });
             }
         }
     }
