@@ -139,8 +139,7 @@
                 }
                 else if(i === 2){
                     //注销
-                    this.$root.logged=false;
-                    this.$root.is_superuser="";
+                    this.$root.logout();
                     this.$router.push("/home");
                     sessionStorage.clear();
                     this.$message.success("已注销");
