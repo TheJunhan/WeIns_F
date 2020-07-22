@@ -3,17 +3,18 @@
         <el-card class="extern" shadow="hover">
             <div class="blog">
                 <div class="avatar">
-                    <el-avatar :src="blog.user.avatar.iconBase64"></el-avatar>
+                    <el-avatar :src="data.userAvatar"></el-avatar>
                 </div>
+
                 <div class="container">
                     <div class="header" style="z-index: 998;">
                         <el-row style="height: 20px">
-                            <el-col :span="18">
+                            <el-col :span="20">
                                 <div class="name">
-                                    <el-button type="text" style="float: left">{{blog.user.name}}</el-button>
+                                    <el-button type="text" style="float: left">{{generator(data)}}</el-button>
                                 </div>
-                                <div class="timestamp">{{blog.time}}</div>
-                                <div class="timestamp">当前可见：{{}}</div>
+                                <div class="timestamp">{{blog.post_day}}</div>
+                                <div class="timestamp">当前可见：{{parseType2Str()}}</div>
                             </el-col>
 
                             <el-col :span="3">
@@ -21,21 +22,27 @@
                                     <el-dropdown trigger="click" style="outline: none">
                                     <span
                                             class="el-dropdown-link btn send time-send small-hand"
-                                            id="custom-sebd-btn"
+                                            id="custom-send-btn"
                                     >选项<i class="el-icon-arrow-down el-icon--right"></i>
                                     </span>
 
                                         <el-dropdown-menu slot="dropdown" style="width: 12%">
 
-                                            <el-dropdown-item class="menuitem">设置权为私密</el-dropdown-item>
+                                            <p v-on:click="option(0)" class="menuitem" v-if="blog.type !== 0">
+                                                <el-dropdown-item >设置权为私密</el-dropdown-item>
+                                            </p>
 
-                                            <el-dropdown-item class="menuitem">设置为所有人可见</el-dropdown-item>
+                                            <p v-on:click="option(3)" class="menuitem" v-if="blog.type !== 3">
+                                                <el-dropdown-item>设置为所有人可见</el-dropdown-item>
+                                            </p>
 
-                                            <el-dropdown-item class="menuitem">设置为好友可见</el-dropdown-item>
+                                            <p v-on:click="option(1)" class="menuitem" v-if="blog.type !== 1">
+                                                <el-dropdown-item>设置为好友可见</el-dropdown-item>
+                                            </p>
 
-                                            <el-dropdown-item class="menuitem" v-if="this.$root.is_superuser">
-                                                删除
-                                            </el-dropdown-item>
+                                            <p v-on:click="option(2)" class="menuitem" v-if="this.$root.is_superuser === true">
+                                                <el-dropdown-item>删除</el-dropdown-item>
+                                            </p>
 
                                         </el-dropdown-menu>
 
@@ -48,39 +55,40 @@
 
                     <div class="content" style="z-index: 998;">
                         <div class="text">
-                            {{blog.content.text}}
+                            {{blogMongo.content}}
                         </div>
-                        <div class="images" v-if="blog.content.image !== null">
+                        <div class="images" v-if="blogMongo.images !== null">
                             <ul>
-                                <li style="" v-for="image in blog.content.images" :key="image.image">
-                                    <img @click="maxPic(image)" :src="image.image" class="img" style="z-index: 998"/>
+                                <li style="" v-for="image in data.blogMongo.images" :key="image">
+                                    <img @click="maxPic(image)" :src="parseBase64(image)" class="img" style="z-index: 998"/>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
+
                 <div class="footer" style="text-align: center">
                     <el-row>
                         <el-col :span="6">
-                            <div v-if="blog.collect_flag === true">
-                                <el-button type="text" icon="el-icon-folder-remove" @click="collect">{{blog.collect}}
+                            <div v-if="collect_flag === true">
+                                <el-button type="text" icon="el-icon-folder-remove" @click="collect">{{blog.coll_number}}
                                 </el-button>
                             </div>
                             <div v-else>
-                                <el-button type="text" icon="el-icon-folder-add" @click="collect">{{blog.collect}}
+                                <el-button type="text" icon="el-icon-folder-add" @click="collect">{{blog.coll_number}}
                                 </el-button>
                             </div>
                         </el-col>
                         <el-col :span="6">
-                            <el-button type="text" icon="el-icon-top-right" @click="share">{{blog.share}}</el-button>
+                            <el-button type="text" icon="el-icon-top-right" @click="share">{{blog.reblog}}</el-button>
                         </el-col>
                         <el-col :span="6">
                             <el-button type="text" icon="el-icon-chat-dot-square" @click="comment">
-                                {{blog.comment.count}}
+                                {{blog.com_number}}
                             </el-button>
                         </el-col>
                         <el-col :span="6">
-                            <div v-if="blog.like_flag === true">
+                            <div v-if="like_flag === true">
                                 <el-button type="text" icon="el-icon-star-on" @click="like">{{blog.like}}</el-button>
                             </div>
                             <div v-else>
@@ -89,9 +97,9 @@
                         </el-col>
                     </el-row>
 
-                    <el-dialog :append-to-body="true" :visible.sync="blog.share_flag" width="40%" :show-close="false"
+                    <el-dialog :append-to-body="true" :visible.sync="share_flag" width="40%" :show-close="false"
                                title="转发动态到">
-                        <share :id="blog.id" :user="blog.user.name" :content="blog.content.text"
+                        <share :id="blog.id" :user="blog.username" :content="blogMongo.content"
                                @change="change"></share>
                     </el-dialog>
                     <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true"
@@ -99,21 +107,20 @@
                         <el-image :src="this.showpic" class="big-img"></el-image>
                     </el-dialog>
 
-                    <el-dialog :append-to-body="true" :visible.sync="blog.comment_flag" width="40%" :show-close="false">
+                    <el-dialog :append-to-body="true" :visible.sync="comment_flag" width="60%" :show-close="false">
                         <release_comment></release_comment>
                         <comment></comment>
                     </el-dialog>
                 </div>
             </div>
         </el-card>
-
     </div>
 
 </template>
 
 <script>
-    import image from '../assets/image/poster_1.png';
-    import image2 from '../assets/image/poster_2.png';
+    import axios from 'axios';
+
     import share from '../components/share';
     import comment from "./comment";
     import release_comment from "./release_comment";
@@ -123,50 +130,80 @@
             share, comment, release_comment
         },
         props: {
-            blogs: Object
+            data: Object
         },
         data() {
             return {
-                blog: {
-                    id: 0,
-                    user: {
-                        name: '交通大学',
-                        avatar: {// default avatar, must be iconBase64 mode
-                            iconBase64: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
-                        }
-                    },
-                    time: '2020-07-09 21:57',
-                    content: {
-                        text: '大家好,我是上海交通大学软件学院的最咸的咸鱼！不会有人比我还菜吧，不会吧不会吧！项目做得太差劲了！哭哭!',
-                        images: [
-                            {image: image},
-                            {image: image2},
-                            {image: image2},
-                            {image: image2},
-                            {image: image}
-                            ]
-                    },
-                    like: 1453,
-                    like_flag: false,
-                    collect: 253,
-                    collect_flag: false,
-                    share: 424,
-                    share_flag: false,
-                    comment: {count: 3214,},
-                    comment_flag: false
-                },
+                blog: {},
+                blogMongo: {},
+                comments: [],
+                reblog: {},
+                reblogMongo: {},
                 dialogVisible: false,
                 showpic: "",
+
+                like_num: 0,
+                like_flag: false,
+                collect_num: 0,
+                collect_flag: false,
+                share_num: 0,
+                share_flag: false,
+                comment_num: 0,
+                comment_flag: false
             }
         },
-
         methods: {
             // 拉取数据
-            generate() {
-                let url="https://localhost:8088/blog/"
-                return this.axios.post(url).then(res=>{
-                    if(res=='success') return true;
-                    else return false;
+            generator(val) {
+                this.blog = val.blog;
+                this.blogMongo = val.blogMongo;
+                this.comments = val.comments;
+                this.comment_num = this.comments.length;
+
+                console.log(val);
+                console.log("nmsl")
+                console.log(this.blog);
+                return val.blog.username;
+            },
+            parseBase64(image) {
+                return JSON.parse(image).base64;
+            },
+            parseType2Str() {
+                switch (this.blog.type) {
+                    case 0:
+                        return '仅自己可见';
+                    case 1:
+                        return '粉丝可见';
+                    case 3:
+                        return '公开可见';
+                }
+            },
+            option(op) {
+                switch (op) {
+                    case 0: case 1: case 3:
+                        this.blog.type = op;
+                        break;
+                    case 2:
+                        this._delete();
+                        break;
+                    default:
+                        break;
+                }
+            },
+            _delete() {
+                let url = 'http://localhost:8088/blog/removeBlog?'
+                + 'uid=' + sessionStorage.getItem("id")
+                + '&bid=' + this.blog.id
+                + '&type=' + this.blog.type;
+
+                axios.get(url).then((response) =>{
+                    if (response.data === true) {
+                        this.$message.success('删除成功！');
+                        window.location.reload();
+                    }
+
+                    else
+                        this.$message.error('没有权限删除！');
                 });
             },
             share() {
@@ -175,29 +212,27 @@
                     return false;
                 }
 
-
-                this.blog.share_flag = true;
+                this.share_flag = true;
                 return true;
             },
             change() {
-                this.blog.share_flag = false;
+                this.share_flag = false;
                 return true;
-
             },
             collect() {
                 if (this.$root.logged === false) {
                     this.$message.info("请登录后再进行操作");
                     return false;
                 }
-                if (this.blog.collect_flag) {
+                if (this.collect_flag) {
                     this.$message.error('取消收藏！');
-                    this.blog.collect--;
-                    this.blog.collect_flag = false;
+                    this.blog.coll_number--;
+                    this.collect_flag = false;
                     return false;
                 } else {
                     this.$message.success('收藏成功！');
-                    this.blog.collect_flag = true;
-                    this.blog.collect++;
+                    this.collect_flag = true;
+                    this.blog.coll_number++;
                     return true;
                 }
             },
@@ -206,14 +241,14 @@
                     this.$message.info("请登录后再进行操作");
                     return false;
                 }
-                if (this.blog.like_flag) {
+                if (this.like_flag) {
                     this.$message.error('取消赞！');
-                    this.blog.like_flag = false;
+                    this.like_flag = false;
                     this.blog.like--;
                     return false;
                 } else {
                     this.$message.success('点赞成功！');
-                    this.blog.like_flag = true;
+                    this.like_flag = true;
                     // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
                     this.blog.like++;
                     return true;
@@ -221,23 +256,18 @@
             },
             maxPic(image) {
                 this.dialogVisible = true;
-                this.showpic = image.image;
+                this.showpic = JSON.parse(image).base64;
                 return true;
-
             },
             comment() {
                 if (this.$root.logged === false) {
                     this.$message.info("请登录后再进行操作");
                     return false;
                 }
-                this.blog.comment_flag = true;
+                this.comment_flag = true;
                 return true;
             },
 
-        },
-
-        mounted() {
-            this.generate();
         },
     }
 </script>
@@ -249,7 +279,8 @@
     }
 
     .blog {
-
+        width: 700px;
+        margin-top: -10px;
     }
 
     .avatar {
@@ -276,7 +307,6 @@
     }
 
     .timestamp {
-        /*float: left;*/
         text-align: left;
         color: darkgray;
         font-size: 10px;
@@ -296,11 +326,13 @@
     }
 
     .img {
-        width: 30%;
+        width: 180px;
+        height: 180px;
         float: left;
         margin-left: 1%;
         margin-top: 1%;
         cursor: pointer;
+        object-fit: cover;
     }
 
     .big-img {

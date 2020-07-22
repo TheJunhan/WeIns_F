@@ -1,15 +1,16 @@
 <template>
     <el-card class="my-blog" shadow="hover">
-<!--        <Blog></Blog>-->
-<!--        <el-divider direction="horizon"></el-divider>-->
-<!--        <Blog></Blog>-->
-<!--        <el-divider direction="horizon"></el-divider>-->
-<!--        <Blog></Blog>-->
-        <ul>
-            <li v-for="blog in myblogs" :key="blog.id">
-                <Blog :blogs="blog"></Blog>
-            </li>
-        </ul>
+        <div v-if="myblogs !== null">
+            <ul>
+                <li v-for="blog in myblogs" :key="blog.id">
+                    <Blog :data="blog" style="margin-bottom: 5px"></Blog>
+                </li>
+            </ul>
+        </div>
+
+        <div v-else>
+            <p style="text-align: center; font-size: 40px; color: #c0c4cc;">暂无动态</p>
+        </div>
     </el-card>
 </template>
 
@@ -23,12 +24,11 @@
                 myblogs: []
             }
         },
-        mounted(){
+        created(){
             this.getinfo();
         },
         methods: {
             getinfo() {
-                // let blogs = JSON.parse(sessionStorage.getItem("userMongo")).blogs;
                 let url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + sessionStorage.getItem("id");
 
                 axios.get(url).then((response) => {
