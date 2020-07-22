@@ -22,7 +22,7 @@
                     <el-col :span="4">
                         <el-button type="text" icon="el-icon-picture" >图片</el-button>
                     </el-col>
-                    <el-radio :span="8" class="radio" :label="1">同时发表到我的微博</el-radio>
+                    <el-checkbox :span="8" class="radio" :label="1" v-model="radio">同时发表到我的微博</el-checkbox>
                     <el-button :span="8" class="combutton" type="primary">发表评论</el-button>
                 </el-row>
             </div>
@@ -46,14 +46,12 @@
     .in{
         display: flex;
     }
-    /*.ava{*/
-    /*    width: 15%;*/
-    /*}*/
+
     .ava{
         float: left;
-        /*margin-left: 3%;*/
         flex-direction: column;
     }
+
     .cominput{
         width: 100%;
         margin-left: 5%;
@@ -61,17 +59,18 @@
         float: left;
         flex-direction: column;
     }
+
     .operation{
         margin-left: 10%;
     }
+
     .combutton{
         float: right;
     }
+
     .radio{
         margin-top: 1.5%;
         float: left;
     }
-    /*.a{*/
-    /*    flex-direction: column;*/
-    /*}*/
+
 </style>

@@ -31,7 +31,7 @@
                 <span class="dd" v-if="this.$root.logged === true">|</span>
 
 
-                <div class="el-dropdown-link" >
+                <div class="el-dropdown-link" v-if="this.$root.logged === true">
                     <el-dropdown>
                     <span class="el-dropdown-link">
                         我的<i class="el-icon-arrow-down el-icon--right"></i>
@@ -54,13 +54,11 @@
                         <p class="el-dropdown-link">
                             用户服务<i class="el-icon-arrow-down el-icon--right"></i>
                         </p>
-                        <el-dropdown-menu slot="dropdown"
-                                          style="width: 80px;font-size: 10px">
+                        <el-dropdown-menu slot="dropdown" style="width: 80px;font-size: 10px">
                             <p v-if="!this.$root.logged" style="width: 80px" v-on:click="log(0)"><el-dropdown-item >登陆</el-dropdown-item></p>
                             <p v-if="!this.$root.logged" style="width: 80px" v-on:click="log(1)"><el-dropdown-item>注册</el-dropdown-item></p>
                             <p v-if="this.$root.logged" style="width: 80px" v-on:click="log(2)"><el-dropdown-item>注销</el-dropdown-item></p>
                         </el-dropdown-menu>
-
                     </el-dropdown>
                 </div>
 
