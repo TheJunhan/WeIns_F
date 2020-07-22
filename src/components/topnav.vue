@@ -32,16 +32,16 @@
 
 
                 <div class="el-dropdown-link" v-if="this.$root.logged === true">
-                    <el-dropdown>
+                    <el-dropdown  trigger="click">
                     <span class="el-dropdown-link">
                         我的<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                         <el-dropdown-menu slot="dropdown" style="width: 100px">
                             <router-link to="/person">
-                                <span class="el-dropdown-link can-point" ><el-dropdown-item>个人信息</el-dropdown-item></span>
+                                <span class="el-dropdown-link can-point" id="person"><el-dropdown-item>个人信息</el-dropdown-item></span>
                             </router-link>
                             <router-link to="/person">
-                                <span class="el-dropdown-link can-point" ><el-dropdown-item>我的足迹</el-dropdown-item></span>
+                                <span class="el-dropdown-link can-point" id="footprint"><el-dropdown-item>我的足迹</el-dropdown-item></span>
                             </router-link>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -50,7 +50,7 @@
 
                 <span class="dd">|</span>
                 <div class="el-dropdown-link">
-                    <el-dropdown>
+                    <el-dropdown trigger="click">
                         <p class="el-dropdown-link">
                             用户服务<i class="el-icon-arrow-down el-icon--right"></i>
                         </p>
