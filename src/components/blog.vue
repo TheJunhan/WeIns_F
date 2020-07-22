@@ -11,7 +11,7 @@
                         <el-row style="height: 20px">
                             <el-col :span="20">
                                 <div class="name">
-                                    <el-button type="text" style="float: left">{{generator(data)}}</el-button>
+                                    <el-button type="text" style="float: left" @click="visit">{{generator(data)}}</el-button>
                                 </div>
                                 <div class="timestamp">{{blog.post_day}}</div>
                                 <div class="timestamp">当前可见：{{parseType2Str()}}</div>
@@ -254,6 +254,10 @@
                     return true;
                 }
             },
+            visit() {
+                this.$message.success("跳转")
+                this.$router.push('/visit');
+            },
             maxPic(image) {
                 this.dialogVisible = true;
                 this.showpic = JSON.parse(image).base64;
@@ -279,7 +283,7 @@
     }
 
     .blog {
-        width: 700px;
+        width: 650px;
         margin-top: -10px;
     }
 
@@ -326,8 +330,8 @@
     }
 
     .img {
-        width: 180px;
-        height: 180px;
+        width: 150px;
+        height: 150px;
         float: left;
         margin-left: 1%;
         margin-top: 1%;

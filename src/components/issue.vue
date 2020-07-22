@@ -8,7 +8,7 @@
                 <Release></Release>
             </div>
             <div class="blogs">
-                <div v-if="empty(myblogs) !== true">
+                <div v-if="len !== 0">
                     <ul>
                         <li v-for="blog in myblogs" :key="blog.id">
                             <Blog :data="blog" style="margin-bottom: 5px"></Blog>
@@ -21,6 +21,7 @@
                 </div>
             </div>
         </div>
+
         <div v-if="this.$root.logged === false" id="issue_div_logindiv">
             <el-card class="login" v-if="true">
                 <Login style="width: 100%;"></Login>
@@ -44,6 +45,7 @@
         data() {
             return {
                 myblogs: [],
+                len: 0,
             }
         },
         created() {
@@ -55,14 +57,12 @@
 
                 axios.get(url).then((response) =>{
                     console.log(response.data);
-                    // this.myblogs = response.data;
+                    this.myblogs = response.data;
+                    this.len = this.myblogs.length;
                 }).catch(err =>{
                     console.log(err);
                 });
             },
-            empty(arr) {
-                return arr.length === 0;
-            }
         }
     }
 </script>

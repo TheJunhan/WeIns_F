@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import signup from './views/signup';
 import home from './views/home';
 import personcenter from './views/personcenter';
-import userTable from "./components/userTable";
+import otherpersoncenter from "./views/otherpersoncenter";
 import manager from "./views/manager";
 
 Vue.use(VueRouter);
@@ -27,14 +27,14 @@ const routes= [
         component: personcenter
     },
     {
-        path: '/userTable',
-        name: 'userTable',
-        component: userTable
-    },
-    {
         path: '/manager',
         name: 'manager',
         component: manager
+    },
+    {
+        path: '/visit',
+        name: 'visit',
+        component: otherpersoncenter
     },
     {
         path: '/*',
