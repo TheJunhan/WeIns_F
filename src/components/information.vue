@@ -288,9 +288,6 @@
                     return true;
                 }
             },
-            changename() {
-                this.update();
-            }
 
 
         }
