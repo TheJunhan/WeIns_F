@@ -33,13 +33,13 @@
                             </el-form-item>
                             <el-form-item label="性别">
                                 <div v-if="basic_flag === true">
-                                    <el-dropdown style="margin-left: 10%">
+                                    <el-dropdown style="margin-left: 10%" trigger="click">
                                         <span class="el-dropdown-link">
                                             {{sex()}}<i class="el-icon-arrow-down el-icon--right"></i>
                                         </span>
                                         <el-dropdown-menu slot="dropdown" style="width: 100px;margin-left: 100px">
-                                            <span v-on:click="()=>{this.user.sex='1'}"><el-dropdown-item>男</el-dropdown-item></span>
-                                            <span v-on:click="()=>{this.user.sex='0'}"><el-dropdown-item>女</el-dropdown-item></span>
+                                            <span v-on:click="()=>{this.user.sex='1'}"><el-dropdown-item id="nan">男</el-dropdown-item></span>
+                                            <span v-on:click="()=>{this.user.sex='0'}"><el-dropdown-item id="nv">女</el-dropdown-item></span>
                                         </el-dropdown-menu>
                                     </el-dropdown>
                                 </div>
@@ -105,7 +105,9 @@
                             </el-form-item>
                             <el-form-item label="手机号码">
                                 <div v-if="contact_flag === true">
-                                    <el-input v-model="user.phone" size="mini"></el-input>
+                                    <el-input v-model="user.phone" size="mini" @input="update"></el-input>
+                                    <span style="color: red" v-show="this.errormessage.phone.flag">{{this.errormessage.phone.message}}</span>
+
                                 </div>
                                 <div v-else>
                                     <span style="float: left" class="span-text">{{user.phone}}</span>
@@ -127,6 +129,8 @@
             return {
                 basic_flag: false,
                 contact_flag: false,
+                newname:"",
+                newphone:"",
                 birthright:"",
                 sexStr: '未知',
                 errormessage: {
@@ -134,14 +138,11 @@
                         message: "该用户重复或格式不正确",
                         flag: false
                     },
-                    date: {
-                        message: "该用户重复或格式不正确",
+                    phone: {
+                        message: "电话号码格式不正确或重复",
                         flag: false
                     },
-                    ddd: {
-                        message: "该用户重复或格式不正确",
-                        flag: false
-                    },
+
                 },
                 user: {
                     id: 0,
@@ -232,6 +233,7 @@
                 return true;
             },
             update() {
+
                 if (this.birthright != "") {
                     let date = new Date(this.birthright);
                     if (this.nonage(date) === false) {
@@ -244,17 +246,33 @@
                 }
                 let url = 'http://localhost:8088/user/update';
                 let user = this.user;
+                if(user.phone.length!=11){
+                    this.errormessage.phone.flag=true;
+                    return;
+                }
+
+
                 console.log(user);
 
                 axios.post(url, user).then((response) => {
-                    if (response.data === "error") {
+                    if (response.data === "error" &&user.name!=this.newname) {
                         this.errormessage.name.flag = true;
+                        return;
                         // this.generator(); // 回溯
-                    } else {
-                        console.log(response.data)
-                        this.errormessage.name.flag = false;
-                        this.sessionUpdate();
                     }
+                    if( response.data === "errorPhone"&&user.phone!=this.newphone){
+                        this.errormessage.phone.flag=true;
+                        return;
+                    }
+
+
+                        console.log(response.data)
+                        this.newphone=user.phone;
+                        this.newname=user.name;
+                        this.errormessage.name.flag = false;
+                        this.errormessage.phone.flag=false;
+                        this.sessionUpdate();
+
                 }).catch(err => {
                     console.log(err);
                 });
@@ -265,20 +283,29 @@
             },
             basic() {
                 if (this.basic_flag) {
+                    if(this.errormessage.phone.flag==true||this.errormessage.name.flag ==true){
+                        return;
+                    }
                     if(this.birthright!="") {
                         this.update();
                     }
+
                     this.basic_flag = false;
                     this.update();
                     return false;
                 } else {
                     this.$message.success('启用编辑！');
+                    this.newname=this.user.name;
+                    this.newphone=this.user.phone;
                     this.basic_flag = true;
                     return true;
                 }
             },
             contact() {
                 if (this.contact_flag) {
+                    if(this.errormessage.phone.flag==true||this.errormessage.name.flag ==true){
+                        return;
+                    }
                     this.contact_flag = false;
                     this.update();
                     return false;

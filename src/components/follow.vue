@@ -31,7 +31,7 @@
         data() {
             return {
                 type: 0,
-                users: [2, 3, 4]
+                users: [2, 3]
             }
         },
         created() {
