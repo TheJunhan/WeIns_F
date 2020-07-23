@@ -7,6 +7,9 @@
             <div class="head">
                 <Card class="card"></Card>
             </div>
+            <div>
+                <el-tag>{{user.name}}</el-tag>
+            </div>
             <div class="container">
                 <div class="side">
                     <Counter class="counter"></Counter>
@@ -28,8 +31,10 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     import Counter from "../components/counter";
-    import Card from '../components/personalcard';
+    import Card from '../components/otherpersonalcard';
     import Footstep from "../components/footstep";
     import Info from "../components/info";
     import Header from '../components/topnav';
@@ -41,6 +46,20 @@
     export default {
         components: {
             Header, Counter, Info , Footstep, Card, Foot, Information, Blogs, Follow,
+        },
+        created() {
+            let url = 'http://localhost:8088/user/getOne?id=' + this.$route.query.id;
+
+            axios.get(url).then((response) => {
+                this.user = response.data;
+            }).catch(err => {
+                console.log(err);
+            });
+        },
+        data() {
+            return {
+                user: {}
+            }
         }
     }
 </script>

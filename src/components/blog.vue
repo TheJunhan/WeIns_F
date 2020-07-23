@@ -163,6 +163,30 @@
                 console.log(val);
                 console.log("nmsl")
                 console.log(this.blog);
+
+                if (this.$root.logged === true) {
+                    let id = Number(sessionStorage.getItem("id"));
+                    console.log(id);
+
+                    // collect
+                    let colllist = this.blogMongo.who_collect;
+                    for (let i = 0; i < colllist.length; i++) {
+                        if (colllist[i] === id) {
+                            this.collect_flag = true;
+                            break;
+                        }
+                    }
+
+                    let likelist = this.blogMongo.who_like;
+                    for (let i = 0; i < likelist.length; i++) {
+                        if (likelist[i] === id) {
+                            this.like_flag = true;
+                            break;
+                        }
+                    }
+                }
+
+
                 return val.blog.username;
             },
             parseBase64(image) {
@@ -241,22 +265,57 @@
                     this.$message.info("请登录后再进行操作");
                     return false;
                 }
+
                 if (this.like_flag) {
-                    this.$message.error('取消赞！');
-                    this.like_flag = false;
-                    this.blog.like--;
-                    return false;
-                } else {
-                    this.$message.success('点赞成功！');
-                    this.like_flag = true;
-                    // 实际使用的时候不能用flag，否则一刷新就会重新能点赞，应该跟用户是否对这条动态点赞绑定
-                    this.blog.like++;
-                    return true;
+                    let url = 'http://localhost:8088/blog/removeLike?'
+                        + 'uid=' + sessionStorage.getItem("id")
+                        + '&bid=' + this.blog.id;
+
+                    axios.get(url).then((response) =>{
+                        if (response.data === true) {
+                            this.$message.error('取消赞！');
+                            this.like_flag = false;
+                            this.blog.like--;
+                            return false;
+                        }
+                        else {
+                            console.log('have liked.');
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    });
+
+                }
+
+                else {
+                    let url = 'http://localhost:8088/blog/like?'
+                        + 'uid=' + sessionStorage.getItem("id")
+                        + '&bid=' + this.blog.id;
+
+                    axios.get(url).then((response) =>{
+                        if (response.data === true) {
+                            this.like_flag = true;
+                            this.blog.like++;
+                            this.$message.success('点赞成功！');
+                            return true;
+                        }
+
+                        else {
+                            console.log('have liked.');
+                            return false;
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    });
                 }
             },
             visit() {
-                this.$message.success("跳转")
-                this.$router.push('/visit');
+                this.$router.push({
+                    path: '/visit',
+                    query: {
+                        id: this.blog.uid
+                    }
+                });
             },
             maxPic(image) {
                 this.dialogVisible = true;
