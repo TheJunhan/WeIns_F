@@ -16,8 +16,8 @@ describe('Login card', () => {
     cy.visit('/')
     cy.get("#signinForm_input_phone").type("18796700152");
     cy.get("#signinForm_input_password").type("12345678");
-    cy.get("#signinForm_button_login").should('be.visible').click();
-    cy.get("#signinForm_button_login").should("not.exist")
+    cy.get(".el-card__body > .extern > .login > .btn > #signinForm_button_login").should('be.visible').click();
+    cy.get(".el-card__body > .extern > .login > .btn > #signinForm_button_login").should("not.exist")
 
   })
 
@@ -29,8 +29,6 @@ describe("homepage",()=>{
     cy.get("#float > [data-v-858ff1a0=\"\"] > .container").should("be.visible");
     cy.get(".container > .nav").should("be.visible");
     cy.get(".searchbar > .el-button").should('be.visible').click();
-    cy.get(".el-dialog__body").should('be.visible');
-    cy.get("[data-v-858ff1a0=\"\"] > .el-dialog__wrapper").click('topRight');
     cy.get(':nth-child(5) > .el-dropdown > .el-dropdown-link > .el-icon-arrow-down').should("be.visible").click();
     cy.get("#person > .el-dropdown-menu__item").should("be.visible").click().should('not.exist');
     cy.url().should('include','/person');
@@ -60,11 +58,11 @@ describe("homepage",()=>{
     cy.get(":nth-child(1) > [data-v-303869ee=\"\"] > .el-card > .el-card__body > .blog > .container > .header > .el-row > .el-col-3 > :nth-child(1) > .el-dropdown > #custom-send-btn").contains("选项");
     cy.get("li > .img").click();
     cy.get(".el-image__inner").should('be.visible');
-    cy.get("[style=\"z-index: 2011;\"]").click('topRight');
+    cy.get("[style=\"z-index: 2009;\"]").click('topRight');
     cy.get(':nth-child(4) > [data-v-303869ee=""] > .el-card > .el-card__body > .blog > .footer > .el-row > :nth-child(4) > div > .el-button > .el-icon-star-off').should('be.visible').click();
     cy.get(":nth-child(1) > [data-v-303869ee=\"\"] > .el-card > .el-card__body > .blog > .footer > .el-row > :nth-child(2) > .el-button").click();
-    cy.get("[style=\"z-index: 2014;\"] > .el-dialog > .el-dialog__body").should('be.visible');
-    cy.get("[style=\"z-index: 2014;\"]").click('topRight');
+    cy.get("[style=\"z-index: 2011;\"] > .el-dialog > .el-dialog__body").should('be.visible');
+    cy.get("[style=\"z-index: 2011;\"]").click('topRight');
 
   })
 })

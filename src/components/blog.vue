@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <el-card class="extern" shadow="hover">
-            <div class="blog">
+    <div style="width: 100%">
+        <el-card class="extern" shadow="hover" >
+            <div class="blog" style="width: 100%">
                 <div class="avatar">
                     <el-avatar :src="data.userAvatar"></el-avatar>
                 </div>
@@ -17,7 +17,7 @@
                                 <div class="timestamp">当前可见：{{parseType2Str()}}</div>
                             </el-col>
 
-                            <el-col :span="3">
+                            <el-col :span="3" style="float: right">
                                 <div>
                                     <el-dropdown trigger="click" style="outline: none">
                                     <span
@@ -338,11 +338,10 @@
 <style scoped>
     .extern {
         width: 100%;
-        display: flex;
     }
 
     .blog {
-        width: 650px;
+        width: 100%;
         margin-top: -10px;
     }
 
