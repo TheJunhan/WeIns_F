@@ -72,22 +72,22 @@
 
                 <div class="issue">
                     <el-row class="btn">
-                        <el-button type="primary" size="mini" @click="release">发布</el-button>
+                        <el-button type="primary" size="mini" @click="release" id="release_button">发布</el-button>
                     </el-row>
                     <div class="issue-state">
-                        <el-dropdown size="mini" trigger="click">
+                        <el-dropdown size="mini" trigger="click" id="dropdown_release">
                         <span class="el-dropdown-link">
                         可见：{{state}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
-                            <el-dropdown-menu slot="dropdown" style="width: 80px">
+                            <el-dropdown-menu slot="dropdown" style="width: 80px" id="dropdownmenu_release">
                                 <p v-on:click="handleCommand(0)">
-                                    <el-dropdown-item>公开</el-dropdown-item>
+                                    <el-dropdown-item id="dropdownmenu_release1">公开</el-dropdown-item>
                                 </p>
                                 <p v-on:click="handleCommand(1)">
-                                    <el-dropdown-item>粉丝</el-dropdown-item>
+                                    <el-dropdown-item id="dropdownmenu_release2">粉丝</el-dropdown-item>
                                 </p>
                                 <p v-on:click="handleCommand(2)">
-                                    <el-dropdown-item>仅自己</el-dropdown-item>
+                                    <el-dropdown-item id="dropdownmenu_release3">仅自己</el-dropdown-item>
                                 </p>
                             </el-dropdown-menu>
                         </el-dropdown>
@@ -98,11 +98,11 @@
             <div>
                 <el-row v-for="(item,i) in filelist" v-bind:key="i" type="flex" class="row-bg"
                         justify="space-around">
-                    <el-col><span
+                    <el-col :span="3"><span
                             style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 1%;height: 30px;text-align: left;line-height: 30px">{{i+1}}</span>
                     </el-col>
                     <el-col><span
-                            style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 10%;height: 30px;text-align: left;line-height: 30px">{{item['filename']}}</span>
+                            style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 100%;height: 30px;text-align: left;line-height: 30px">{{item['filename']}}</span>
                     </el-col>
                     <el-col>
                         <el-button  @click="removefile(i)" type="text" size="mini"

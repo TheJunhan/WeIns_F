@@ -1,6 +1,5 @@
 <template>
     <div class="home" style="width: 100%">
-    
         <el-header id="float">
             <Header ></Header>
         </el-header>
