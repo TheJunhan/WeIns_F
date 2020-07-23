@@ -25,9 +25,9 @@
                     </router-link>
                 </div>
                 <span class="dd">|</span>
-                <router-link to="/manager" class="el-dropdown-link">
+<!--                <router-link to="/manager" class="el-dropdown-link">-->
                     <p class="el-dropdown-link can-point" ><i class="el-icon-search el-icon--left"></i>发现</p>
-                </router-link>
+<!--                </router-link>-->
                 <span class="dd" v-if="this.$root.logged === true">|</span>
 
 
@@ -39,6 +39,9 @@
                         <el-dropdown-menu slot="dropdown" style="width: 100px">
                             <router-link to="/person">
                                 <span class="el-dropdown-link can-point" ><el-dropdown-item>个人信息</el-dropdown-item></span>
+                            </router-link>
+                            <router-link to="/manager" v-if="this.$root.is_superuser">
+                                <span class="el-dropdown-link can-point" ><el-dropdown-item>用户管理</el-dropdown-item></span>
                             </router-link>
                             <router-link to="/person">
                                 <span class="el-dropdown-link can-point" ><el-dropdown-item>我的足迹</el-dropdown-item></span>
@@ -66,7 +69,7 @@
             </div>
         </div>
 
-        <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false">
+        <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false" v-if="this.$root.logged === false">
             <Login></Login>
         </el-dialog>
 
@@ -102,12 +105,8 @@
             loadAll() {
                 const url="https://localhost:8088/ddd"
                 return this.axios.post(url).then(res=>{
-                        if(res=='success'){
-                            return true;
-                        }
-                        else return false;
+                    return res === 'success';
                 })
-
             },
             querySearchAsync(queryString,cbe) {
 
@@ -122,12 +121,10 @@
 
                return results;
             },
-
             handleSelect(item) {
                 console.log(item);
                 return item;
             },
-
             log(i) {
                 if(i === 0){
                     this.dialogVisible = true;
@@ -146,8 +143,7 @@
                     return 2;
                 }
                 else return -1;
-            },
-
+            }
         },
         mounted() {
 
@@ -160,11 +156,9 @@
             {"value": "豪大大香鸡排超级奶爸", "address": "上海市嘉定区曹安公路曹安路1685号"},
             {"value": "茶芝兰（奶茶，手抓饼）", "address": "上海市普陀区同普路1435号"}];
             this.loadAll();
-
         },
     }
 </script>
-
 
 <style scoped>
     .tit {
