@@ -108,7 +108,7 @@
                     </el-dialog>
 
                     <el-dialog :append-to-body="true" :visible.sync="comment_flag" width="60%" :show-close="false">
-                        <release_comment></release_comment>
+                        <release_comment :bid="this.blog.id" :to_uid="this.blog.uid" :to_username="this.blog.username"></release_comment>
                         <comment></comment>
                     </el-dialog>
                 </div>
@@ -185,8 +185,6 @@
                         }
                     }
                 }
-
-
                 return val.blog.username;
             },
             parseBase64(image) {
@@ -248,16 +246,36 @@
                     this.$message.info("请登录后再进行操作");
                     return false;
                 }
+
+                let url = 'http://localhost:8088/blog/collect' +
+                    '?uid=' + sessionStorage.getItem('id') +
+                    '&bid=' + this.blog.id +
+                    '&flag=';
+
                 if (this.collect_flag) {
-                    this.$message.error('取消收藏！');
-                    this.blog.coll_number--;
-                    this.collect_flag = false;
-                    return false;
-                } else {
-                    this.$message.success('收藏成功！');
-                    this.collect_flag = true;
-                    this.blog.coll_number++;
-                    return true;
+                    axios.get(url + 'false').then((response) =>{
+                        if (response.data === true) {
+                            this.$message.error('取消收藏！');
+                            this.blog.coll_number--;
+                            this.collect_flag = false;
+                            return false;
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                }
+
+                else {
+                    axios.get(url + 'true').then((response) =>{
+                        if (response.data === true) {
+                            this.$message.success('收藏成功！');
+                            this.collect_flag = true;
+                            this.blog.coll_number++;
+                            return true;
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    });
                 }
             },
             like() {
