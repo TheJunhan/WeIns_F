@@ -2,16 +2,19 @@
     <div class="extern">
         <el-card style="width: 90%; text-align: center; margin-left: 5%">
             <div class="back">
-                <img class="pic" v-bind:src="user.userMongo.avatar" alt="picture" v-on:click="home"/>
+                <img class="pic" v-bind:src="generator(data)" alt="picture" v-on:click="home"/>
                 <div class="text1">
-                    {{user.name}}
+                    {{name}}
                 </div>
-                <div class="text2" >
-                    {{this.signature}}
+                <div class="text2" v-if="followed">
+                    <el-button type="plain" size="mini" @click="follow(1)"><I class="el-icon-plus"></I> 关注</el-button>
+                </div>
+                <div class="text2" v-else>
+                    <el-button type="plain" size="mini" @click="follow(-1)"><I class="el-icon-check"></I> 已关注</el-button>
                 </div>
             </div>
             <el-menu class="el-menu-demo" mode="horizontal" default-active="1">
-                <el-menu-item class="menu" index="1">我的主页</el-menu-item>
+                <el-menu-item class="menu" index="1">Ta的主页</el-menu-item>
                 <el-menu-item class="menu" index="2">管理中心</el-menu-item>
             </el-menu>
         </el-card>
@@ -19,34 +22,67 @@
 </template>
 
 <script>
-    // import axios from "axios";
+    import axios from "axios";
 
     export default {
+        props: {
+            data: Object
+        },
         data() {
             return {
-                signature: "",
-                user: {
-                    id: 0,
-                    name: '交通大学',
-                    birthday: '1896-04-07',
-                    sex: -1,
-                    reg_time: '2020-07-01',
-                    phone: '021134200000',
-                    userMongo: {
-                        avatar: ''
-                    }
-                }
+                id: 0,
+                name: '',
+                mongo: ''
             }
         },
-        created() {
-            this.generator();
-        },
         methods: {
-            generator() {
-                this.user.id = sessionStorage.getItem("id");
-                this.user.name = sessionStorage.getItem("name");
-                this.user.sex = sessionStorage.getItem("sex");
-                this.user.userMongo.avatar =sessionStorage.getItem("userMongo")!=null ? JSON.parse(sessionStorage.getItem("userMongo")).avatar : null;
+            generator(val) {
+                this.id = val.id;
+                this.name = val.name;
+                this.mongo = val.userMongo;
+
+                return val.userMongo.avatar;
+            },
+            followed() {
+                if (this.$root.logged === false)
+                    return false;
+
+                let follower = this.mongo.follower;
+                console.log("follower");
+                console.log(follower);
+                for (let i = 0; i < follower.length; i++) {
+                    if (follower[i] === Number(sessionStorage.getItem("id")))
+                        return true;
+                }
+
+                return false;
+            },
+            follow(flag) {
+                if (this.$root.logged === false) {
+                    this.$message.info('请登陆后再进行操作！');
+                    return;
+                }
+
+                let url = 'http://localhost:8088/user/follow?'
+                + 'sub=' + sessionStorage.getItem("id")
+                + '&obj=' + this.id
+                + '&flag=' + flag;
+
+                axios.post(url).then((response) =>{
+                    console.log(response.data);
+                    if (response.data === 'success') {
+                        if (flag === 1)
+                            this.$message.success('关注 ' + this.name + ' 成功！');
+
+                        else
+                            this.$message.success('取消关注 ' + this.name + ' 成功！');
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            home() {
+                this.$message.info("nmsl");
             }
         }
     }

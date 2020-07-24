@@ -5,14 +5,11 @@
         </el-header>
         <div class="person">
             <div class="head">
-                <Card class="card"></Card>
-            </div>
-            <div>
-                <el-tag>{{user.name}}</el-tag>
+                <Card class="card" :data="user"></Card>
             </div>
             <div class="container">
                 <div class="side">
-                    <Counter class="counter"></Counter>
+                    <Counter class="counter" :data="user"></Counter>
                     <Info class="info"></Info>
                     <Footstep class="footstep"></Footstep>
                 </div>
@@ -33,22 +30,32 @@
 <script>
     import axios from 'axios';
 
-    import Counter from "../components/counter";
+    import Counter from "../components/othercounter";
     import Card from '../components/otherpersonalcard';
     import Footstep from "../components/footstep";
     import Info from "../components/info";
     import Header from '../components/topnav';
     import Foot from '../components/footer';
-    import Blogs from "../components/myblogs";
+    import Blogs from "../components/otherblogs";
     import Information from "../components/information";
     import Follow from '../components/follow';
 
     export default {
         components: {
-            Header, Counter, Info , Footstep, Card, Foot, Information, Blogs, Follow,
+            Header, Card, Foot, Counter,
+            Info , Footstep,
+            Information, Blogs, Follow,
+        },
+        data() {
+            return {
+                id: 0,
+                user: {}
+            }
         },
         created() {
-            let url = 'http://localhost:8088/user/getOne?id=' + this.$route.query.id;
+            this.id = this.$route.query.id;
+            let url = 'http://localhost:8088/user/getOne?id=' + this.id;
+            console.log(url);
 
             axios.get(url).then((response) => {
                 this.user = response.data;
@@ -56,11 +63,6 @@
                 console.log(err);
             });
         },
-        data() {
-            return {
-                user: {}
-            }
-        }
     }
 </script>
 
