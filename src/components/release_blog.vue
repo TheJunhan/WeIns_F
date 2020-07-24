@@ -246,6 +246,7 @@
                     console.log(response);
                     this.$message.success("动态发布成功！");
                     this.fresh();
+                    this.$emit('change')
                 }).catch(err=> {
                     console.log(err);
                 });

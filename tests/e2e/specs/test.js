@@ -55,14 +55,10 @@ describe("homepage",()=>{
 
 
   it("blog",()=>{
-    cy.get(":nth-child(1) > [data-v-303869ee=\"\"] > .el-card > .el-card__body > .blog > .container > .header > .el-row > .el-col-3 > :nth-child(1) > .el-dropdown > #custom-send-btn").contains("选项");
-    cy.get("li > .img").click();
-    cy.get(".el-image__inner").should('be.visible');
+
+    cy.get(":nth-child(1) > .blog_div1 > .el-card > .el-card__body > .blog > .footer > .el-row > :nth-child(2) > .el-button").click();
+    cy.get("[style=\"z-index: 2009;\"] > .el-dialog > .el-dialog__body").should('be.visible');
     cy.get("[style=\"z-index: 2009;\"]").click('topRight');
-    cy.get(':nth-child(4) > [data-v-303869ee=""] > .el-card > .el-card__body > .blog > .footer > .el-row > :nth-child(4) > div > .el-button > .el-icon-star-off').should('be.visible').click();
-    cy.get(":nth-child(1) > [data-v-303869ee=\"\"] > .el-card > .el-card__body > .blog > .footer > .el-row > :nth-child(2) > .el-button").click();
-    cy.get("[style=\"z-index: 2011;\"] > .el-dialog > .el-dialog__body").should('be.visible');
-    cy.get("[style=\"z-index: 2011;\"]").click('topRight');
 
   })
 })
@@ -87,7 +83,6 @@ describe("person page",()=>{
 
 
     cy.get('[style="text-align: center;"]').contains('动态').click();
-    cy.get('[style="text-align: center;"] > .el-button > span').contains('6');
     cy.get('.my-blog > :nth-child(1)').should('be.visible');
 
   })
@@ -134,7 +129,7 @@ describe('manage page',()=>{
     cy.url().should('include','manage');
     cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(2) > .el-table_1_column_2 > .cell').contains('poker2');
     cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(1) > .el-table_1_column_3 > .cell').contains('老板');
-    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(3) > .el-table_1_column_3 > .cell').contains('被禁用');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(3) > .el-table_1_column_3 > .cell').contains('被封禁');
     cy.get('[style="float: none;"] > .el-input > .el-input__inner').clear().type('2');
 
 
@@ -167,4 +162,17 @@ describe('manage page',()=>{
 
   })
 
+})
+
+describe('release blog test',()=>{
+  it('input',()=>{
+    cy.get(':nth-child(1) > a > .el-dropdown-link').click();
+
+  })
+  it('release',()=>{
+    cy.get(".el-textarea__inner").type("一条没有意义的博客");
+    cy.get('.counter > span').contains('已输入9字');
+    cy.get('#release_button').click();
+    cy.get(':nth-child(1) > .blog_div1 > .el-card > .el-card__body > .blog > .container > .content > .text').contains('一条没有意义的博客')
+  })
 })

@@ -1,9 +1,9 @@
 <template>
-    <div style="width: 100%">
+    <div style="width: 100%" class="blog_div1">
         <el-card class="extern" shadow="hover" >
             <div class="blog" style="width: 100%">
                 <div class="avatar">
-                    <el-avatar :src="data.userAvatar"></el-avatar>
+                    <el-avatar class="blog_avatar" :src="data.userAvatar"></el-avatar>
                 </div>
 
                 <div class="container">
@@ -97,17 +97,17 @@
                         </el-col>
                     </el-row>
 
-                    <el-dialog :append-to-body="true" :visible.sync="share_flag" width="40%" :show-close="false"
+                    <el-dialog class="blog_dialog1" :append-to-body="true" :visible.sync="share_flag" width="40%" :show-close="false"
                                title="转发动态到">
                         <share :id="blog.id" :user="blog.username" :content="blogMongo.content"
                                @change="change"></share>
                     </el-dialog>
-                    <el-dialog :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true"
+                    <el-dialog class="blog_dialog2" :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true"
                                style="z-index: 999">
                         <el-image :src="this.showpic" class="big-img"></el-image>
                     </el-dialog>
 
-                    <el-dialog :append-to-body="true" :visible.sync="comment_flag" width="60%" :show-close="false">
+                    <el-dialog class="blog_dialog3" :append-to-body="true" :visible.sync="comment_flag" width="60%" :show-close="false">
                         <release_comment :bid="this.blog.id" :to_uid="this.blog.uid" :to_username="this.blog.username"></release_comment>
                         <comment></comment>
                     </el-dialog>
@@ -221,8 +221,7 @@
                 axios.get(url).then((response) =>{
                     if (response.data === true) {
                         this.$message.success('删除成功！');
-                        window.location.reload();
-                    }
+                        this.$emit('delete')                    }
 
                     else
                         this.$message.error('没有权限删除！');
