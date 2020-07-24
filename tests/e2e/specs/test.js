@@ -16,8 +16,8 @@ describe('Login card', () => {
     cy.visit('/')
     cy.get("#signinForm_input_phone").type("18796700152");
     cy.get("#signinForm_input_password").type("12345678");
-    cy.get("#signinForm_button_login").should('be.visible').click();
-    cy.get("#signinForm_button_login").should("not.exist")
+    cy.get(".el-card__body > .extern > .login > .btn > #signinForm_button_login").should('be.visible').click();
+    cy.get(".el-card__body > .extern > .login > .btn > #signinForm_button_login").should("not.exist")
 
   })
 
@@ -29,8 +29,6 @@ describe("homepage",()=>{
     cy.get("#float > [data-v-858ff1a0=\"\"] > .container").should("be.visible");
     cy.get(".container > .nav").should("be.visible");
     cy.get(".searchbar > .el-button").should('be.visible').click();
-    cy.get(".el-dialog__body").should('be.visible');
-    cy.get("[data-v-858ff1a0=\"\"] > .el-dialog__wrapper").click('topRight');
     cy.get(':nth-child(5) > .el-dropdown > .el-dropdown-link > .el-icon-arrow-down').should("be.visible").click();
     cy.get("#person > .el-dropdown-menu__item").should("be.visible").click().should('not.exist');
     cy.url().should('include','/person');
@@ -60,11 +58,11 @@ describe("homepage",()=>{
     cy.get(":nth-child(1) > [data-v-303869ee=\"\"] > .el-card > .el-card__body > .blog > .container > .header > .el-row > .el-col-3 > :nth-child(1) > .el-dropdown > #custom-send-btn").contains("选项");
     cy.get("li > .img").click();
     cy.get(".el-image__inner").should('be.visible');
-    cy.get("[style=\"z-index: 2011;\"]").click('topRight');
+    cy.get("[style=\"z-index: 2009;\"]").click('topRight');
     cy.get(':nth-child(4) > [data-v-303869ee=""] > .el-card > .el-card__body > .blog > .footer > .el-row > :nth-child(4) > div > .el-button > .el-icon-star-off').should('be.visible').click();
     cy.get(":nth-child(1) > [data-v-303869ee=\"\"] > .el-card > .el-card__body > .blog > .footer > .el-row > :nth-child(2) > .el-button").click();
-    cy.get("[style=\"z-index: 2014;\"] > .el-dialog > .el-dialog__body").should('be.visible');
-    cy.get("[style=\"z-index: 2014;\"]").click('topRight');
+    cy.get("[style=\"z-index: 2011;\"] > .el-dialog > .el-dialog__body").should('be.visible');
+    cy.get("[style=\"z-index: 2011;\"]").click('topRight');
 
   })
 })
@@ -99,7 +97,7 @@ describe("person page",()=>{
     cy.get('.basic-info > .el-form > :nth-child(1) > .el-form-item__content > div > .span-text').contains('poker');
     cy.get('.basic-header-btn > .el-button').contains('编辑').click().contains('保存');
 
-    cy.get(":nth-child(1) > .el-form-item__content > :nth-child(1) > .el-input > .el-input__inner").should('have.value','poker').clear().type('poker2');
+    cy.get(":nth-child(1) > .el-form-item__content > :nth-child(1) > .el-input > .el-input__inner").should('have.value','poker').clear().type('poker').type('2');
     cy.get('.basic-info > .el-form > :nth-child(1) > .el-form-item__content > :nth-child(1) > span').should('be.visible').contains('该用户重复或格式不正确');
     cy.get(":nth-child(1) > .el-form-item__content > :nth-child(1) > .el-input > .el-input__inner").clear().type('pokerr');
     cy.get(':nth-child(1) > .el-dropdown > .el-dropdown-link').click();
@@ -126,4 +124,47 @@ describe("person page",()=>{
 
 
   })
+})
+
+
+describe('manage page',()=>{
+  it('come to manage page',()=>{
+    cy.get(':nth-child(5) > .el-dropdown > .el-dropdown-selfdefine').click();
+    cy.get('[href="/manager"] > .el-dropdown-link > .el-dropdown-menu__item').should('be.visible').click();
+    cy.url().should('include','manage');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(2) > .el-table_1_column_2 > .cell').contains('poker2');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(1) > .el-table_1_column_3 > .cell').contains('老板');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(3) > .el-table_1_column_3 > .cell').contains('被禁用');
+    cy.get('[style="float: none;"] > .el-input > .el-input__inner').clear().type('2');
+
+
+  })
+  it('search test by name and ban',()=>{
+    cy.get('.el-card__body > :nth-child(3)').contains('3');
+    cy.get(':nth-child(2) > .el-radio-button__inner').click();
+    cy.get('[style="float: left;"]').click();
+    cy.get('.el-card__body > :nth-child(3)').contains('1');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(1) > .el-table_1_column_2 > .cell').contains('poker2');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > .el-table__row > .el-table_1_column_9 > .cell > .el-button--danger').click();
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(1) > .el-table_2_column_12 > .cell').contains('被封禁');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > .el-table__row > .el-table_2_column_18 > .cell > .el-button--success').click();
+
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(1) > .el-table_3_column_21 > .cell').contains('普通用户');
+    cy.get('[style="float: left; left: 0px;"]').click();
+    cy.get('.el-card__body > :nth-child(3)').contains('3');
+
+  })
+
+  it('search test by phone and ban',()=>{
+    cy.get(':nth-child(4) > .el-radio-button__inner').click();
+    cy.get('[style="float: left;"]').click();
+    cy.get('.el-card__body > :nth-child(3)').contains('1');
+
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > .el-table__row > .el-table_3_column_20>.cell').contains('poker');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > .el-table__row > .el-table_3_column_21>.cell').contains('老板');
+    cy.get('[style="float: left; left: 0px;"]').click();
+
+
+  })
+
 })

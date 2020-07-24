@@ -1,46 +1,57 @@
 <template>
-    <div class="extern">
-        <el-header>
-            <Header></Header>
-        </el-header>
-        <div class="content" style="clear: both;display: flex;margin-left: 10%;width: 100%">
-            <div style="float: left;width: 810px">
-                <user-table :user="users"></user-table>
-            </div>
-            <div class="search" style="float: left;width: 40%;margin-left: 100px;">
-                <el-input
-                        placeholder="按照条件搜索……"
-                        v-model="input"
-                        style="width: 55%;float: left;margin-bottom: 5%">
-                </el-input>
-                <p style="clear:both;color: darkgray;margin-bottom: 5%">选择条件：</p>
-                <el-radio-group v-model="radio"  style="float: left;margin-bottom: 5%">
-                    <el-radio-button label="编号"></el-radio-button>
-                    <el-radio-button label="姓名"></el-radio-button>
-                    <el-radio-button label="电话号码"></el-radio-button>
-                    <el-radio-button label="电子邮箱"></el-radio-button>
-                </el-radio-group>
-                <p style="clear:both;color: darkgray;margin-bottom: 5%">详细信息：</p>
-                <el-card shadow="hover" style="width: 55%">
-                    <p>管理员 : <span style="color: red">{{this.managerid}}</span> </p>
-                    <el-divider></el-divider>
-                    <p>搜索结果共计  <span style="color:red">{{this.nums}}</span>  条记录</p>
-                    <el-divider></el-divider>
-                    <p>已对  <span style="color:red">{{this.operations}}</span>  个用户进行操作</p>
-                </el-card>
-            </div>
-        </div>
+    <div >
+        <div class="extern" style="height: 800px">
+            <el-header>
+                <Header></Header>
+            </el-header>
+            <div class="content" style="clear: both;display: flex;margin-left: 10%;width: 100%">
+                <div style="float: left;width: 810px">
+                    <user-table :user="users"></user-table>
+                </div>
+                <div class="search" style="float: left;width: 40%;margin-left: 100px;">
+                    <div style="float: none">
+                        <el-input
+                                placeholder="按照条件搜索……"
+                                v-model="input"
+                                style="width: 30%;float: left;margin-bottom: 5%;margin-right: 2%" >
+                        </el-input>
+                    </div>
 
+                    <div>
+                        <el-button style="float: left" type="primary" icon="search" @click="search">搜索</el-button>
+                        <el-button style="float: left;left: 0" type="primary" icon="search" @click="search(0)">取消搜索</el-button>
+
+                    </div>
+                    <p style="clear:both;color: darkgray;margin-bottom: 5%">选择条件：</p>
+                    <el-radio-group v-model="radio" style="float: left;margin-bottom: 5%" @change="change">
+                        <el-radio-button label="编号"></el-radio-button>
+                        <el-radio-button label="姓名"></el-radio-button>
+                        <el-radio-button label="权限"></el-radio-button>
+                        <el-radio-button label="电话号码"></el-radio-button>
+                    </el-radio-group>
+                    <p style="clear:both;color: darkgray;margin-bottom: 5%">详细信息：</p>
+                    <el-card shadow="hover" style="width: 55%">
+                        <p>管理员 : <span style="color: red">{{this.managerid}}</span> </p>
+                        <el-divider></el-divider>
+                        <p>搜索结果共计  <span style="color:red">{{this.users.length}}</span>  条记录</p>
+                    </el-card>
+                </div>
+            </div>
+
+
+        </div>
         <el-footer>
             <Footer style="margin-top: 2%"></Footer>
         </el-footer>
     </div>
+
 </template>
 
 <script>
     import Header from "../components/topnav";
     import Footer from "../components/footer";
     import userTable from "../components/userTable";
+    import axios from "axios";
 
     export default {
         name: "manager",
@@ -50,198 +61,51 @@
                 managerid:1,
                 input:'',
                 radio:'姓名',
-                nums:0,//记录符合条件的总数
-                operations:0,//记录已经操作过的用户数量
-                users:[{
-                    id: 0,
-                    name: '交通大学',
-                    birthday: '1896-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-01',
-                    email: 'se128@sjtu.edu.cn',
-                    phone: '021-34200000'
-                },  {
-                    id: 1,
-                    name: '复旦大学',
-                    birthday: '1844-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-04',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 2,
-                    name: '清华大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 3,
-                    name: '北京大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 4,
-                    name: 'aa大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 5,
-                    name: 'bb大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 6,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                },{
-                    id: 7,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                },{
-                    id: 9,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                },{
-                    id: 8,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                },{
-                    id: 11,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                }],
-                originusers:[{
-                    id: 0,
-                    name: '交通大学',
-                    birthday: '1896-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-01',
-                    email: 'se128@sjtu.edu.cn',
-                    phone: '021-34200000'
-                },  {
-                    id: 1,
-                    name: '复旦大学',
-                    birthday: '1844-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-04',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 2,
-                    name: '清华大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 3,
-                    name: '北京大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 4,
-                    name: 'aa大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 5,
-                    name: 'bb大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '021-34200000'
-                },{
-                    id: 6,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                },{
-                    id: 7,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                },{
-                    id: 9,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                },{
-                    id: 8,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                },{
-                    id: 11,
-                    name: 'cc大学',
-                    birthday: '1823-04-07',
-                    sex: 1,
-                    reg_time: '2020-07-05',
-                    email: 'se128@xxu.edu.cn',
-                    phone: '033-34200000'
-                }],
+                users:[],
             }
         },
-        watch:{
-            input(){
-                this.search();
-            }
-        },
+
         methods:{
-            search(){
-                console.log("search for");
-                console.log(this.input);
+            search(i){
+                if(this.input==''||i==0)  return this.init();
+                var newA=new Array();
+                for(let i=0;i<this.users.length;++i){
+                    if(this.radio=='姓名'){
+                        if(this.users[i].name.indexOf(this.input)!=-1) newA.push(this.users[i]);
+                    }else  if(this.radio=='编号'){
+                        if(this.users[i].id==this.input) newA.push(this.users[i]);
+                    }else if(this.radio=='权限'){
+                        if(this.users[i].Type.indexOf(this.input)!=-1) newA.push(this.users[i]);
+                    }else  if(this.radio=='电话号码'){
+                        if(this.users[i].phone.indexOf(this.input)!=-1) newA.push(this.users[i]);
+                    }
+                }
+                this.users=newA;
+            },
+            change(item){
+                this.radio=item;
+            },
+            init(){
+                let url = 'http://localhost:8088/user/getAll'
+                axios.get(url).then((response) => {
+                        console.log(response);
+                        this.users=response.data;
+                        for(let i =0;i<this.users.length;i++){
+                            if(this.users[i].type==-1)  this.users[i].Type='被禁用';
+                            else if(this.users[i].type==0) this.users[i].Type='普通用户';
+                            else if(this.users[i].type==8) this.users[i].Type='老板';
+                            else this.users[i].Type='管理员';
+                            if(this.users[i].sex==-1) this.users[i].sex='未知';
+                            else if (this.users[i].sex==1) this.users[i].sex='男';
+                            else this.users[i].sex='女';
+                        }
+                    }
+                )
             }
+        },
+        mounted(){
+            this.managerid=sessionStorage.getItem('id');
+            this.init();
         }
     }
 </script>

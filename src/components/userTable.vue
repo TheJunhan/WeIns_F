@@ -1,9 +1,11 @@
 <template>
     <el-table
+            id="el-table"
             :data="arr"
-            stripe
-            border
-            width="100%">
+            :key="random"
+            :row-class-name="rowClassNameFilter"
+            width="100%"
+            >
         <el-table-column
                 fixed
                 prop="id"
@@ -16,13 +18,19 @@
                 width="100">
         </el-table-column>
         <el-table-column
+                prop="Type"
+                label="权限"
+                width="80">
+        </el-table-column>
+        <el-table-column
                 prop="birthday"
                 label="生日"
-                width="120">
+                width="100">
         </el-table-column>
         <el-table-column
                 prop="sex"
                 label="性别"
+                column-key="sex"
                 width="50">
         </el-table-column>
         <el-table-column
@@ -33,7 +41,7 @@
         <el-table-column
                 prop="email"
                 label="电子邮箱"
-                width="150">
+                width="50">
         </el-table-column>
         <el-table-column
                 prop="phone"
@@ -42,10 +50,10 @@
         </el-table-column>
         <el-table-column
                 label="操作"
-               width="100">
-            <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">操作</el-button>
+               width="150">
+            <template slot-scope="scope" style="text-align: center;">
+                <el-button @click="handleClick(scope.row,-1)" type="danger" size="small">封禁</el-button>
+                <el-button @click="handleClick(scope.row,0)" type="success" size="small">解封</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -53,17 +61,52 @@
 
 
 <script>
+    import axios from "axios";
+
     export default {
         name: "userTable",
         props :['user'],
         methods: {
-            handleClick(row) {
+            handleClick(row,tar) {
                 console.log(row);
+                const url='http://localhost:8088/user/auth?sub='+sessionStorage.getItem('id')
+                            +'&obj='+row.id+'&tar='+tar;
+
+                axios.post(url).then((response) => {
+                    if(response.data=='success'){
+                        for(let i=0;i<this.arr.length;++i){
+                            if(this.arr[i].id==row.id){
+                                this.arr[i].type=tar;
+                                this.arr[i].Type=tar==-1 ? '被封禁' : '普通用户';
+                                this.random=Math.random();
+                                this.$message.success(response.data)
+                                return;
+                            }
+                        }
+
+                    }
+                    else this.$message.warning(response.data);
+
+                })
+            },
+            rowClassNameFilter({row,rowIndex}){
+                console.log(rowIndex);
+                if(row.Type==='老板'){
+                    return 'greengreen-row'
+                }else
+                if(row.Type==='管理员'){
+                    return 'green-row'
+                }else if(row.Type==='普通用户'){
+                    return 'wite-row'
+                }else{
+                    return 'red-row'
+                }
             }
         },
         data(){
             return{
-                arr:[]
+                arr:[],
+                random:0
             }
         },
         watch:{
@@ -79,6 +122,20 @@
     }
 </script>
 
-<style scoped>
+<style >
+
+    .el-table .greengreen-row {
+        background: rgba(0,255,0,0.5);
+    }
+.el-table .red-row{
+    background: rgba(255,0,0,0.1);
+}
+.el-table .green-row {
+    background: rgba(0,255,0,0.1);
+}
+
+.el-table .wite-row {
+    background: rgba(255,255,255,0.1);
+}
 
 </style>
