@@ -29,11 +29,20 @@
         },
         methods: {
             getinfo() {
-                let url = 'http://localhost:8088/blog/getBlogsById?uid=' + sessionStorage.getItem("id");
+                // let url = 'http://localhost:8088/blog/getBlogsById?uid=' + sessionStorage.getItem("id");
+
+                let id = sessionStorage.getItem("id");
+                let url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + id;
 
                 axios.get(url).then((response) => {
-                    console.log(response.data);
-                    this.myblogs = response.data;
+                    // this.myblogs = response.data;
+
+                    let tmp = response.data;
+
+                    for (let i = 0; i < tmp.length; ++i) {
+                        if (tmp[i].blog.uid === Number(id))
+                            this.myblogs.push(tmp[i]);
+                    }
                 }).catch(err => {
                     console.log(err);
                 });

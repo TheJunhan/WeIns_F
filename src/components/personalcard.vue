@@ -7,7 +7,19 @@
                         {{user.name}}
                     </div>
                     <div class="text2" >
-                        {{this.signature}}
+                        <el-upload
+                                action=''
+                                style="width: 80%;z-index: 998"
+                                class="avatar-uploader"
+                                :on-remove="removefile"
+                                :on-change="getFile1"
+                                :on-success="uploadsuccess"
+                                list-type="picture"
+                                :auto-upload="false"
+                                :show-file-list="false"
+                                accept=".jpg,.jpeg,.png">
+                            <el-button size="mini" type="plain" icon="el-icon-upload" @click="upload">上传头像</el-button>
+                        </el-upload>
                     </div>
                 </div>
                 <el-menu class="el-menu-demo" mode="horizontal" default-active="1">
@@ -19,7 +31,7 @@
 </template>
 
 <script>
-    // import axios from "axios";
+    import axios from "axios";
 
     export default {
         data() {
@@ -47,6 +59,21 @@
                 this.user.name = sessionStorage.getItem("name");
                 this.user.sex = sessionStorage.getItem("sex");
                 this.user.userMongo.avatar =sessionStorage.getItem("userMongo")!=null ? JSON.parse(sessionStorage.getItem("userMongo")).avatar : null;
+            },
+            upload() {
+                let url = 'http://localhost:8088/user/update';
+
+                axios.post(url, {
+                    id: sessionStorage.getItem("id"),
+                    userMongo: {
+                        avatar: '' // 上传的图片的base64
+                    }
+                }).then((response) => {
+                    if(response.data === 'success')
+                        this.$message.success('更换头像成功！');
+                }).catch(err => {
+                   console.log(err);
+                });
             }
         }
     }
@@ -83,6 +110,8 @@
         clear: both;
         text-align: center;
         color: #c6c6c6;
+        margin-top: 20px;
+        margin-left: 130px;
     }
 
     .menu {

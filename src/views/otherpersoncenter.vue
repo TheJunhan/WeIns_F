@@ -5,13 +5,11 @@
         </el-header>
         <div class="person">
             <div class="head">
-                <Card class="card" :data="user"></Card>
+                <Card class="card"></Card>
             </div>
             <div class="container">
                 <div class="side">
                     <Counter class="counter" :data="user"></Counter>
-                    <Info class="info"></Info>
-                    <Footstep class="footstep"></Footstep>
                 </div>
                 <div class="main">
                     <Information v-if="this.$root.my_person_center_info === true"></Information>
@@ -32,18 +30,15 @@
 
     import Counter from "../components/othercounter";
     import Card from '../components/otherpersonalcard';
-    import Footstep from "../components/footstep";
-    import Info from "../components/info";
     import Header from '../components/topnav';
     import Foot from '../components/footer';
     import Blogs from "../components/otherblogs";
-    import Information from "../components/information";
+    import Information from "../components/otherinformation";
     import Follow from '../components/follow';
 
     export default {
         components: {
             Header, Card, Foot, Counter,
-            Info , Footstep,
             Information, Blogs, Follow,
         },
         data() {
@@ -53,6 +48,12 @@
             }
         },
         created() {
+            this.$root.my_person_center = false;
+            this.$root.my_person_center_info = false;
+            this.$root.my_person_center_blogs = true;
+            this.$root.my_person_center_follower = false;
+            this.$root.my_person_center_following = false;
+
             this.id = this.$route.query.id;
             let url = 'http://localhost:8088/user/getOne?id=' + this.id;
             console.log(url);
@@ -104,10 +105,6 @@
     }
 
     .info {
-        margin-top: 10px;
-    }
-
-    .footstep {
         margin-top: 10px;
     }
 

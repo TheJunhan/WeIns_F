@@ -6,14 +6,14 @@
             </el-header>
             <div class="following" v-if="this.$root.my_person_center_following === true">
                 <ul>
-                    <li v-for="user in users" :key="user">
+                    <li v-for="user in followings" :key="user">
                         <Following :uid="user"></Following>
                     </li>
                 </ul>
             </div>
             <div class="follower" v-else>
                 <ul>
-                    <li v-for="user in users" :key="user">
+                    <li v-for="user in followers" :key="user">
                         <Follower :uid="user"></Follower>
                     </li>
                 </ul>
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     import Following from "./following";
     import Follower from "./follower";
 
@@ -30,8 +32,8 @@
         components: { Follower, Following },
         data() {
             return {
-                type: 0,
-                users: [2, 3]
+                followers: [],
+                followings: []
             }
         },
         created() {
@@ -39,14 +41,35 @@
         },
         methods: {
             generator() {
-                // this.users = JSON.parse(sessionStorage.getItem("userMongo")).followings;
+                if (this.$root.my_person_center === true) {
+                    this.followings = JSON.parse(sessionStorage.getItem("userMongo")).followings;
+                    this.followers = JSON.parse(sessionStorage.getItem("userMongo")).followers;
+                }
+
+                else {
+                    let url = 'http://localhost:8088/user/getOne?id=' + this.$route.query.id;
+
+                    axios.get(url).then((response) => {
+                       let mongo = response.data.userMongo;
+                       this.followers = mongo.followers;
+                       this.followings = mongo.followings;
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                }
             },
             header() {
                 if (this.$root.my_person_center_following === true)
-                    return "我的关注";
+                    if (this.$root.my_person_center === true)
+                        return "我的关注";
+                    else
+                        return "ta的关注";
 
                 else if (this.$root.my_person_center_follower === true)
-                    return "我的粉丝";
+                    if (this.$root.my_person_center === true)
+                        return "我的粉丝";
+                    else
+                        return "ta的粉丝";
             }
         }
     }

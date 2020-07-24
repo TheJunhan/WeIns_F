@@ -42,6 +42,9 @@
     export default {
         components: {
             Header, Counter, Info , Footstep, Card, Foot, Information, Blogs, Follow,
+        },
+        created() {
+            this.$root.my_person_center = true;
         }
     }
 </script>

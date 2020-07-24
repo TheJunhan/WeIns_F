@@ -28,7 +28,7 @@
     export default {
         name: "following",
         props: {
-            uid: Number
+            uid: String
         },
         data(){
             return{

@@ -124,6 +124,7 @@
                                 sessionStorage.setItem("sex", user.sex);
                                 sessionStorage.setItem("birthday", user.birthday);
                                 sessionStorage.setItem("reg_time", user.reg_time);
+                                sessionStorage.setItem("token", user.password);
 
                                 // 记住密码
                                 if (this.checked) {
