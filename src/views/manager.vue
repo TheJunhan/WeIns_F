@@ -1,6 +1,6 @@
 <template>
     <div >
-        <div class="extern" style="height: 800px">
+        <div class="extern" >
             <el-header>
                 <Header></Header>
             </el-header>
@@ -8,7 +8,7 @@
                 <div style="float: left;width: 810px">
                     <user-table :user="users"></user-table>
                 </div>
-                <div class="search" style="float: left;width: 40%;margin-left: 100px;">
+                <div class="search" style="height: 800px;float: left;width: 40%;margin-left: 100px;">
                     <div style="float: none">
                         <el-input
                                 placeholder="按照条件搜索……"
@@ -91,10 +91,10 @@
                         console.log(response);
                         this.users=response.data;
                         for(let i =0;i<this.users.length;i++){
-                            if(this.users[i].type==-1)  this.users[i].Type='被禁用';
+                            if(this.users[i].type<0)  this.users[i].Type='被封禁';
                             else if(this.users[i].type==0) this.users[i].Type='普通用户';
                             else if(this.users[i].type==8) this.users[i].Type='老板';
-                            else this.users[i].Type='管理员';
+                            else this.users[i].Type='管理员:'+this.users[i].type;
                             if(this.users[i].sex==-1) this.users[i].sex='未知';
                             else if (this.users[i].sex==1) this.users[i].sex='男';
                             else this.users[i].sex='女';

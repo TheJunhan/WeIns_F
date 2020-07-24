@@ -52,8 +52,8 @@
                 label="操作"
                width="150">
             <template slot-scope="scope" style="text-align: center;">
-                <el-button @click="handleClick(scope.row,-1)" type="danger" size="small">封禁</el-button>
-                <el-button @click="handleClick(scope.row,0)" type="success" size="small">解封</el-button>
+                <el-button @click="handleClick(scope.row,scope.row.type-8)" type="danger" size="small">封禁</el-button>
+                <el-button @click="handleClick(scope.row,scope.row.type+8)" type="success" size="small">解封</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -77,7 +77,7 @@
                         for(let i=0;i<this.arr.length;++i){
                             if(this.arr[i].id==row.id){
                                 this.arr[i].type=tar;
-                                this.arr[i].Type=tar==-1 ? '被封禁' : '普通用户';
+                                this.arr[i].Type=tar<0 ? '被封禁' : (tar==0 ?'普通用户' : '管理员：'+tar);
                                 this.random=Math.random();
                                 this.$message.success(response.data)
                                 return;
@@ -94,7 +94,7 @@
                 if(row.Type==='老板'){
                     return 'greengreen-row'
                 }else
-                if(row.Type==='管理员'){
+                if(row.Type.indexOf('管理员')!=-1){
                     return 'green-row'
                 }else if(row.Type==='普通用户'){
                     return 'wite-row'

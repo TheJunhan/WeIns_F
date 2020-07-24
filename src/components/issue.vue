@@ -5,13 +5,13 @@
         </div>
         <div class="container" :class="{logged:this.$root.logged}">
             <div class="release">
-                <Release></Release>
+                <Release @change="getInfo"></Release>
             </div>
             <div class="blogs">
                 <div v-if="len !== 0">
                     <ul>
-                        <li v-for="blog in myblogs" :key="blog.id">
-                            <Blog :data="blog" style="margin-bottom: 5px"></Blog>
+                        <li v-for="(blog,i) in myblogs" :key="blog.id">
+                            <Blog @delete="getInfo" :data="myblogs[myblogs.length-i-1]" style="margin-bottom: 5px"></Blog>
                         </li>
                     </ul>
                 </div>
