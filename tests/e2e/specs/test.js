@@ -97,7 +97,7 @@ describe("person page",()=>{
     cy.get('.basic-info > .el-form > :nth-child(1) > .el-form-item__content > div > .span-text').contains('poker');
     cy.get('.basic-header-btn > .el-button').contains('编辑').click().contains('保存');
 
-    cy.get(":nth-child(1) > .el-form-item__content > :nth-child(1) > .el-input > .el-input__inner").should('have.value','poker').clear().type('poker2');
+    cy.get(":nth-child(1) > .el-form-item__content > :nth-child(1) > .el-input > .el-input__inner").should('have.value','poker').clear().type('poker').type('2');
     cy.get('.basic-info > .el-form > :nth-child(1) > .el-form-item__content > :nth-child(1) > span').should('be.visible').contains('该用户重复或格式不正确');
     cy.get(":nth-child(1) > .el-form-item__content > :nth-child(1) > .el-input > .el-input__inner").clear().type('pokerr');
     cy.get(':nth-child(1) > .el-dropdown > .el-dropdown-link').click();
@@ -124,4 +124,47 @@ describe("person page",()=>{
 
 
   })
+})
+
+
+describe('manage page',()=>{
+  it('come to manage page',()=>{
+    cy.get(':nth-child(5) > .el-dropdown > .el-dropdown-selfdefine').click();
+    cy.get('[href="/manager"] > .el-dropdown-link > .el-dropdown-menu__item').should('be.visible').click();
+    cy.url().should('include','manage');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(2) > .el-table_1_column_2 > .cell').contains('poker2');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(1) > .el-table_1_column_3 > .cell').contains('老板');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(3) > .el-table_1_column_3 > .cell').contains('被禁用');
+    cy.get('[style="float: none;"] > .el-input > .el-input__inner').clear().type('2');
+
+
+  })
+  it('search test by name and ban',()=>{
+    cy.get('.el-card__body > :nth-child(3)').contains('3');
+    cy.get(':nth-child(2) > .el-radio-button__inner').click();
+    cy.get('[style="float: left;"]').click();
+    cy.get('.el-card__body > :nth-child(3)').contains('1');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(1) > .el-table_1_column_2 > .cell').contains('poker2');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > .el-table__row > .el-table_1_column_9 > .cell > .el-button--danger').click();
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(1) > .el-table_2_column_12 > .cell').contains('被封禁');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > .el-table__row > .el-table_2_column_18 > .cell > .el-button--success').click();
+
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > :nth-child(1) > .el-table_3_column_21 > .cell').contains('普通用户');
+    cy.get('[style="float: left; left: 0px;"]').click();
+    cy.get('.el-card__body > :nth-child(3)').contains('3');
+
+  })
+
+  it('search test by phone and ban',()=>{
+    cy.get(':nth-child(4) > .el-radio-button__inner').click();
+    cy.get('[style="float: left;"]').click();
+    cy.get('.el-card__body > :nth-child(3)').contains('1');
+
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > .el-table__row > .el-table_3_column_20>.cell').contains('poker');
+    cy.get('.el-table__body-wrapper > .el-table__body > tbody > .el-table__row > .el-table_3_column_21>.cell').contains('老板');
+    cy.get('[style="float: left; left: 0px;"]').click();
+
+
+  })
+
 })

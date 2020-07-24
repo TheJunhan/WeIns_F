@@ -1,5 +1,6 @@
 <template>
     <el-table
+            id="el-table"
             :data="arr"
             :key="random"
             :row-class-name="rowClassNameFilter"
