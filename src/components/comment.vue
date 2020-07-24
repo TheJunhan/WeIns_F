@@ -11,11 +11,6 @@
                     <p class="content-text2">{{comment.text}}</p>
                 </div>
                 <div class="icons">
-<!--                        <div class="icon1" >-->
-<!--                            <p>{{comment.time}}</p>-->
-<!--                        </div>-->
-<!--                        <el-button class="re" type="text" icon="el-icon-chat-dot-round">回复</el-button>-->
-<!--                        <el-button class="like" type="text" icon="el-icon-star-off">喜欢</el-button>-->
                     <el-row>
                         <el-col class="icon1" :span="6">
                             <p>{{comment.time}}</p>
@@ -32,7 +27,7 @@
                     </el-row>
                 </div>
             </div>
-            <div v-if="comment.flag == true" class="down">
+            <div v-if="comment.flag === true" class="down">
                 <el-dropdown trigger="click" style="outline: none">
                     <span
                             class="el-dropdown-link btn send time-send small-hand"
@@ -58,7 +53,6 @@
                         <ul >
                             <li  style="clear: both" v-for="recom in comment.arr" :key="recom.name">
                                 <div class="re" >
-<!--                                    <p class="content-text3">{{recom.name}} :</p>-->
                                     <div class="content-text4">
                                         <span style="color: dodgerblue">{{recom.name}}</span> : {{recom.con}}
                                     </div>
@@ -74,115 +68,124 @@
             </div>
         </div>
     </el-card>
-
 </template>
 
 <script>
     export default {
-        name: "comment",
-    data () {
-        return {
-            comment:{
-                squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-                name:"weins",
-                time: '2020-07-09 21:57',
-                text:"好的!!!!!!!!!!!!!!!!!!!!!!!!！好的好的好的好的好的好的好的好的好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹",
-                flag:true,//是否是自己的评论
-                morethan5:true,//是否>五个
-                arr: [{name:"a",con:"hskjljd;rgresk,hfaluiehwlufhsdn,nkiulehliauhdcjasknaskd,nakhdualwihucxm,nufehaliueliafndskjnc,mxnzeu.fhsjd,nf,cmxjdalkdli",time: '2020-07-09 21:57'},{name:"wdada",con:"asdadadwdawadwd",time: '2020-07-09 21:57'},{name:"wad",con:"wdacfasfefe",time: '2020-07-09 21:57'},{name:"ef",con:"efegreghtgt",time: '2020-07-09 21:57'},{name:"rgr",con:"erggregrg",time: '2020-07-09 21:57'}],
-            }
+        props: {
+            bid: Number,
+            to_uid: Number,
+            to_username: String
+        },
+        data () {
+            return {
+                comment:{
+                    squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
+                    name:"weins",
+                    time: '2020-07-09 21:57',
+                    text:"好的!!!!!!!!!!!!!!!!!!!!!!!!！好的好的好的好的好的好的好的好的好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹",
+                    flag:true,//是否是自己的评论
+                    morethan5:true,//是否>五个
+                    arr: [{name:"a",con:"hskjljd;rgresk,hfaluiehwlufhsdn,nkiulehliauhdcjasknaskd,nakhdualwihucxm,nufehaliueliafndskjnc,mxnzeu.fhsjd,nf,cmxjdalkdli",time: '2020-07-09 21:57'},{name:"wdada",con:"asdadadwdawadwd",time: '2020-07-09 21:57'},{name:"wad",con:"wdacfasfefe",time: '2020-07-09 21:57'},{name:"ef",con:"efegreghtgt",time: '2020-07-09 21:57'},{name:"rgr",con:"erggregrg",time: '2020-07-09 21:57'}],
+                }
 
+            }
         }
-    }
     }
 </script>
 
 <style scoped>
-    .ava{
+    .ava {
         width: 15%;
     }
-    .content{
+
+    .content {
         width: 70%;
         float: left;
         margin-left: 5%;
     }
-    .down{
+
+    .down {
         float: left;
         width: 10%;
     }
+
     .comava {
         float: left;
         margin-left: 3%;
         margin-bottom: 10%;
     }
 
-    .con{
+    .con {
         clear: both;
-      }
-    .con2{
+    }
+
+    .con2 {
         margin-bottom: 5%;
      }
-    .icons{
+
+    .icons {
         clear: both;
-        }
-    .content-text1{
+    }
+
+    .content-text1 {
         text-align: left;
         float: left;
         color: dodgerblue;
     }
-    .content-text2{
+
+    .content-text2 {
         text-align: left;
         float: left;
     }
-    .icon1{
+
+    .icon1 {
         text-align: left;
         float: left;
         margin-top:1.5%;
         color: darkgray;
        font-size: 15px;
     }
-    .icon2{
+
+    .icon2 {
         float: right;
         text-align: right;
     }
-    .recomment{
+
+    .recomment {
         background-color: #eaeaec;
         margin-left: 11%;
-        clear:both;
+        clear: both;
         width: 70%;
-        /*display: flex;*/
     }
-    /*.content-text3{*/
-    /*    text-align: left;*/
-    /*    float: left;*/
-    /*    color: dodgerblue;*/
-    /*}*/
-    .content-text4{
+
+    .content-text4 {
         /*width: 60%;*/
         /*background-color:white;*/
         word-break:break-all;
         float: left;
         display: flex;
     }
-    .content-text4:hover{
+
+    .content-text4:hover {
         background-color: white;
     }
-    .morebutton{
+
+    .morebutton {
         float: right;
         clear: both;
        /*background-color: red;*/
     }
-    .com{
+
+    .com {
         background-color: #f2f2f5;
     }
-    .content-text5{
+
+    .content-text5 {
         width: 20%;
         float: right;
         margin-top:1.5%;
         color: darkgray;
         font-size: small;
     }
-    /*.re{*/
-    /*    background-color: red;*/
-    /*}*/
 </style>

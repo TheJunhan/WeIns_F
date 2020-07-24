@@ -53,7 +53,12 @@
         },
         methods: {
             getInfo() {
+
                 let url = 'http://localhost:8088/blog/getPublicBlogs';
+
+                if (this.$root.logged === true) {
+                    url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + sessionStorage.getItem("id");
+                }
 
                 axios.get(url).then((response) =>{
                     console.log(response.data);

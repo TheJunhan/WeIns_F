@@ -29,7 +29,7 @@
         },
         methods: {
             getinfo() {
-                let url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + sessionStorage.getItem("id");
+                let url = 'http://localhost:8088/blog/getBlogsById?uid=' + sessionStorage.getItem("id");
 
                 axios.get(url).then((response) => {
                     console.log(response.data);

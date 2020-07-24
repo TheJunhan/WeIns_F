@@ -3,8 +3,8 @@
         <div class="destination">
             <div class="tabs">
                 <el-tabs v-model="active_tab">
-                    <el-tab-pane label="我的动态" name="1"></el-tab-pane>
-                    <el-tab-pane label="好友圈" name="2"></el-tab-pane>
+                    <el-tab-pane label="我的动态" name="3"></el-tab-pane>
+                    <el-tab-pane label="好友圈" name="1"></el-tab-pane>
                 </el-tabs>
             </div>
         </div>
@@ -13,12 +13,12 @@
                 @{{this.$props.user}}: {{this.$props.content}}
             </div>
             <div class="comment">
-                <el-input type="textarea" v-model="blog.content.text" :placeholder="holder"/>
+                <el-input type="textarea" v-model="text" :placeholder="holder"/>
             </div>
         </div>
         <div class="foot">
             <div class="check">
-                <el-checkbox v-model="checked">同时评论给 {{this.$props.user}}</el-checkbox>
+                <el-checkbox v-model="comment_to_flag">同时评论给 {{this.$props.user}}</el-checkbox>
             </div>
             <div class="btn">
                 <el-button type="primary" @click="submit" size="mini">发布</el-button>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
         name:"share",
         props: {
@@ -39,37 +41,78 @@
             return {
                 comment_to_flag: false,
                 holder: '//@',
-                active_tab: '1',
-                blog: {
-                    id: 0,
-                    user: {
-                        name: '交通大学',
-                        avatar: {
-                            // default avatar, must be iconBase64 mode
-                            iconBase64: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
-                        }
-                    },
-                    time: '',
-                    content: {
-                        text: '',
-                        images: []
-                    },
-                    comment: {
-                        count: 0,
-                    },
-                }
+                active_tab: '3',
+                text: ''
             }
         },
-        mounted() {
+        created() {
             this.holder += this.$props.user + ':转发动态';
         },
         methods: {
+            curr_time() {
+                let date = new Date();
+                let res = date.getFullYear() + '-';
+                if (date.getMonth() < 9)
+                    res += '0';
+                let month=date.getMonth()+1;
+                res += (month+ '-');
+
+                if (date.getDate() < 10)
+                    res += '0';
+
+                res += date.getDate() + ' ';
+
+                if (date.getHours() < 10)
+                    res += '0';
+
+                res += date.getHours() + ':';
+
+                if (date.getMinutes() < 10)
+                    res += '0';
+
+                res += date.getMinutes();
+
+                return res;
+            },
             submit() {
-                this.$message.success('转发成功！');
+                let url = 'http://localhost:8088/blog/setReblog';
+
+                let form = {
+                    uid: sessionStorage.getItem("id"),
+                    bid: this.$props.id,
+                    type: this.active_tab,
+                    content: this.text,
+                    post_day: this.curr_time(),
+                    username: this.$props.user
+                }
+
+                console.log(url);
+                console.log(form);
+
+                axios.post(url, {
+                    uid: sessionStorage.getItem("id"),
+                    bid: this.$props.id,
+                    type: this.active_tab,
+                    content: this.text,
+                    post_day: this.curr_time(),
+                    username: this.$props.user
+                }).then((response) => {
+                    if (response.data === true)
+                        this.$message.success('转发成功！');
+                    else
+                        this.$message.error('转发失败');
+                }).catch(err => {
+                    console.log(err);
+                });
 
                 this.$emit('change',);
                 return true;
-
+                // Integer uid;
+                // Integer bid;
+                // Integer type;
+                // String content;
+                // String post_day;
+                // String username;
             }
         }
     }
