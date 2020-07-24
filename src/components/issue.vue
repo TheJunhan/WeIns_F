@@ -36,6 +36,7 @@
     import Login from "./signinForm";
     import Blog from "./blog";
     import Release from "./release_blog";
+
     export default {
         name: "issue",
         components: { Release, Login, Side, Blog },
@@ -51,9 +52,10 @@
         methods: {
             getInfo() {
                 let url = 'http://localhost:8088/blog/getPublicBlogs';
-                if (this.$root.logged === true) {
+
+                if (this.$root.logged === true)
                     url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + sessionStorage.getItem("id");
-                }
+
                 axios.get(url).then((response) =>{
                     console.log(response.data);
                     this.myblogs = response.data;
@@ -70,18 +72,21 @@
     .issue {
         background-color: #A7CFE8;
     }
+
     .container {
         width: 50%;
         float: left;
         margin-left: 10%;
     }
+
     .release {
-        /*height: 300px;*/
         margin-bottom: 10px;
     }
+
     .blogs {
         margin-top: 10px;
     }
+
     .login {
         float: left;
         width: 30%;
@@ -91,7 +96,10 @@
         scroll-behavior: auto;
         display: block;
     }
+
     .logged{
-        width: 80%;
+        width: 60%;
+        float: left;
+        margin-left: 20%;
     }
 </style>
