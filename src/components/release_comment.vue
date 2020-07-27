@@ -42,12 +42,26 @@
         data () {
             return {
                 squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-                radio:0,
+                radio: 0,
                 text: ''
             }
         },
+        created() {
+            this.squareUrl = JSON.parse(sessionStorage.getItem("userMongo")).avatar;
+            this.radio = 0;
+            this.text = '';
+        },
         methods: {
             submit() {
+                if (this.$root.logged === false) {
+                    this.$message.info("请登录后再进行操作");
+                    return false;
+                }
+
+                if (this.text === '') {
+                    return false;
+                }
+
                 let url = 'http://localhost:8088/blog/setComment';
 
                 axios.post(url, {
@@ -60,6 +74,8 @@
                 }).then((response) =>{
                     if (response.data === true) {
                         this.$message.success('评论成功！');
+                        this.text = '';
+                        window.location.reload();
                     }
 
                     else
@@ -67,6 +83,8 @@
                 }).catch(err =>{
                    console.log(err);
                 });
+
+                this.$emit('change');
             }
         }
     }

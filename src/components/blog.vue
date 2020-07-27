@@ -11,7 +11,7 @@
                         <el-row style="height: 20px">
                             <el-col :span="20">
                                 <div class="name">
-                                    <el-button type="text" style="float: left" @click="visit">{{generator(data)}}</el-button>
+                                    <el-button type="text" style="float: left" @click="visit(blog.id)">{{generator(data)}}</el-button>
                                 </div>
                                 <div class="timestamp">{{blog.post_day}}</div>
                                 <div class="timestamp">当前可见：{{parseType2Str()}}</div>
@@ -65,6 +65,14 @@
                             </ul>
                         </div>
                     </div>
+
+                    <div v-if="blog.reblog_id !== -1" style="margin-top: 30px;">
+
+                        <div class="quote text-overflow">
+                            <el-button type="text" style="margin-left: 5px;" @click="visit(this.reblog.uid)">{{this.reblog_name}}</el-button>
+                                : {{this.reblogMongo.content}}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="footer" style="text-align: center">
@@ -99,17 +107,17 @@
 
                     <el-dialog class="blog_dialog1" :append-to-body="true" :visible.sync="share_flag" width="40%" :show-close="false"
                                title="转发动态到">
-                        <share :id="blog.id" :user="blog.username" :content="blogMongo.content"
+                        <share :id="blog.id" :user="username" :content="blogMongo.content"
                                @change="change"></share>
                     </el-dialog>
                     <el-dialog class="blog_dialog2" :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true"
                                style="z-index: 999">
-                        <el-image :src="this.showpic" class="big-img"></el-image>
+                        <el-image :src="showpic" class="big-img"></el-image>
                     </el-dialog>
 
                     <el-dialog class="blog_dialog3" :append-to-body="true" :visible.sync="comment_flag" width="60%" :show-close="false">
-                        <release_comment :bid="this.blog.id" :to_uid="this.blog.uid" :to_username="this.blog.username"></release_comment>
-                        <comment></comment>
+                        <comments :bid="this.blog.id" :to_uid="this.blog.uid" :to_username="this.username" :list="this.comments"
+                            @change="change" style="margin-top: -10px"></comments>
                     </el-dialog>
                 </div>
             </div>
@@ -122,12 +130,11 @@
     import axios from 'axios';
 
     import share from '../components/share';
-    import comment from "./comment";
-    import release_comment from "./release_comment";
+    import comments from "./comments";
 
     export default {
         components: {
-            share, comment, release_comment
+            share, comments
         },
         props: {
             data: Object
@@ -139,6 +146,9 @@
                 comments: [],
                 reblog: {},
                 reblogMongo: {},
+                username: '',
+                reblog_name: '',
+
                 dialogVisible: false,
                 showpic: "",
 
@@ -159,10 +169,24 @@
                 this.blogMongo = val.blogMongo;
                 this.comments = val.comments;
                 this.comment_num = this.comments.length;
+                this.reblog = val.reblog;
+                this.reblogMongo = val.reblogMongo;
 
                 console.log(val);
                 console.log("nmsl")
                 console.log(this.blog);
+
+                // if (this.reblog.uid !== null) {
+                //     axios.get('http://localhost:8088/user/getOne?id=' + this.reblog.uid)
+                //         .then((response) => {
+                //             this.reblog_name = response.data.name;
+                //         })
+                //         .catch(err => {
+                //             console.log(err);
+                //         });
+                // }
+
+                this.reblog_name = sessionStorage.getItem("name");
 
                 if (this.$root.logged === true) {
                     let id = Number(sessionStorage.getItem("id"));
@@ -184,7 +208,9 @@
                         }
                     }
                 }
-                return val.blog.username;
+
+                this.username = val.userName;
+                return val.userName;
             },
             parseBase64(image) {
                 return JSON.parse(image).base64;
@@ -237,6 +263,7 @@
             },
             change() {
                 this.share_flag = false;
+                this.comment_flag = false;
                 return true;
             },
             collect() {
@@ -325,9 +352,9 @@
                     });
                 }
             },
-            visit() {
+            visit(id) {
                 if (this.$root.logged === true &&
-                    this.blog.uid === Number(sessionStorage.getItem("id"))) {
+                    id === Number(sessionStorage.getItem("id"))) {
                     this.$router.push('/person');
                     return;
                 }
@@ -335,7 +362,7 @@
                 this.$router.push({
                     path: '/visit',
                     query: {
-                        id: this.blog.uid
+                        id: id
                     }
                 });
             },
@@ -345,10 +372,8 @@
                 return true;
             },
             comment() {
-                if (this.$root.logged === false) {
-                    this.$message.info("请登录后再进行操作");
-                    return false;
-                }
+                console.log(this.comments);
+                sessionStorage.setItem("comments", JSON.stringify(this.comments));
                 this.comment_flag = true;
                 return true;
             },
@@ -420,6 +445,18 @@
 
     .big-img {
         width: 100%;
+    }
+
+    .quote {
+        background-color: #F2F2F5;
+    }
+
+    .text-overflow {
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        height: 40%;
+        overflow: hidden;
+        white-space: nowrap;
     }
 
     .footer {

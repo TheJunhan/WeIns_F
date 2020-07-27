@@ -1,14 +1,14 @@
 <template>
     <el-card class="com" shadow="hover">
-        <div >
+        <div>
             <div class="ava">
                 <el-avatar class="comava" shape="square" :size="50" :src="comment.squareUrl"></el-avatar>
             </div>
 
             <div class="content">
                 <div class="con">
-                    <p class="content-text1">{{comment.name}} :</p>
-                    <p class="content-text2">{{comment.text}}</p>
+                    <p class="content-text1">{{data.username}}</p>
+                    <p class="content-text2"> : {{data.content}}</p>
                 </div>
                 <div class="icons">
                     <el-row>
@@ -46,21 +46,21 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
-            <div class="re-comment" >
-                    <div  class="con2" >
-                        <ul >
-                            <li  style="clear: both" v-for="recom in comment.arr" :key="recom.name">
-                                <div class="re" >
-                                    <div class="content-text4">
-                                        <span style="color: dodgerblue">{{recom.name}}</span> : {{recom.con}}
-                                    </div>
-                                    <p class="content-text5">{{comment.time}}</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <el-divider></el-divider>
-                    <div class="more-button" v-if="comment.morethan5==true">
+            <div class="re-comment">
+<!--                    <div  class="con2" >-->
+<!--                        <ul >-->
+<!--                            <li  style="clear: both" v-for="recom in comment.arr" :key="recom.name">-->
+<!--                                <div class="re" >-->
+<!--                                    <div class="content-text4">-->
+<!--                                        <span style="color: dodgerblue">{{recom.name}}</span> : {{recom.con}}-->
+<!--                                    </div>-->
+<!--                                    <p class="content-text5">{{comment.time}}</p>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                    <el-divider></el-divider>-->
+                    <div class="more-button" v-if="comment.morethan5 === false">
                         <el-button type="text">查看更多回复>></el-button>
                     </div>
             </div>
@@ -68,12 +68,20 @@
     </el-card>
 </template>
 
+<!--cid: 8-->
+<!--content: "自动消失测试2！"-->
+<!--to_uid: 3-->
+<!--to_username: null-->
+<!--uid: 3-->
+<!--username: "敖宇晨"-->
+
 <script>
     export default {
         props: {
             bid: Number,
             to_uid: Number,
-            to_username: String
+            to_username: String,
+            data: Object
         },
         data () {
             return {
