@@ -166,7 +166,6 @@
 
                 if (this.$root.logged === true) {
                     let id = Number(sessionStorage.getItem("id"));
-                    console.log(id);
 
                     // collect
                     let colllist = this.blogMongo.who_collect;
@@ -327,6 +326,12 @@
                 }
             },
             visit() {
+                if (this.$root.logged === true &&
+                    this.blog.uid === Number(sessionStorage.getItem("id"))) {
+                    this.$router.push('/person');
+                    return;
+                }
+
                 this.$router.push({
                     path: '/visit',
                     query: {
@@ -347,7 +352,6 @@
                 this.comment_flag = true;
                 return true;
             },
-
         },
     }
 </script>

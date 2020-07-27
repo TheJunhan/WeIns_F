@@ -19,6 +19,7 @@ Vue.prototype.logout = function () {
     this.$root.my_person_center_blogs = false;
     this.$root.my_person_center_follower = false;
     this.$root.my_person_center_following = false;
+    this.$root.my_person_center = true;
 };
 
 new Vue({
@@ -28,6 +29,7 @@ new Vue({
           logged: false,
           is_superuser: false,
 
+          my_person_center: true,
           my_person_center_info: true,
           my_person_center_blogs: false,
           my_person_center_follower: false,

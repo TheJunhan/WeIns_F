@@ -18,7 +18,7 @@
     import Blog from './blog';
     import axios from "axios";
     export default {
-        components: {Blog},
+        components: { Blog },
         data() {
             return{
                 myblogs: []
@@ -31,7 +31,7 @@
             getinfo() {
                 // let url = 'http://localhost:8088/blog/getBlogsById?uid=' + sessionStorage.getItem("id");
 
-                let id = sessionStorage.getItem("id");
+                let id = this.$route.query.id;
                 let url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + id;
 
                 axios.get(url).then((response) => {

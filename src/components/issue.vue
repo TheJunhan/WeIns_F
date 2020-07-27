@@ -32,7 +32,6 @@
 
 <script>
     import axios from 'axios';
-
     import Side from '../components/sidenav';
     import Login from "./signinForm";
     import Blog from "./blog";
@@ -40,7 +39,6 @@
 
     export default {
         name: "issue",
-
         components: { Release, Login, Side, Blog },
         data() {
             return {
@@ -53,12 +51,10 @@
         },
         methods: {
             getInfo() {
-
                 let url = 'http://localhost:8088/blog/getPublicBlogs';
 
-                if (this.$root.logged === true) {
+                if (this.$root.logged === true)
                     url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + sessionStorage.getItem("id");
-                }
 
                 axios.get(url).then((response) =>{
                     console.log(response.data);
@@ -84,7 +80,6 @@
     }
 
     .release {
-        /*height: 300px;*/
         margin-bottom: 10px;
     }
 
@@ -101,7 +96,10 @@
         scroll-behavior: auto;
         display: block;
     }
+
     .logged{
-        width: 80%;
+        width: 60%;
+        float: left;
+        margin-left: 20%;
     }
 </style>

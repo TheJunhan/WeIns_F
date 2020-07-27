@@ -29,11 +29,9 @@
             </div>
             <div v-if="comment.flag === true" class="down">
                 <el-dropdown trigger="click" style="outline: none">
-                    <span
-                            class="el-dropdown-link btn send time-send small-hand"
-                            id="custom-sebd-btn"
-                    ><i class="el-icon-arrow-down el-icon--right"></i>
-                                    </span>
+                    <span class="el-dropdown-link btn send time-send small-hand">
+                        <i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
 
                     <el-dropdown-menu slot="dropdown" style="width: 12%">
 
@@ -48,7 +46,7 @@
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
-            <div class="recomment" >
+            <div class="re-comment" >
                     <div  class="con2" >
                         <ul >
                             <li  style="clear: both" v-for="recom in comment.arr" :key="recom.name">
@@ -62,7 +60,7 @@
                         </ul>
                     </div>
                     <el-divider></el-divider>
-                    <div class="morebutton" v-if="comment.morethan5==true">
+                    <div class="more-button" v-if="comment.morethan5==true">
                         <el-button type="text">查看更多回复>></el-button>
                     </div>
             </div>
@@ -83,7 +81,7 @@
                     squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
                     name:"weins",
                     time: '2020-07-09 21:57',
-                    text:"好的!!!!!!!!!!!!!!!!!!!!!!!!！好的好的好的好的好的好的好的好的好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹好你妹",
+                    text:"好的!!!!!!!!!!!!!!!!!!!!!!!!！好的好的好的好的好的好的好的好的好",
                     flag:true,//是否是自己的评论
                     morethan5:true,//是否>五个
                     arr: [{name:"a",con:"hskjljd;rgresk,hfaluiehwlufhsdn,nkiulehliauhdcjasknaskd,nakhdualwihucxm,nufehaliueliafndskjnc,mxnzeu.fhsjd,nf,cmxjdalkdli",time: '2020-07-09 21:57'},{name:"wdada",con:"asdadadwdawadwd",time: '2020-07-09 21:57'},{name:"wad",con:"wdacfasfefe",time: '2020-07-09 21:57'},{name:"ef",con:"efegreghtgt",time: '2020-07-09 21:57'},{name:"rgr",con:"erggregrg",time: '2020-07-09 21:57'}],
@@ -100,7 +98,7 @@
     }
 
     .content {
-        width: 70%;
+        width: 75%;
         float: left;
         margin-left: 5%;
     }
@@ -144,7 +142,7 @@
         float: left;
         margin-top:1.5%;
         color: darkgray;
-       font-size: 15px;
+        font-size: 12px;
     }
 
     .icon2 {
@@ -152,7 +150,7 @@
         text-align: right;
     }
 
-    .recomment {
+    .re-comment {
         background-color: #eaeaec;
         margin-left: 11%;
         clear: both;
@@ -171,7 +169,7 @@
         background-color: white;
     }
 
-    .morebutton {
+    .more-button {
         float: right;
         clear: both;
        /*background-color: red;*/
@@ -182,10 +180,10 @@
     }
 
     .content-text5 {
-        width: 20%;
+        width: 24%;
         float: right;
         margin-top:1.5%;
         color: darkgray;
-        font-size: small;
+        font-size: 10px;
     }
 </style>

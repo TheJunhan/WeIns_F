@@ -7,14 +7,9 @@
             <div class="head">
                 <Card class="card"></Card>
             </div>
-            <div>
-                <el-tag>{{user.name}}</el-tag>
-            </div>
             <div class="container">
                 <div class="side">
-                    <Counter class="counter"></Counter>
-                    <Info class="info"></Info>
-                    <Footstep class="footstep"></Footstep>
+                    <Counter class="counter" :data="user"></Counter>
                 </div>
                 <div class="main">
                     <Information v-if="this.$root.my_person_center_info === true"></Information>
@@ -33,22 +28,35 @@
 <script>
     import axios from 'axios';
 
-    import Counter from "../components/counter";
+    import Counter from "../components/othercounter";
     import Card from '../components/otherpersonalcard';
-    import Footstep from "../components/footstep";
-    import Info from "../components/info";
     import Header from '../components/topnav';
     import Foot from '../components/footer';
-    import Blogs from "../components/myblogs";
-    import Information from "../components/information";
+    import Blogs from "../components/otherblogs";
+    import Information from "../components/otherinformation";
     import Follow from '../components/follow';
 
     export default {
         components: {
-            Header, Counter, Info , Footstep, Card, Foot, Information, Blogs, Follow,
+            Header, Card, Foot, Counter,
+            Information, Blogs, Follow,
+        },
+        data() {
+            return {
+                id: 0,
+                user: {}
+            }
         },
         created() {
-            let url = 'http://localhost:8088/user/getOne?id=' + this.$route.query.id;
+            this.$root.my_person_center = false;
+            this.$root.my_person_center_info = false;
+            this.$root.my_person_center_blogs = true;
+            this.$root.my_person_center_follower = false;
+            this.$root.my_person_center_following = false;
+
+            this.id = this.$route.query.id;
+            let url = 'http://localhost:8088/user/getOne?id=' + this.id;
+            console.log(url);
 
             axios.get(url).then((response) => {
                 this.user = response.data;
@@ -56,11 +64,6 @@
                 console.log(err);
             });
         },
-        data() {
-            return {
-                user: {}
-            }
-        }
     }
 </script>
 
@@ -102,10 +105,6 @@
     }
 
     .info {
-        margin-top: 10px;
-    }
-
-    .footstep {
         margin-top: 10px;
     }
 
