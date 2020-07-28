@@ -221,7 +221,12 @@
             },
             release() {
                 if (this.$root.logged === false) {
-                    this.$message.error('请登录后再进行操作！');
+                    this.$message.info('请登录后再进行操作！');
+                }
+
+                if (this.text === '' && this.filelist.length === 0) {
+                    this.$message.error('不能发布空动态！');
+                    return;
                 }
 
                 // args:

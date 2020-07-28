@@ -64,7 +64,7 @@
                 // this.user.sex = sessionStorage.getItem("sex");
                 // this.user.userMongo.avatar =sessionStorage.getItem("userMongo")!=null ? JSON.parse(sessionStorage.getItem("userMongo")).avatar : null;
 
-                let url = 'http://localhost:8088/user/getOne?id=' + sessionStorage.getItem('id');
+                let url = 'http://localhost:8088/user/getPlainOne?id=' + sessionStorage.getItem('id');
 
                 axios.get(url).then((res) => {
                     this.user = res.data;

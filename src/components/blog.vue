@@ -11,7 +11,7 @@
                         <el-row style="height: 20px">
                             <el-col :span="20">
                                 <div class="name">
-                                    <el-button type="text" style="float: left" @click="visit(blog.id)">{{generator(data)}}</el-button>
+                                    <el-button type="text" style="float: left" @click="visit(blog.uid)">{{generator(data)}}</el-button>
                                 </div>
                                 <div class="timestamp">{{blog.post_day}}</div>
                                 <div class="timestamp">当前可见：{{parseType2Str()}}</div>
@@ -176,7 +176,7 @@
                 if (this.$root.auth_blog_manager === true || String(this.blog.uid) === sessionStorage.getItem("id"))
                     this.delete_auth = true;
 
-                this.reblog_name = sessionStorage.getItem("name");
+                this.reblog_name = val.reblogUserName;
 
                 if (this.$root.logged === true) {
                     let id = Number(sessionStorage.getItem("id"));

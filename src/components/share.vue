@@ -77,6 +77,10 @@
             submit() {
                 let url = 'http://localhost:8088/blog/setReblog';
 
+                if (this.text === '') {
+                    this.text = '转发动态';
+                }
+
                 let form = {
                     uid: sessionStorage.getItem("id"),
                     bid: this.$props.id,
