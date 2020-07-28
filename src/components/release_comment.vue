@@ -47,7 +47,8 @@
             }
         },
         created() {
-            this.squareUrl = JSON.parse(sessionStorage.getItem("userMongo")).avatar;
+            // this.squareUrl = JSON.parse(sessionStorage.getItem("userMongo")).avatar;
+            this.squareUrl = sessionStorage.getItem("avatar");
             this.radio = 0;
             this.text = '';
         },

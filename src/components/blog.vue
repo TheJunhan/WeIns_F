@@ -40,7 +40,7 @@
                                                 <el-dropdown-item>设置为好友可见</el-dropdown-item>
                                             </p>
 
-                                            <p v-on:click="option(2)" class="menuitem" v-if="this.$root.is_superuser === true">
+                                            <p v-on:click="option(2)" class="menuitem" v-if="delete_auth">
                                                 <el-dropdown-item>删除</el-dropdown-item>
                                             </p>
 
@@ -150,6 +150,7 @@
                 reblog_name: '',
 
                 dialogVisible: false,
+                delete_auth: false,
                 showpic: "",
 
                 like_num: 0,
@@ -172,19 +173,8 @@
                 this.reblog = val.reblog;
                 this.reblogMongo = val.reblogMongo;
 
-                console.log(val);
-                console.log("nmsl")
-                console.log(this.blog);
-
-                // if (this.reblog.uid !== null) {
-                //     axios.get('http://localhost:8088/user/getOne?id=' + this.reblog.uid)
-                //         .then((response) => {
-                //             this.reblog_name = response.data.name;
-                //         })
-                //         .catch(err => {
-                //             console.log(err);
-                //         });
-                // }
+                if (this.$root.auth_blog_manager === true || String(this.blog.uid) === sessionStorage.getItem("id"))
+                    this.delete_auth = true;
 
                 this.reblog_name = sessionStorage.getItem("name");
 
@@ -246,8 +236,8 @@
                 axios.get(url).then((response) =>{
                     if (response.data === true) {
                         this.$message.success('删除成功！');
-                        this.$emit('delete')                    }
-
+                        this.$emit('change');
+                    }
                     else
                         this.$message.error('没有权限删除！');
                 });
@@ -264,6 +254,7 @@
             change() {
                 this.share_flag = false;
                 this.comment_flag = false;
+                this.$emit('change');
                 return true;
             },
             collect() {

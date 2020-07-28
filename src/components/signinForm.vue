@@ -114,12 +114,14 @@
                             else {
                                 this.$root.logged = true;
                                 this.$root.is_superuser=(user.type !== 0);
+                                this.$root.parseAuth(user.type);
 
                                 // 登录后这里存各种session的数据
                                 sessionStorage.setItem("phone", user.phone);
                                 sessionStorage.setItem("name", user.name);
                                 sessionStorage.setItem("id", user.id);
-                                sessionStorage.setItem("userMongo", JSON.stringify(user.userMongo))
+                                sessionStorage.setItem("userMongo", JSON.stringify(user.userMongo));
+                                sessionStorage.setItem("avatar", user.userMongo.avatar);
                                 sessionStorage.setItem("type", user.type);
                                 sessionStorage.setItem("sex", user.sex);
                                 sessionStorage.setItem("birthday", user.birthday);
@@ -161,9 +163,9 @@
                             this.isSubmit = false;
                         }
                     })
-                    return this.axios.post(url).then(res=>{
-                        return res === 'success';
-                    });
+                    // return this.axios.post(url).then(res=>{
+                    //     return res === 'success';
+                    // });
                 }
                 return false;
             },

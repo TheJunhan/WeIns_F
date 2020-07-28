@@ -11,7 +11,7 @@
                 <div v-if="len !== 0">
                     <ul>
                         <li v-for="(blog,i) in myblogs" :key="blog.id">
-                            <Blog @delete="getInfo" :data="myblogs[myblogs.length-i-1]" style="margin-bottom: 5px"></Blog>
+                            <Blog @change="getInfo" :data="myblogs[myblogs.length-i-1]" style="margin-bottom: 5px"></Blog>
                         </li>
                     </ul>
                 </div>

@@ -40,7 +40,7 @@
                             <router-link to="/person">
                                 <span class="el-dropdown-link can-point" id="person"><el-dropdown-item>个人信息</el-dropdown-item></span>
                             </router-link>
-                            <router-link to="/manager" v-if="this.$root.is_superuser">
+                            <router-link to="/manager" v-if="this.$root.is_superuser && this.$root.auth_user_manager === true">
                                 <span class="el-dropdown-link can-point" ><el-dropdown-item>用户管理</el-dropdown-item></span>
                             </router-link>
                             <router-link to="/person">
@@ -103,10 +103,10 @@
         },
         methods: {
             loadAll() {
-                const url="https://localhost:8088/ddd"
-                return this.axios.post(url).then(res=>{
-                    return res === 'success';
-                })
+                // const url="https://localhost:8088/ddd"
+                // return this.axios.post(url).then(res=>{
+                //     return res === 'success';
+                // })
             },
             querySearchAsync(queryString,cbe) {
 

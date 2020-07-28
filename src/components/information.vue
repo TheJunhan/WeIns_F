@@ -188,13 +188,10 @@
             },
             nonage(date) { // 判断是否满14周岁
                 let curr = new Date();
-                if((curr.getFullYear()-date.getFullYear()>14 )
+                return (curr.getFullYear() - date.getFullYear() > 14)
                     || (curr.getFullYear() - date.getFullYear() === 14)
                     && (curr.getMonth() > date.getMonth()
-                        || (curr.getMonth() === date.getMonth() && curr.getDate()>date.getDate())))
-                    return true;
-                else
-                    return false;
+                        || (curr.getMonth() === date.getMonth() && curr.getDate() > date.getDate()));
             },
             birth_format(date) {
                 let birth = date.getFullYear() + '-';
@@ -233,8 +230,7 @@
                 return true;
             },
             update() {
-
-                if (this.birthright != "") {
+                if (this.birthright !== "") {
                     let date = new Date(this.birthright);
                     if (this.nonage(date) === false) {
                         this.$message.error("生日不符合条件或未满18周岁");
@@ -246,47 +242,50 @@
                 }
                 let url = 'http://localhost:8088/user/update';
                 let user = this.user;
-                if(user.phone.length!=11){
+
+                if (user.phone.length === 0) {
                     this.errormessage.phone.flag=true;
                     return;
+                } else {
+                    let format = /^(1[0-9]{10})$/;
+                    if (!format.test(user.phone)) {
+                        this.errormessage.phone.flag=true;
+                        return;
+                    }
                 }
-
 
                 console.log(user);
 
                 axios.post(url, user).then((response) => {
-                    if (response.data === "error" &&user.name!=this.newname) {
+                    if (response.data === "error" && user.name !== this.newname) {
                         this.errormessage.name.flag = true;
                         return;
                         // this.generator(); // 回溯
                     }
-                    if( response.data === "errorPhone"&&user.phone!=this.newphone){
+                    if( response.data === "errorPhone" && user.phone !== this.newphone){
                         this.errormessage.phone.flag=true;
                         return;
                     }
 
-
-                        console.log(response.data)
-                        this.newphone=user.phone;
-                        this.newname=user.name;
-                        this.errormessage.name.flag = false;
-                        this.errormessage.phone.flag=false;
-                        this.sessionUpdate();
-
+                    console.log(response.data)
+                    this.newphone=user.phone;
+                    this.newname=user.name;
+                    this.errormessage.name.flag = false;
+                    this.errormessage.phone.flag=false;
+                    this.sessionUpdate();
                 }).catch(err => {
                     console.log(err);
                 });
-                return this.axios.post(url).then(res => {
-                    if (res == "success") return true;
-                    else return false;
-                })
+                // return this.axios.post(url).then(res => {
+                //     return res === "success";
+                // })
             },
             basic() {
                 if (this.basic_flag) {
-                    if(this.errormessage.phone.flag==true||this.errormessage.name.flag ==true){
+                    if(this.errormessage.phone.flag===true||this.errormessage.name.flag ===true){
                         return;
                     }
-                    if(this.birthright!="") {
+                    if(this.birthright!=="") {
                         this.update();
                     }
 
@@ -303,7 +302,7 @@
             },
             contact() {
                 if (this.contact_flag) {
-                    if(this.errormessage.phone.flag==true||this.errormessage.name.flag ==true){
+                    if(this.errormessage.phone.flag===true||this.errormessage.name.flag ===true){
                         return;
                     }
                     this.contact_flag = false;

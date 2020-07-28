@@ -29,13 +29,16 @@
         },
         methods: {
             getinfo() {
-                // let url = 'http://localhost:8088/blog/getBlogsById?uid=' + sessionStorage.getItem("id");
-
                 let id = sessionStorage.getItem("id");
+
+                // let url = 'http://localhost:8088/blog/getBlogsById?uid=' + id + '&to_see_uid=' + id;
+
+
                 let url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + id;
 
                 axios.get(url).then((response) => {
                     // this.myblogs = response.data;
+                    // console.log(response.data);
 
                     let tmp = response.data;
 
