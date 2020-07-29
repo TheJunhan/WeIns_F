@@ -17,7 +17,6 @@
 <script>
     import comment from "./comment";
     import release_comment from "./release_comment";
-
     export default {
         name: "comments",
         components: {
@@ -36,13 +35,11 @@
         created() {
             let tmp = JSON.parse(sessionStorage.getItem("comments"));
             console.log(tmp);
-
             // let tmp = this.$props.list;
             for (let i = 0; i < tmp.length; i++) {
                 if (tmp[i].to_uid === this.$props.to_uid)
                     this.comments.push(tmp[i]);
             }
-
             console.log(this.comments);
         },
         methods: {
@@ -52,7 +49,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

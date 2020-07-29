@@ -70,6 +70,8 @@
 <!--username: "敖宇晨"-->
 
 <script>
+    import axios from 'axios';
+
     export default {
         props: {
             bid: Number,
@@ -111,7 +113,19 @@
                 this.$message.info('暂不支持');
             },
             remove() {
-                this.$message.info('删除评论');
+
+                let url = 'http://localhost:8088/blog/removeComment?uid=' + sessionStorage.getItem("id")
+                 + '&bid=' + this.$props.bid
+                 + '&type=' + sessionStorage.getItem("type");
+
+                axios.post(url).then(res => {
+                    if (res.data === true)
+                        this.$message.success('删除评论');
+                    else
+                        this.$message.error('没有权限删除！');
+                }).catch(err =>{
+                   console.log(err);
+                });
             },
         }
     }

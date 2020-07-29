@@ -18,7 +18,7 @@
                             </el-col>
 
                             <el-col :span="3" style="float: right">
-                                <div>
+                                <div v-if="this.$root.logged === true">
                                     <el-dropdown trigger="click" style="outline: none">
                                     <span
                                             class="el-dropdown-link btn send time-send small-hand"
@@ -55,7 +55,8 @@
 
                     <div class="content" style="z-index: 998;">
                         <div class="text">
-                            {{blogMongo.content}}
+<!--                            {{blogMongo.content}}-->
+                            <FormatContent :text="blogMongo.content"></FormatContent>
                         </div>
                         <div class="images" v-if="blogMongo.images !== null">
                             <ul>
@@ -129,12 +130,13 @@
 <script>
     import axios from 'axios';
 
-    import share from '../components/share';
-    import comments from "./comments";
+    import share from './share';
+    import comments from './comments';
+    import FormatContent from './formatcontent';
 
     export default {
         components: {
-            share, comments
+            share, comments, FormatContent
         },
         props: {
             data: Object
@@ -255,9 +257,13 @@
                 this.share_flag = false;
                 this.comment_flag = false;
                 this.$emit('change');
+
                 return true;
             },
             fresh() {
+                this.share_flag = false;
+                this.comment_flag = false;
+                this.$message.success('hahaha');
                 axios.get('http://localhost:8088/blog/getSingleBlog?bid=' + this.blog.id).then(res => {
                    this.generator(res.data);
                 }).catch(err => {
