@@ -1,6 +1,6 @@
 <template>
     <div>
-        <release_comment :bid="bid" :to_uid="to_uid" :to_username="to_username" @change="change"></release_comment>
+        <release_comment :bid="bid" :to_uid="to_uid" @change="change"></release_comment>
         <div v-if="list.length > 0">
             <ul>
                 <li v-for="comment in comments" :key="comment.cid">
@@ -26,7 +26,6 @@
         props: {
             bid: Number,
             to_uid: Number,
-            to_username: String,
             list: Array
         },
         data() {
@@ -48,7 +47,7 @@
         },
         methods: {
             change() {
-                this.$emit('change');
+                this.$emit('fresh');
             }
         }
     }

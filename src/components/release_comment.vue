@@ -53,6 +53,31 @@
             this.text = '';
         },
         methods: {
+            curr_time() {
+                let date = new Date();
+                let res = date.getFullYear() + '-';
+                if (date.getMonth() < 9)
+                    res += '0';
+                let month=date.getMonth()+1;
+                res += (month+ '-');
+
+                if (date.getDate() < 10)
+                    res += '0';
+
+                res += date.getDate() + ' ';
+
+                if (date.getHours() < 10)
+                    res += '0';
+
+                res += date.getHours() + ':';
+
+                if (date.getMinutes() < 10)
+                    res += '0';
+
+                res += date.getMinutes();
+
+                return res;
+            },
             submit() {
                 if (this.$root.logged === false) {
                     this.$message.info("请登录后再进行操作");
@@ -60,6 +85,7 @@
                 }
 
                 if (this.text === '') {
+                    this.$message.error('评论不能为空！');
                     return false;
                 }
 
@@ -67,11 +93,10 @@
 
                 axios.post(url, {
                     uid: sessionStorage.getItem("id"),
-                    username: sessionStorage.getItem("name"),
                     to_uid: this.$props.to_uid,
-                    to_username: this.$props.to_username,
                     bid: this.$props.bid,
-                    content: this.text
+                    content: this.text,
+                    post_time: this.curr_time()
                 }).then((response) =>{
                     if (response.data === true) {
                         this.$message.success('评论成功！');

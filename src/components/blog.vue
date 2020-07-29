@@ -116,8 +116,8 @@
                     </el-dialog>
 
                     <el-dialog class="blog_dialog3" :append-to-body="true" :visible.sync="comment_flag" width="60%" :show-close="false">
-                        <comments :bid="this.blog.id" :to_uid="this.blog.uid" :to_username="this.username" :list="this.comments"
-                            @change="change" style="margin-top: -10px"></comments>
+                        <comments :bid="this.blog.id" :to_uid="this.blog.uid" :list="this.comments"
+                            @fresh="fresh" style="margin-top: -10px"></comments>
                     </el-dialog>
                 </div>
             </div>
@@ -256,6 +256,13 @@
                 this.comment_flag = false;
                 this.$emit('change');
                 return true;
+            },
+            fresh() {
+                axios.get('http://localhost:8088/blog/getSingleBlog?bid=' + this.blog.id).then(res => {
+                   this.generator(res.data);
+                }).catch(err => {
+                    console.log(err);
+                });
             },
             collect() {
                 if (this.$root.logged === false) {
