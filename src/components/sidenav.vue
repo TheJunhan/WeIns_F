@@ -3,8 +3,8 @@
         <el-menu default-active="1"
                  class="nav"
                  :collapse="false"
-                 @select="handleopen"
-                 unique-opened="true"
+                 @select="handleOpen"
+                 :unique-opened="unique"
         style="background-color: #A7CFE8;z-index: auto">
             <el-menu-item index="1" id="1">
                 <span slot="title" style="z-index: auto">热门</span>
@@ -33,17 +33,16 @@
         name: "sidenav",
         data(){
             return {
-                select:1
+                select: 1,
+                unique: true
             }
         },
         methods:{
-            handleopen(key,keypath){
+            handleOpen(key, keypath){
                 this.select=key;
                 console.log(keypath);
                 return key;
             }
-        },
-        mounted() {
         }
     }
 </script>

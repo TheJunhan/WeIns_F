@@ -11,14 +11,14 @@
                         <el-row style="height: 20px">
                             <el-col :span="20">
                                 <div class="name">
-                                    <el-button type="text" style="float: left" @click="visit(blog.id)">{{generator(data)}}</el-button>
+                                    <el-button type="text" style="float: left" @click="visit(blog.uid)">{{generator(data)}}</el-button>
                                 </div>
                                 <div class="timestamp">{{blog.post_day}}</div>
                                 <div class="timestamp">当前可见：{{parseType2Str()}}</div>
                             </el-col>
 
                             <el-col :span="3" style="float: right">
-                                <div>
+                                <div v-if="this.$root.logged === true">
                                     <el-dropdown trigger="click" style="outline: none">
                                     <span
                                             class="el-dropdown-link btn send time-send small-hand"
@@ -40,7 +40,7 @@
                                                 <el-dropdown-item>设置为好友可见</el-dropdown-item>
                                             </p>
 
-                                            <p v-on:click="option(2)" class="menuitem" v-if="this.$root.is_superuser === true">
+                                            <p v-on:click="option(2)" class="menuitem" v-if="delete_auth">
                                                 <el-dropdown-item>删除</el-dropdown-item>
                                             </p>
 
@@ -55,7 +55,8 @@
 
                     <div class="content" style="z-index: 998;">
                         <div class="text">
-                            {{blogMongo.content}}
+<!--                            {{blogMongo.content}}-->
+                            <FormatContent :text="blogMongo.content"></FormatContent>
                         </div>
                         <div class="images" v-if="blogMongo.images !== null">
                             <ul>
@@ -116,8 +117,8 @@
                     </el-dialog>
 
                     <el-dialog class="blog_dialog3" :append-to-body="true" :visible.sync="comment_flag" width="60%" :show-close="false">
-                        <comments :bid="this.blog.id" :to_uid="this.blog.uid" :to_username="this.username" :list="this.comments"
-                            @change="change" style="margin-top: -10px"></comments>
+                        <comments :bid="this.blog.id" :to_uid="this.blog.uid" :list="this.comments"
+                            @fresh="fresh" style="margin-top: -10px"></comments>
                     </el-dialog>
                 </div>
             </div>
@@ -129,12 +130,13 @@
 <script>
     import axios from 'axios';
 
-    import share from '../components/share';
-    import comments from "./comments";
+    import share from './share';
+    import comments from './comments';
+    import FormatContent from './formatcontent';
 
     export default {
         components: {
-            share, comments
+            share, comments, FormatContent
         },
         props: {
             data: Object
@@ -150,6 +152,7 @@
                 reblog_name: '',
 
                 dialogVisible: false,
+                delete_auth: false,
                 showpic: "",
 
                 like_num: 0,
@@ -172,21 +175,10 @@
                 this.reblog = val.reblog;
                 this.reblogMongo = val.reblogMongo;
 
-                console.log(val);
-                console.log("nmsl")
-                console.log(this.blog);
+                if (this.$root.auth_blog_manager === true || String(this.blog.uid) === sessionStorage.getItem("id"))
+                    this.delete_auth = true;
 
-                // if (this.reblog.uid !== null) {
-                //     axios.get('http://localhost:8088/user/getOne?id=' + this.reblog.uid)
-                //         .then((response) => {
-                //             this.reblog_name = response.data.name;
-                //         })
-                //         .catch(err => {
-                //             console.log(err);
-                //         });
-                // }
-
-                this.reblog_name = sessionStorage.getItem("name");
+                this.reblog_name = val.reblogUserName;
 
                 if (this.$root.logged === true) {
                     let id = Number(sessionStorage.getItem("id"));
@@ -246,8 +238,8 @@
                 axios.get(url).then((response) =>{
                     if (response.data === true) {
                         this.$message.success('删除成功！');
-                        this.$emit('delete')                    }
-
+                        this.$emit('change');
+                    }
                     else
                         this.$message.error('没有权限删除！');
                 });
@@ -264,7 +256,19 @@
             change() {
                 this.share_flag = false;
                 this.comment_flag = false;
+                this.$emit('change');
+
                 return true;
+            },
+            fresh() {
+                this.share_flag = false;
+                this.comment_flag = false;
+                this.$message.success('hahaha');
+                axios.get('http://localhost:8088/blog/getSingleBlog?bid=' + this.blog.id).then(res => {
+                   this.generator(res.data);
+                }).catch(err => {
+                    console.log(err);
+                });
             },
             collect() {
                 if (this.$root.logged === false) {

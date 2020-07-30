@@ -2,7 +2,7 @@
     <el-card class="com" shadow="hover">
         <div>
             <div class="ava">
-                <el-avatar class="comava" shape="square" :size="50" :src="comment.squareUrl"></el-avatar>
+                <el-avatar class="comava" shape="square" :size="50" :src="data.avatar"></el-avatar>
             </div>
 
             <div class="content">
@@ -13,21 +13,21 @@
                 <div class="icons">
                     <el-row>
                         <el-col class="icon1" :span="6">
-                            <p>{{comment.time}}</p>
+                            <p>{{data.post_time}}</p>
                         </el-col>
                         <el-col class="icon2" :span="6">
-                            <el-button type="text" icon="el-icon-warning-outline">投诉</el-button>
+                            <el-button type="text" icon="el-icon-warning-outline" @click="complain">投诉</el-button>
                         </el-col>
                         <el-col class="icon2" :span="6">
-                            <el-button type="text" icon="el-icon-chat-dot-square">回复</el-button>
+                            <el-button type="text" icon="el-icon-chat-dot-square" @click="reply">回复</el-button>
                         </el-col>
                         <el-col class="icon2" :span="6">
-                            <el-button type="text" icon="el-icon-star-off">喜欢</el-button>
+                            <el-button type="text" icon="el-icon-star-off" @click="like">喜欢</el-button>
                         </el-col>
                     </el-row>
                 </div>
             </div>
-            <div v-if="comment.flag === true" class="down">
+            <div v-if="delete_flag === true" class="down">
                 <el-dropdown trigger="click" style="outline: none">
                     <span class="el-dropdown-link btn send time-send small-hand">
                         <i class="el-icon-arrow-down el-icon--right"></i>
@@ -35,13 +35,7 @@
 
                     <el-dropdown-menu slot="dropdown" style="width: 12%">
 
-                        <el-dropdown-item class="menuitem">删除</el-dropdown-item>
-
-                        <el-dropdown-item class="menuitem">设置为仅博主可见</el-dropdown-item>
-
-                        <el-dropdown-item class="menuitem">设置为所有人可见</el-dropdown-item>
-
-                        <el-dropdown-item class="menuitem" v-if="this.$route.params.is_superuser">删除</el-dropdown-item>
+                        <el-dropdown-item class="menuitem" @click="remove">删除</el-dropdown-item>
 
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -60,9 +54,9 @@
 <!--                        </ul>-->
 <!--                    </div>-->
 <!--                    <el-divider></el-divider>-->
-                    <div class="more-button" v-if="comment.morethan5 === false">
-                        <el-button type="text">查看更多回复>></el-button>
-                    </div>
+                <div class="more-button" v-if="comment.morethan5 === false">
+                    <el-button type="text">查看更多回复>></el-button>
+                </div>
             </div>
         </div>
     </el-card>
@@ -76,26 +70,63 @@
 <!--username: "敖宇晨"-->
 
 <script>
+    import axios from 'axios';
+
     export default {
         props: {
             bid: Number,
             to_uid: Number,
-            to_username: String,
             data: Object
+        },
+        created() {
+            // console.log(this.$props.data);
+            this.delete_flag = (this.$root.auth_comment_manager === true || this.$props.data.uid === Number(sessionStorage.getItem("id")));
         },
         data () {
             return {
-                comment:{
+                comment: {
                     squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-                    name:"weins",
+                    name: "weins",
                     time: '2020-07-09 21:57',
                     text:"好的!!!!!!!!!!!!!!!!!!!!!!!!！好的好的好的好的好的好的好的好的好",
                     flag:true,//是否是自己的评论
                     morethan5:true,//是否>五个
-                    arr: [{name:"a",con:"hskjljd;rgresk,hfaluiehwlufhsdn,nkiulehliauhdcjasknaskd,nakhdualwihucxm,nufehaliueliafndskjnc,mxnzeu.fhsjd,nf,cmxjdalkdli",time: '2020-07-09 21:57'},{name:"wdada",con:"asdadadwdawadwd",time: '2020-07-09 21:57'},{name:"wad",con:"wdacfasfefe",time: '2020-07-09 21:57'},{name:"ef",con:"efegreghtgt",time: '2020-07-09 21:57'},{name:"rgr",con:"erggregrg",time: '2020-07-09 21:57'}],
-                }
-
+                    arr: [
+                        {name:"a",con:"hskjljd;rgresk,hfaluiehwlufhsdn,nkiulehliauhdcjasknaskd,nakhdualwihucxm,nufehaliueliafndskjnc,mxnzeu.fhsjd,nf,cmxjdalkdli",time: '2020-07-09 21:57'},
+                        {name:"wdada",con:"asdadadwdawadwd",time: '2020-07-09 21:57'},
+                        {name:"wad",con:"wdacfasfefe",time: '2020-07-09 21:57'},
+                        {name:"ef",con:"efegreghtgt",time: '2020-07-09 21:57'},
+                        {name:"rgr",con:"erggregrg",time: '2020-07-09 21:57'}
+                        ],
+                },
+                delete_flag: false,
             }
+        },
+        methods: {
+            complain() {
+                this.$message.info('暂不支持');
+            },
+            reply() {
+                this.$message.info('暂不支持');
+            },
+            like() {
+                this.$message.info('暂不支持');
+            },
+            remove() {
+
+                let url = 'http://localhost:8088/blog/removeComment?uid=' + sessionStorage.getItem("id")
+                 + '&bid=' + this.$props.bid
+                 + '&type=' + sessionStorage.getItem("type");
+
+                axios.post(url).then(res => {
+                    if (res.data === true)
+                        this.$message.success('删除评论');
+                    else
+                        this.$message.error('没有权限删除！');
+                }).catch(err =>{
+                   console.log(err);
+                });
+            },
         }
     }
 </script>

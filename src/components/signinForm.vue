@@ -6,8 +6,8 @@
             </div>
             <div style="width: 80%; text-align: center; margin-left: 10%">
                 <el-menu mode="horizontal" default-active="1">
-                    <el-menu-item class="menu" index="1">普通用户</el-menu-item>
-                    <el-menu-item class="menu" index="2">管理员</el-menu-item>
+                    <el-menu-item class="menu" index="1" @click="handleSelect(1)">普通用户</el-menu-item>
+                    <el-menu-item class="menu" index="2" @click="handleSelect(2)">管理员</el-menu-item>
                 </el-menu>
             </div>
             <div class="form">
@@ -53,6 +53,7 @@
             return {
                 checked: false,
                 isSubmit: false,
+                login_path: 1,
                 errmessage:"",
                 form: {
                     phone: '',
@@ -65,6 +66,9 @@
                 this.form.password = sessionStorage.getItem("pwd");
         },
         methods: {
+            handleSelect(index) {
+                this.login_path = index;
+            },
             onSubmit() {
                 if (!this.isSubmit) {
                     let phone = this.form.phone;
@@ -111,15 +115,28 @@
                                 this.isSubmit = false;
                             }
 
+                            else if (user.type === 0 && this.login_path === 2) {
+                                this.$message.info('普通用户请从普通用户通道登录！');
+                                this.isSubmit = false;
+                                return false;
+                            }
+
+                            else if (user.type > 0 && this.login_path === 1) {
+                                this.$message.info('管理员用户请从管理员通道登录！');
+                                this.isSubmit = false;
+                                return false;
+                            }
+
                             else {
                                 this.$root.logged = true;
-                                this.$root.is_superuser=(user.type !== 0);
+                                this.$root.parseAuth(user.type);
 
                                 // 登录后这里存各种session的数据
                                 sessionStorage.setItem("phone", user.phone);
                                 sessionStorage.setItem("name", user.name);
                                 sessionStorage.setItem("id", user.id);
-                                sessionStorage.setItem("userMongo", JSON.stringify(user.userMongo))
+                                sessionStorage.setItem("userMongo", JSON.stringify(user.userMongo));
+                                sessionStorage.setItem("avatar", user.userMongo.avatar);
                                 sessionStorage.setItem("type", user.type);
                                 sessionStorage.setItem("sex", user.sex);
                                 sessionStorage.setItem("birthday", user.birthday);
@@ -161,9 +178,9 @@
                             this.isSubmit = false;
                         }
                     })
-                    return this.axios.post(url).then(res=>{
-                        return res === 'success';
-                    });
+                    // return this.axios.post(url).then(res=>{
+                    //     return res === 'success';
+                    // });
                 }
                 return false;
             },

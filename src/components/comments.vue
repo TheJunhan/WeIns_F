@@ -1,6 +1,6 @@
 <template>
     <div>
-        <release_comment :bid="bid" :to_uid="to_uid" :to_username="to_username" @change="change"></release_comment>
+        <release_comment :bid="bid" :to_uid="to_uid" @change="change"></release_comment>
         <div v-if="list.length > 0">
             <ul>
                 <li v-for="comment in comments" :key="comment.cid">
@@ -17,7 +17,6 @@
 <script>
     import comment from "./comment";
     import release_comment from "./release_comment";
-
     export default {
         name: "comments",
         components: {
@@ -26,7 +25,6 @@
         props: {
             bid: Number,
             to_uid: Number,
-            to_username: String,
             list: Array
         },
         data() {
@@ -37,23 +35,17 @@
         created() {
             let tmp = JSON.parse(sessionStorage.getItem("comments"));
             console.log(tmp);
-
             // let tmp = this.$props.list;
             for (let i = 0; i < tmp.length; i++) {
                 if (tmp[i].to_uid === this.$props.to_uid)
                     this.comments.push(tmp[i]);
             }
-
             console.log(this.comments);
         },
         methods: {
             change() {
-                this.$emit('change');
+                this.$emit('fresh');
             }
         }
     }
 </script>
-
-<style scoped>
-
-</style>
