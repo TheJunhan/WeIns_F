@@ -117,8 +117,7 @@
                     </el-dialog>
 
                     <el-dialog class="blog_dialog3" :append-to-body="true" :visible.sync="comment_flag" width="60%" :show-close="false">
-                        <comments :bid="this.blog.id" :to_uid="this.blog.uid" :list="this.comments"
-                            @fresh="fresh" style="margin-top: -10px"></comments>
+                        <comments :bid="this.blog.id" :uid="this.blog.uid" @fresh="fresh" style="margin-top: -10px"></comments>
                     </el-dialog>
                 </div>
             </div>
@@ -376,7 +375,6 @@
                 return true;
             },
             comment() {
-                console.log(this.comments);
                 sessionStorage.setItem("comments", JSON.stringify(this.comments));
                 this.comment_flag = true;
                 return true;

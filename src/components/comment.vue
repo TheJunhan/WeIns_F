@@ -1,149 +1,172 @@
 <template>
     <el-card class="com" shadow="hover">
-        <div>
-            <div class="ava">
-                <el-avatar class="comava" shape="square" :size="50" :src="data.avatar"></el-avatar>
-            </div>
 
+        <div class="avatar">
+            <el-avatar class="comava" shape="square" :size="50" :src="data.avatar"></el-avatar>
+        </div>
+
+        <div>
             <div class="content">
+
                 <div class="con">
                     <p class="content-text1">{{data.username}}</p>
                     <p class="content-text2"> : {{data.content}}</p>
                 </div>
+
                 <div class="icons">
                     <el-row>
                         <el-col class="icon1" :span="6">
                             <p>{{data.post_time}}</p>
                         </el-col>
+
                         <el-col class="icon2" :span="6">
-                            <el-button type="text" icon="el-icon-warning-outline" @click="complain">投诉</el-button>
-                        </el-col>
-                        <el-col class="icon2" :span="6">
-                            <el-button type="text" icon="el-icon-chat-dot-square" @click="reply">回复</el-button>
+                            <el-button type="text" icon="el-icon-chat-dot-square" @click="feedback(-1)">回复</el-button>
                         </el-col>
                         <el-col class="icon2" :span="6">
                             <el-button type="text" icon="el-icon-star-off" @click="like">喜欢</el-button>
                         </el-col>
+                        <el-col class="icon2" :span="6">
+                            <div v-if="delete_flag === true">
+                                <el-button type="text" icon="el-icon-delete" @click="remove(data.cid)">删除</el-button>
+                            </div>
+
+                            <div v-else>
+                                <p style="color: #f2f2f5">占位置</p>
+                            </div>
+                        </el-col>
                     </el-row>
                 </div>
-            </div>
-            <div v-if="delete_flag === true" class="down">
-                <el-dropdown trigger="click" style="outline: none">
-                    <span class="el-dropdown-link btn send time-send small-hand">
-                        <i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
 
-                    <el-dropdown-menu slot="dropdown" style="width: 12%">
+                <release v-if="reply_flag === true" :type="1" :bid="data.bid" :to_uid="data.uid" :to_username="data.username" :comment="data"></release>
 
-                        <el-dropdown-item class="menuitem" @click="remove">删除</el-dropdown-item>
+                <div class="re-comment">
+                    <div class="con2">
+                        <ul><li style="clear: both" v-for="(reply, index) in replies" :key="reply.cid">
+                            <div class="reply">
+                                <div class="content-text4" style="margin-left: 5px; margin-top: 5px">
+                                    <el-button type="text" size="mini" style="font-size: 14px; margin-top: -6px; z-index: 999">{{reply.username}}</el-button> : {{displayReplyContent(reply)}}
+                                </div>
 
-                    </el-dropdown-menu>
-                </el-dropdown>
-            </div>
-            <div class="re-comment">
-<!--                    <div  class="con2" >-->
-<!--                        <ul >-->
-<!--                            <li  style="clear: both" v-for="recom in comment.arr" :key="recom.name">-->
-<!--                                <div class="re" >-->
-<!--                                    <div class="content-text4">-->
-<!--                                        <span style="color: dodgerblue">{{recom.name}}</span> : {{recom.con}}-->
-<!--                                    </div>-->
-<!--                                    <p class="content-text5">{{comment.time}}</p>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                    <el-divider></el-divider>-->
-                <div class="more-button" v-if="comment.morethan5 === false">
-                    <el-button type="text">查看更多回复>></el-button>
+                                <div style="margin-left: 5px">
+                                    <el-row>
+                                        <el-col :span="18">
+                                            <p class="content-text5">{{reply.post_time}}</p>
+                                        </el-col>
+                                        <el-col :span="3">
+                                            <div v-if="delete_flag === true">
+                                                <el-button icon="el-icon-delete" type="text" @click="remove(reply.cid)" style="z-index: 999">删除</el-button>
+                                                <el-divider direction="vertical"></el-divider>
+                                            </div>
+                                            <div v-else>
+                                                <p style="color: #eaeaec">占位置</p>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="3">
+                                            <el-button icon="el-icon-chat-dot-square" type="text" @click="feedback(index)" style="z-index: 999">回复</el-button>
+                                        </el-col>
+                                    </el-row>
+                                </div>
+
+                                <release v-if="reply.flag === true" :type="1" :bid="reply.bid" :to_uid="reply.uid" :to_username="reply.username" :comment="reply"></release>
+                            </div>
+                        </li></ul>
+                    </div>
+                    <div class="more-button" v-if="size > 5">
+                        <el-button type="text">查看更多回复>></el-button>
+                    </div>
                 </div>
             </div>
         </div>
     </el-card>
 </template>
 
-<!--cid: 8-->
-<!--content: "自动消失测试2！"-->
-<!--to_uid: 3-->
-<!--to_username: null-->
-<!--uid: 3-->
-<!--username: "敖宇晨"-->
-
 <script>
     import axios from 'axios';
+    import release from "./release_comment";
 
     export default {
+        components: {
+            release
+        },
         props: {
             bid: Number,
             to_uid: Number,
             data: Object
         },
-        created() {
-            // console.log(this.$props.data);
-            this.delete_flag = (this.$root.auth_comment_manager === true || this.$props.data.uid === Number(sessionStorage.getItem("id")));
-        },
         data () {
             return {
-                comment: {
-                    squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-                    name: "weins",
-                    time: '2020-07-09 21:57',
-                    text:"好的!!!!!!!!!!!!!!!!!!!!!!!!！好的好的好的好的好的好的好的好的好",
-                    flag:true,//是否是自己的评论
-                    morethan5:true,//是否>五个
-                    arr: [
-                        {name:"a",con:"hskjljd;rgresk,hfaluiehwlufhsdn,nkiulehliauhdcjasknaskd,nakhdualwihucxm,nufehaliueliafndskjnc,mxnzeu.fhsjd,nf,cmxjdalkdli",time: '2020-07-09 21:57'},
-                        {name:"wdada",con:"asdadadwdawadwd",time: '2020-07-09 21:57'},
-                        {name:"wad",con:"wdacfasfefe",time: '2020-07-09 21:57'},
-                        {name:"ef",con:"efegreghtgt",time: '2020-07-09 21:57'},
-                        {name:"rgr",con:"erggregrg",time: '2020-07-09 21:57'}
-                        ],
-                },
+                replies: [],
+                size: 0,
+                reply_flag: false,
                 delete_flag: false,
             }
         },
+        created() {
+            this.delete_flag = (this.$root.auth_comment_manager === true || this.$props.data.uid === Number(sessionStorage.getItem("id")));
+
+            let cid = this.$props.data.cid;
+            let tmp = JSON.parse(sessionStorage.getItem("comments"));
+            for (let i = 0; i < tmp.length; ++i) {
+                if (tmp[i].root_cid === cid) {
+                    tmp[i].flag = false;
+                    this.replies.push(tmp[i]);
+                }
+            }
+
+            this.size = this.replies.length;
+        },
+
         methods: {
-            complain() {
-                this.$message.info('暂不支持');
+            displayReplyContent(reply){
+                if (reply.to_cid !== this.$props.data.cid)
+                    return '回复@' + reply.to_username + ':' + reply.content;
+                else
+                    return reply.content;
             },
-            reply() {
-                this.$message.info('暂不支持');
+            feedback(type) {
+                if (type === -1)
+                    this.reply_flag = (this.reply_flag !== true);
+                else
+                    this.replies[type].flag = (this.replies[type].flag !== true);
             },
             like() {
                 this.$message.info('暂不支持');
             },
-            remove() {
-
+            remove(cid) {
                 let url = 'http://localhost:8088/blog/removeComment?uid=' + sessionStorage.getItem("id")
-                 + '&bid=' + this.$props.bid
+                 + '&cid=' + cid
                  + '&type=' + sessionStorage.getItem("type");
 
                 axios.post(url).then(res => {
-                    if (res.data === true)
-                        this.$message.success('删除评论');
+                    if (res.data === true) {
+                        this.$message.success('删除评论成功！');
+                        this.$emit('change');
+                    }
                     else
                         this.$message.error('没有权限删除！');
                 }).catch(err =>{
-                   console.log(err);
+                    console.log(err);
                 });
-            },
+            }
         }
     }
 </script>
 
 <style scoped>
-    .ava {
-        width: 15%;
+    .avatar {
+        float: left;
+        width: 8%;
     }
 
     .content {
-        width: 75%;
+        width: 80%;
         float: left;
         margin-left: 5%;
+        color: black;
     }
 
     .down {
-        float: left;
+        float: right;
         width: 10%;
     }
 
@@ -190,28 +213,25 @@
     }
 
     .re-comment {
-        background-color: #eaeaec;
-        margin-left: 11%;
         clear: both;
-        width: 70%;
+        width: 100%;
+    }
+
+    .reply {
+        background-color: #eaeaec;
+        width: 100%;
     }
 
     .content-text4 {
-        /*width: 60%;*/
-        /*background-color:white;*/
+        width: 100%;
         word-break:break-all;
         float: left;
         display: flex;
     }
 
-    .content-text4:hover {
-        background-color: white;
-    }
-
     .more-button {
         float: right;
         clear: both;
-       /*background-color: red;*/
     }
 
     .com {
@@ -219,9 +239,8 @@
     }
 
     .content-text5 {
-        width: 24%;
-        float: right;
-        margin-top:1.5%;
+        float: left;
+        margin-top: 13px;
         color: darkgray;
         font-size: 10px;
     }
