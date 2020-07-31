@@ -115,11 +115,10 @@
                                style="z-index: 999">
                         <el-image :src="showpic" class="big-img"></el-image>
                     </el-dialog>
+                </div>
 
-                    <el-dialog class="blog_dialog3" :append-to-body="true" :visible.sync="comment_flag" width="60%" :show-close="false">
-                        <comments :bid="this.blog.id" :to_uid="this.blog.uid" :list="this.comments"
-                            @fresh="fresh" style="margin-top: -10px"></comments>
-                    </el-dialog>
+                <div class="comment" v-if="comment_flag === true">
+                    <comments :bid="this.blog.id" :uid="this.blog.uid" @fresh="fresh" style="margin-top: -10px"></comments>
                 </div>
             </div>
         </el-card>
@@ -376,9 +375,13 @@
                 return true;
             },
             comment() {
-                console.log(this.comments);
-                sessionStorage.setItem("comments", JSON.stringify(this.comments));
-                this.comment_flag = true;
+                if (this.comment_flag === false) {
+                    sessionStorage.setItem("comments", JSON.stringify(this.comments));
+                    this.comment_flag = true;
+                    return true;
+                }
+
+                this.comment_flag = false;
                 return true;
             },
         },

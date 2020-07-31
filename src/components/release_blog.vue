@@ -112,34 +112,35 @@
                 </el-row>
             </div>
 
-            <div>
-                <el-row style="margin-top: 10px;margin-bottom: 5px">
-                    <el-tag
-                            style="margin-left: 3px;margin-right: 3px"
-                            :key="tag"
-                            v-for="(tag,i) in choosen_tags"
-                            closable
-                            :disable-transitions="false"
-                            @close="handleClose(i)">
-                        {{tag}}
-                    </el-tag>
-                </el-row>
-                <el-row style="margin-top: 10px;margin-bottom: 5px">
-                    <el-input v-model="taginput" placeholder="请输入标签搜索" v-on:change="searchTags" style="width:50%"></el-input>
-                    <el-button type="primary" style="width: 15%;font-size: 10px;margin-left: 5px" v-on:click="searchTags">搜索</el-button>
-                    <el-button type="primary" style="width: 15%;font-size: 10px">新建</el-button>
-                </el-row>
-                <el-row style="margin-top: 10px;margin-bottom: 5px">
-                    <el-tag
-                            :key="tag"
-                            v-for="(tag,i) in Tags"
-                            :disable-transitions="false"
-                            @close="handleClose(i)"
-                            style="margin-left: 3px;margin-right: 3px">
-                        <el-button type="text" size="mini" @click="addTag(i)" >{{tag}}</el-button>
-                    </el-tag>
-                </el-row>
-
+            <div v-if="topic_flag">
+                <el-card shadow="hover">
+                    <el-row style="margin-top: 10px;margin-bottom: 5px">
+                        <el-tag
+                                style="margin-left: 3px;margin-right: 3px"
+                                :key="tag"
+                                v-for="(tag,i) in choosen_tags"
+                                closable
+                                :disable-transitions="false"
+                                @close="handleClose(i)">
+                            {{tag}}
+                        </el-tag>
+                    </el-row>
+                    <el-row style="margin-top: 10px;margin-bottom: 5px">
+                        <el-input v-model="taginput" placeholder="请输入标签搜索" v-on:change="searchTags" style="width:50%"></el-input>
+                        <el-button type="primary" style="width: 15%;font-size: 10px;margin-left: 5px" v-on:click="searchTags">搜索</el-button>
+                        <el-button type="primary" style="width: 15%;font-size: 10px">新建</el-button>
+                    </el-row>
+                    <el-row style="margin-top: 10px;margin-bottom: 5px">
+                        <el-tag
+                                :key="tag"
+                                v-for="(tag,i) in Tags"
+                                :disable-transitions="false"
+                                @close="handleClose(i)"
+                                style="margin-left: 3px;margin-right: 3px">
+                            <el-button type="text" size="mini" @click="addTag(i)" >{{tag}}</el-button>
+                        </el-tag>
+                    </el-row>
+                </el-card>
             </div>
 
         </el-card>
@@ -165,6 +166,8 @@
                 taginput: '',
                 oldtags: [],  //no use
                 message: '',
+
+                topic_flag: false,
             }
         },
         methods: {
@@ -265,7 +268,7 @@
                 return true;
             },
             topic() {
-                this.$message.success('topic!');
+                this.topic_flag = (this.topic_flag !== true);
                 this.message='topic!';
                 return true;
             },

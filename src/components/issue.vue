@@ -20,6 +20,13 @@
                     <p style="text-align: center; font-size: 40px; color: #c0c4cc;">暂无动态</p>
                 </div>
             </div>
+            <div class="more">
+                <el-card>
+                    <div style="margin-top: -5px; margin-bottom: -5px; text-align: center">
+                        <el-button type="text" size="mini" @click="showMore">点击加载更多 >></el-button>
+                    </div>
+                </el-card>
+            </div>
         </div>
 
         <div v-if="this.$root.logged === false" id="issue_div_logindiv">
@@ -64,6 +71,9 @@
                     console.log(err);
                 });
             },
+            showMore() {
+                this.$message.info('下拉刷新暂不支持！');
+            }
         }
     }
 </script>
@@ -97,9 +107,13 @@
         display: block;
     }
 
-    .logged{
+    .logged {
         width: 60%;
         float: left;
         margin-left: 20%;
+    }
+
+    .more {
+        height: 20px;
     }
 </style>

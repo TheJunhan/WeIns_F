@@ -1,10 +1,10 @@
 <template>
     <div>
-        <release_comment :bid="bid" :to_uid="to_uid" @change="change"></release_comment>
+        <release_comment :bid="bid" :to_uid="uid" @change="change"></release_comment>
         <div v-if="list.length > 0">
             <ul>
                 <li v-for="comment in comments" :key="comment.cid">
-                    <comment :data="comment"></comment>
+                    <comment :data="comment" @change="change"></comment>
                 </li>
             </ul>
         </div>
@@ -24,28 +24,30 @@
         },
         props: {
             bid: Number,
-            to_uid: Number,
-            list: Array
+            uid: Number,
         },
         data() {
             return {
                 comments: [],
+                list: []
             }
         },
         created() {
-            let tmp = JSON.parse(sessionStorage.getItem("comments"));
-            console.log(tmp);
-            // let tmp = this.$props.list;
-            for (let i = 0; i < tmp.length; i++) {
-                if (tmp[i].to_uid === this.$props.to_uid)
-                    this.comments.push(tmp[i]);
-            }
-            console.log(this.comments);
+            this.list = JSON.parse(sessionStorage.getItem("comments"));
+            this.parseReplyRelation();
         },
         methods: {
             change() {
                 this.$emit('fresh');
-            }
+            },
+            parseReplyRelation() {
+                let tmp = this.list;
+                for (let i = 0; i < tmp.length; ++i) {
+                    if (tmp[i].to_cid === -1) {
+                        this.comments.push(tmp[i]);
+                    }
+                }
+            },
         }
     }
 </script>
