@@ -40,11 +40,11 @@
                 <release v-if="reply_flag === true" :type="1" :bid="data.bid" :to_uid="data.uid" :to_username="data.username" :comment="data"></release>
 
                 <div class="re-comment">
-                    <div class="con2">
+                    <div class="con2" v-if="show_flag === 0 || show_flag === 2">
                         <ul><li style="clear: both" v-for="(reply, index) in replies" :key="reply.cid">
                             <div class="reply">
                                 <div class="content-text4" style="margin-left: 5px; margin-top: 5px">
-                                    <el-button type="text" size="mini" style="font-size: 14px; margin-top: -6px; z-index: 999">{{reply.username}}</el-button> : {{displayReplyContent(reply)}}
+                                    <el-button type="text" size="mini" style="font-size: 14px; margin-top: -6px; z-index: 999" @click="visit(reply.uid)">{{reply.username}}</el-button> : {{displayReplyContent(reply)}}
                                 </div>
 
                                 <div style="margin-left: 5px">
@@ -53,7 +53,7 @@
                                             <p class="content-text5">{{reply.post_time}}</p>
                                         </el-col>
                                         <el-col :span="3">
-                                            <div v-if="delete_flag === true">
+                                            <div v-if="reply.delete_flag === true">
                                                 <el-button icon="el-icon-delete" type="text" @click="remove(reply.cid)" style="z-index: 999">删除</el-button>
                                                 <el-divider direction="vertical"></el-divider>
                                             </div>
@@ -71,8 +71,20 @@
                             </div>
                         </li></ul>
                     </div>
-                    <div class="more-button" v-if="size > 5">
-                        <el-button type="text">查看更多回复>></el-button>
+
+                    <div class="more-button">
+                        <el-row>
+                            <el-col :span="12">
+                                <div v-if="show_flag === 1">
+                                    <el-button type="text" @click="showMore" style="z-index: 999">共{{size}}条回复，查看更多 >></el-button>
+                                </div>
+                            </el-col>
+                            <el-col :span="12">
+                                <div v-if="show_flag === 2">
+                                    <el-button type="text" @click="showMore"> >> 收起</el-button>
+                                </div>
+                            </el-col>
+                        </el-row>
                     </div>
                 </div>
             </div>
@@ -93,12 +105,13 @@
             to_uid: Number,
             data: Object
         },
-        data () {
+        data() {
             return {
                 replies: [],
                 size: 0,
                 reply_flag: false,
                 delete_flag: false,
+                show_flag: 0
             }
         },
         created() {
@@ -109,11 +122,14 @@
             for (let i = 0; i < tmp.length; ++i) {
                 if (tmp[i].root_cid === cid) {
                     tmp[i].flag = false;
+                    tmp[i].delete_flag = (this.$root.auth_comment_manager === true || tmp[i].uid === Number(sessionStorage.getItem("id")));
                     this.replies.push(tmp[i]);
                 }
             }
 
             this.size = this.replies.length;
+            if (this.size > 5)
+                this.show_flag = 1;
         },
 
         methods: {
@@ -147,6 +163,20 @@
                 }).catch(err =>{
                     console.log(err);
                 });
+            },
+            showMore() {
+                if (this.show_flag === 1)
+                    this.show_flag = 2;
+                else if (this.show_flag === 2)
+                    this.show_flag = 1;
+            },
+            visit(uid) {
+                this.$router.push({
+                    path: '/visit',
+                    query: {
+                        id: uid
+                    }
+                })
             }
         }
     }
@@ -230,8 +260,7 @@
     }
 
     .more-button {
-        float: right;
-        clear: both;
+        width: 100%;
     }
 
     .com {

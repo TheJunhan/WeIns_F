@@ -22,7 +22,6 @@ Vue.prototype.$http = axios;
 Vue.prototype.logout = function () {
     this.$root.logged = false;
 
-    this.$root.is_superuser = false;
     this.$root.auth_user_manager = false;
     this.$root.auth_blog_manager = false;
     this.$root.auth_comment_manger = false;
@@ -50,7 +49,6 @@ new Vue({
       return{
           logged: false,
 
-          is_superuser: false,
           auth_user_manager: false,
           auth_blog_manager: false,
           auth_comment_manager: false,

@@ -38,9 +38,9 @@
                     </span>
                         <el-dropdown-menu slot="dropdown" style="width: 100px">
                             <router-link to="/person">
-                                <span class="el-dropdown-link can-point" id="person"><el-dropdown-item>个人信息</el-dropdown-item></span>
+                                <span class="el-dropdown-link can-point" id="person"><el-dropdown-item>个人中心</el-dropdown-item></span>
                             </router-link>
-                            <router-link to="/manager" v-if="this.$root.is_superuser && this.$root.auth_user_manager === true">
+                            <router-link to="/manager" v-if="this.$root.auth_user_manager === true">
                                 <span class="el-dropdown-link can-point" ><el-dropdown-item>用户管理</el-dropdown-item></span>
                             </router-link>
                             <router-link to="/person">
