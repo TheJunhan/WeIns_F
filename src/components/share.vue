@@ -100,7 +100,12 @@
                     content: this.text,
                     post_day: this.curr_time(),
                     username: this.$props.user
-                }).then((response) => {
+                },
+                    {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                    }).then((response) => {
                     if (response.data === true)
                         this.$message.success('转发成功！');
                     else

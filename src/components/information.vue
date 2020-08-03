@@ -256,7 +256,11 @@
 
                 console.log(user);
 
-                axios.post(url, user).then((response) => {
+                axios.post(url, user, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) => {
                     if (response.data === "error" && user.name !== this.newname) {
                         this.errormessage.name.flag = true;
                         return;

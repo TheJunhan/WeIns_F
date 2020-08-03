@@ -49,7 +49,11 @@
                 else {
                     let url = 'http://localhost:8088/user/getOne?id=' + this.$route.query.id;
 
-                    axios.get(url).then((response) => {
+                    axios.get(url, {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                    }).then((response) => {
                        let mongo = response.data.userMongo;
                        this.followers = mongo.followers;
                        this.followings = mongo.followings;

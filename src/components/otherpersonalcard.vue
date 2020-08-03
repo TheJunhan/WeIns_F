@@ -37,7 +37,11 @@
             this.id = this.$route.query.id;
             let url = 'http://localhost:8088/user/getOne?id=' + this.id;
 
-            axios.get(url).then((response) => {
+            axios.get(url, {
+                headers: {
+                    token: sessionStorage.getItem("token")
+                }
+            }).then((response) => {
                 let user = response.data;
 
                 this.name = user.name;
@@ -82,7 +86,11 @@
                 + '&flag=' + flag;
                 console.log(url);
 
-                axios.post(url).then((response) =>{
+                axios.post(url, {}, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) =>{
                     console.log(response.data);
                     if (response.data === 'success') {
                         if (flag === 1) {

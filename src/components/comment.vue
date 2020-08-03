@@ -153,7 +153,11 @@
                  + '&cid=' + cid
                  + '&type=' + sessionStorage.getItem("type");
 
-                axios.post(url).then(res => {
+                axios.post(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then(res => {
                     if (res.data === true) {
                         this.$message.success('删除评论成功！');
                         this.$emit('change');

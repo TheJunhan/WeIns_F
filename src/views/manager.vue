@@ -87,7 +87,11 @@
             },
             init(){
                 let url = 'http://localhost:8088/user/getAll'
-                axios.get(url).then((response) => {
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) => {
                         console.log(response);
                         this.users=response.data;
                         for(let i =0;i<this.users.length;i++){

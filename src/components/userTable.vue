@@ -72,7 +72,11 @@
                 const url='http://localhost:8088/user/auth?sub='+sessionStorage.getItem('id')
                             +'&obj='+row.id+'&tar='+tar;
 
-                axios.post(url).then((response) => {
+                axios.post(url, {}, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) => {
                     if(response.data=='success'){
                         for(let i=0;i<this.arr.length;++i){
                             if(this.arr[i].id==row.id){

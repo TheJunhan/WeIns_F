@@ -33,7 +33,11 @@
 
                 let url = 'http://localhost:8088/blog/getBlogsById?uid=' + id + '&to_see_uid=' + id;
 
-                axios.get(url).then((response) => {
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) => {
                     this.myblogs = response.data;
                 }).catch(err => {
                     console.log(err);
