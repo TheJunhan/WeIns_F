@@ -248,7 +248,12 @@
                     label: JSON.stringify(this.choosen_tags),
                     username: sessionStorage.getItem("name"),
                     useravatar: JSON.parse(sessionStorage.getItem("userMongo")).avatar
-                }).then((response) =>{
+                },
+                    {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                    }).then((response) =>{
                     console.log(response);
                     this.$message.success("动态发布成功！");
                     this.fresh();

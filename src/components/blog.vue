@@ -234,7 +234,11 @@
                 + '&bid=' + this.blog.id
                 + '&type=' + this.blog.type;
 
-                axios.get(url).then((response) =>{
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) =>{
                     if (response.data === true) {
                         this.$message.success('删除成功！');
                         this.$emit('change');
@@ -263,7 +267,11 @@
                 this.share_flag = false;
                 this.comment_flag = false;
                 this.$message.success('hahaha');
-                axios.get('http://localhost:8088/blog/getSingleBlog?bid=' + this.blog.id).then(res => {
+                axios.get('http://localhost:8088/blog/getSingleBlog?bid=' + this.blog.id, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then(res => {
                    this.generator(res.data);
                 }).catch(err => {
                     console.log(err);
@@ -281,7 +289,11 @@
                     '&flag=';
 
                 if (this.collect_flag) {
-                    axios.get(url + 'false').then((response) =>{
+                    axios.get(url + 'false', {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                    }).then((response) =>{
                         if (response.data === true) {
                             this.$message.error('取消收藏！');
                             this.blog.coll_number--;
@@ -294,7 +306,11 @@
                 }
 
                 else {
-                    axios.get(url + 'true').then((response) =>{
+                    axios.get(url + 'true', {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                    }).then((response) =>{
                         if (response.data === true) {
                             this.$message.success('收藏成功！');
                             this.collect_flag = true;
@@ -317,7 +333,11 @@
                         + 'uid=' + sessionStorage.getItem("id")
                         + '&bid=' + this.blog.id;
 
-                    axios.get(url).then((response) =>{
+                    axios.get(url, {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                    }).then((response) =>{
                         if (response.data === true) {
                             this.$message.error('取消赞！');
                             this.like_flag = false;
@@ -338,7 +358,11 @@
                         + 'uid=' + sessionStorage.getItem("id")
                         + '&bid=' + this.blog.id;
 
-                    axios.get(url).then((response) =>{
+                    axios.get(url, {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                    }).then((response) =>{
                         if (response.data === true) {
                             this.like_flag = true;
                             this.blog.like++;

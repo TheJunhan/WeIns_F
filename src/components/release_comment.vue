@@ -127,7 +127,12 @@
                     post_time: this.curr_time(),
                     root_cid: (this.$props.type === 1) ? this.getRoot_cid() : -1,
                     to_cid: (this.$props.type === 1) ? this.to_comment.cid : -1
-                }).then((response) =>{
+                },
+                    {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                    }).then((response) =>{
                     if (response.data === true) {
                         this.$message.success('评论成功！');
                         this.text = '';

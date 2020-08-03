@@ -66,7 +66,11 @@
 
                 let url = 'http://localhost:8088/user/getPlainOne?id=' + sessionStorage.getItem('id');
 
-                axios.get(url).then((res) => {
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((res) => {
                     this.user = res.data;
                     console.log(this.user);
                     this.origin_avatar = this.user.userMongo.avatar;
@@ -109,7 +113,11 @@
                 let url = 'http://localhost:8088/user/update';
                 console.log(url);
 
-                axios.post(url, this.user).then((response) => {
+                axios.post(url, this.user, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) => {
                     if(response.data === 'success')
                         this.$message.success('更换头像成功！');
                     console.log(response.data);

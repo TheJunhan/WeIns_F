@@ -58,7 +58,11 @@
             let url = 'http://localhost:8088/user/getOne?id=' + this.id;
             console.log(url);
 
-            axios.get(url).then((response) => {
+            axios.get(url, {
+                headers: {
+                    token: sessionStorage.getItem("token")
+                }
+            }).then((response) => {
                 this.user = response.data;
             }).catch(err => {
                 console.log(err);

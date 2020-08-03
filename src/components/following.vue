@@ -43,7 +43,11 @@
             this.id = this.$props.uid;
             let url = 'http://localhost:8088/user/getOne?id=' + this.id;
 
-            axios.get(url).then((response) =>{
+            axios.get(url, {
+                headers: {
+                    token: sessionStorage.getItem("token")
+                }
+            }).then((response) =>{
                 this.name = response.data.name;
                 this.userMongo = response.data.userMongo;
             }).catch(err=> {
@@ -57,7 +61,11 @@
                     '&obj=' + this.id +
                     '&flag=-1';
 
-                axios.post(url).then((response) => {
+                axios.post(url, {}, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) => {
                    if (response.data === 'success')
                        this.$message.success('取关 ' + this.name + ' 成功！');
                 }).catch(err=> {

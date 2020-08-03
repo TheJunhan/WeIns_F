@@ -62,7 +62,11 @@
                 let id = sessionStorage.getItem("id");
                 let url = 'http://localhost:8088/user/getOne?id=' + id;
 
-                axios.get(url).then((response) => {
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) => {
                     let userMongo = response.data.userMongo;
                     this.following_num = userMongo.following_num;
                     this.follower_num = userMongo.follower_num;
