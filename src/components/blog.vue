@@ -108,7 +108,7 @@
 
                     <el-dialog class="blog_dialog1" :append-to-body="true" :visible.sync="share_flag" width="40%" :show-close="false"
                                title="转发动态到">
-                        <share :id="blog.id" :user="username" :content="blogMongo.content"
+                        <share :id="blog.id" :to_uid="blog.uid" :user="username" :content="blogMongo.content"
                                @change="change"></share>
                     </el-dialog>
                     <el-dialog class="blog_dialog2" :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true"

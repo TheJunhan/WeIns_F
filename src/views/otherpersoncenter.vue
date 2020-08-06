@@ -5,17 +5,17 @@
         </el-header>
         <div class="person">
             <div class="head">
-                <Card class="card"></Card>
+                <Card class="card" :avatar="user.userMongo.avatar" :name="user.name" :flag="follow_flag"></Card>
             </div>
             <div class="container">
                 <div class="side">
-                    <Counter class="counter" :data="user"></Counter>
+                    <Counter class="counter" :data="user.userMongo"></Counter>
                 </div>
                 <div class="main">
-                    <Information v-if="this.$root.my_person_center_info === true"></Information>
+                    <Information v-if="this.$root.my_person_center_info === true" :data="user"></Information>
                     <Blogs v-if="this.$root.my_person_center_blogs === true"></Blogs>
-                    <Follow v-if="this.$root.my_person_center_follower === true"></Follow>
-                    <Follow v-if="this.$root.my_person_center_following === true"></Follow>
+                    <Follow v-if="this.$root.my_person_center_follower === true" :list="user.userMongo.followers"></Follow>
+                    <Follow v-if="this.$root.my_person_center_following === true" :list="user.userMongo.followings"></Follow>
                 </div>
             </div>
         </div>
@@ -44,7 +44,8 @@
         data() {
             return {
                 id: 0,
-                user: {}
+                user: {},
+                follow_flag: 0
             }
         },
         created() {
@@ -55,7 +56,7 @@
             this.$root.my_person_center_following = false;
 
             this.id = this.$route.query.id;
-            let url = 'http://localhost:8088/user/getOne?id=' + this.id;
+            let url = 'http://localhost:8088/user/getPlainOne?id=' + this.id;
             console.log(url);
 
             axios.get(url, {
@@ -64,6 +65,16 @@
                 }
             }).then((response) => {
                 this.user = response.data;
+
+                if (this.$root.logged === true) {
+                    let followers = this.user.userMongo.followers;
+                    for (let i = 0; i < followers.length; ++i) {
+                        if (followers[i] === Number(sessionStorage.getItem("id"))) {
+                            this.follow_flag = 1;
+                            break;
+                        }
+                    }
+                }
             }).catch(err => {
                 console.log(err);
             });
@@ -102,14 +113,6 @@
     .side {
         float: left;
         width: 20%;
-    }
-
-    .counter {
-
-    }
-
-    .info {
-        margin-top: 10px;
     }
 
     .main {

@@ -34,6 +34,7 @@
         name:"share",
         props: {
             id: Number,
+            to_uid: Number,
             user: String,
             content: String,
         },
@@ -81,18 +82,6 @@
                     this.text = '转发动态';
                 }
 
-                let form = {
-                    uid: sessionStorage.getItem("id"),
-                    bid: this.$props.id,
-                    type: this.active_tab,
-                    content: this.text,
-                    post_day: this.curr_time(),
-                    username: this.$props.user
-                }
-
-                console.log(url);
-                console.log(form);
-
                 axios.post(url, {
                     uid: sessionStorage.getItem("id"),
                     bid: this.$props.id,
@@ -100,14 +89,18 @@
                     content: this.text,
                     post_day: this.curr_time(),
                     username: this.$props.user
-                },
+                    },
                     {
                         headers: {
                             token: sessionStorage.getItem("token")
                         }
                     }).then((response) => {
-                    if (response.data === true)
+
+                    if (response.data === true) {
                         this.$message.success('转发成功！');
+                        if (this.comment_to_flag === true)
+                            this.comment();
+                    }
                     else
                         this.$message.error('转发失败');
                 }).catch(err => {
@@ -116,12 +109,35 @@
 
                 this.$emit('change',);
                 return true;
-                // Integer uid;
-                // Integer bid;
-                // Integer type;
-                // String content;
-                // String post_day;
-                // String username;
+            },
+            comment() {
+                let url = 'http://localhost:8088/blog/setComment';
+
+                axios.post(url, {
+                        uid: sessionStorage.getItem("id"),
+                        to_uid: this.$props.to_uid,
+                        bid: this.$props.id,
+                        content: this.text,
+                        post_time: this.curr_time(),
+                        root_cid: -1,
+                        to_cid: -1
+                    },
+                    {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                    }).then((response) =>{
+                    if (response.data === true) {
+                        this.$message.success('评论成功！');
+                        this.text = '';
+                        window.location.reload();
+                    }
+
+                    else
+                        this.$message.success('评论失败！');
+                }).catch(err =>{
+                    console.log(err);
+                });
             }
         }
     }

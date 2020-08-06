@@ -38,7 +38,7 @@
         },
         created() {
             this.id = this.$props.uid;
-            let url = 'http://localhost:8088/user/getOne?id=' + this.id;
+            let url = 'http://localhost:8088/user/getPlainOne?id=' + this.id;
 
             axios.get(url, {
                 headers: {
@@ -72,6 +72,12 @@
             home() {
                 // TO DO
                 this.$message.success("导航到 " + this.name + "的主页");
+                this.$router.push({
+                   path: '/visit',
+                   query: {
+                       id: this.id
+                   }
+                });
             }
         }
     }

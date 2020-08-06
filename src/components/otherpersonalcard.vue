@@ -2,11 +2,11 @@
     <div class="extern">
         <el-card style="width: 90%; text-align: center; margin-left: 5%">
             <div class="back">
-                <img class="pic" v-bind:src="mongo.avatar" alt="picture" v-on:click="home"/>
+                <img class="pic" :src="avatar" alt="picture" v-on:click="home"/>
                 <div class="text1">
                     {{name}}
                 </div>
-                <div class="text2" v-if="follow_flag === false">
+                <div class="text2" v-if="flag === 0">
                     <el-button type="plain" size="mini" @click="follow(1)"><I class="el-icon-plus"></I> 关注</el-button>
                 </div>
                 <div class="text2" v-else>
@@ -25,55 +25,20 @@
     import axios from "axios";
 
     export default {
+        props: {
+            avatar: String,
+            name: String,
+            flag: Number
+        },
         data() {
             return {
                 id: 0,
-                name: '',
-                mongo: '',
-                follow_flag: false,
             }
         },
         created() {
             this.id = this.$route.query.id;
-            let url = 'http://localhost:8088/user/getOne?id=' + this.id;
-
-            axios.get(url, {
-                headers: {
-                    token: sessionStorage.getItem("token")
-                }
-            }).then((response) => {
-                let user = response.data;
-
-                this.name = user.name;
-                this.mongo = user.userMongo;
-
-                let followers = this.mongo.followers;
-                for (let i = 0; i < followers.length; ++i) {
-                    if (followers[i] === Number(sessionStorage.getItem("id"))) {
-                        this.follow_flag = true;
-                        break;
-                    }
-                }
-            }).catch(err => {
-                console.log(err);
-            });
         },
         methods: {
-            followed() {
-                if (this.$root.logged === false)
-                    return false;
-
-                console.log(this.mongo);
-                let follower = this.mongo.follower;
-                console.log("follower");
-                console.log(follower);
-                for (let i = 0; i < follower.length; i++) {
-                    if (follower[i] === Number(sessionStorage.getItem("id")))
-                        return true;
-                }
-
-                return false;
-            },
             follow(flag) {
                 if (this.$root.logged === false) {
                     this.$message.info('请登陆后再进行操作！');
@@ -91,7 +56,6 @@
                         token: sessionStorage.getItem("token")
                     }
                 }).then((response) =>{
-                    console.log(response.data);
                     if (response.data === 'success') {
                         if (flag === 1) {
                             this.follow_flag = true;
@@ -108,7 +72,10 @@
                 });
             },
             home() {
-                this.$message.info("nmsl");
+                this.$root.my_person_center_info = false;
+                this.$root.my_person_center_blogs = true;
+                this.$root.my_person_center_follower = false;
+                this.$root.my_person_center_following = false;
             },
             handleSelect(index) {
                 if (index === 1) {

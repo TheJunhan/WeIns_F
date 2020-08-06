@@ -13,21 +13,21 @@
                     </div>
 
                     <div class="basic-info">
-                        <el-form ref="form" :model="user" label-width="80px">
+                        <el-form ref="form" label-width="80px">
                             <el-form-item label="昵称">
-                                <span style="float: left" class="span-text">{{user.name}}</span>
+                                <span style="float: left" class="span-text">{{data.name}}</span>
                             </el-form-item>
                             <el-form-item label="性别">
-                                <span style="float: left" class="span-text">{{sex()}}</span>
+                                <span style="float: left" class="span-text">{{sex(data.sex)}}</span>
                             </el-form-item>
                             <el-form-item label="年龄">
-                                <span style="float: left" class="span-text">{{age()}}</span>
+                                <span style="float: left" class="span-text">{{age(data.birthday)}}</span>
                             </el-form-item>
                             <el-form-item label="生日">
-                                <span style="float: left" class="span-text">{{user.birthday}}</span>
+                                <span style="float: left" class="span-text">{{data.birthday}}</span>
                             </el-form-item>
                             <el-form-item label="注册时间">
-                                <span style="float: left" class="span-text">{{user.reg_time}}</span>
+                                <span style="float: left" class="span-text">{{data.reg_time}}</span>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -44,13 +44,13 @@
                     </div>
 
                     <div class="contact-info">
-                        <el-form ref="form" :model="user" label-width="80px">
+                        <el-form ref="form" label-width="80px">
                             <el-form-item label="常用邮箱">
-                                <span style="float: left" class="span-text">{{user.email}}</span>
+                                <span style="float: left" class="span-text">{{email}}</span>
                             </el-form-item>
                             <el-form-item label="手机号码">
                                 <div>
-                                    <span style="float: left" class="span-text">{{user.phone}}</span>
+                                    <span style="float: left" class="span-text">{{maskPhone(data.phone)}}</span>
                                 </div>
                             </el-form-item>
                         </el-form>
@@ -62,43 +62,35 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    // import axios from 'axios';
 
     export default {
+        props: {
+            data: Object
+        },
         data() {
             return {
-                birthright:"",
-                sexStr: '未知',
-                user: {
-                    id: 0,
-                    name: '交通大学',
-                    birthday: '1896-04-07',
-                    sex: -1,
-                    reg_time: '2020-07-09',
-                    email: 'se128@sjtu.edu.cn',
-                    phone: '021-34200000',
-                    userMongo: {}
-                }
+                email: '******@sjtu.edu.cn',
             }
         },
         created() {
-            let url = 'http://localhost:8088/user/getOne?id=' + this.$route.query.id;
-
-            axios.get(url, {
-                headers: {
-                    token: sessionStorage.getItem("token")
-                }
-            }).then((response) => {
-               this.user = response.data;
-
-                this.user.email = '暂未设置';
-            }).catch(err => {
-                console.log(err);
-            });
+            // let url = 'http://localhost:8088/user/getOne?id=' + this.$route.query.id;
+            //
+            // axios.get(url, {
+            //     headers: {
+            //         token: sessionStorage.getItem("token")
+            //     }
+            // }).then((response) => {
+            //    this.user = response.data;
+            //
+            //     this.user.email = '暂未设置';
+            // }).catch(err => {
+            //     console.log(err);
+            // });
         },
         methods: {
-            sex() {
-                switch (this.user.sex) {
+            sex(code) {
+                switch (code) {
                     case "1":
                         return "男";
                     case "0":
@@ -109,11 +101,14 @@
                         return "未知";
                 }
             },
-            age() {
+            age(birth) {
                 let date = new Date();
-                let year = Number(this.user.birthday.substr(0, 4));
+                let year = Number(birth.substr(0, 4));
                 return date.getFullYear() - year;
             },
+            maskPhone(ph) {
+                return ph.substr(0, 3) + '****' + ph.substr(7, 4);
+            }
         }
     }
 </script>
