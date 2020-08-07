@@ -17,23 +17,37 @@
             <div class="operation">
                 <el-row>
                     <el-col :span="4">
-                        <el-button type="text" icon="el-icon-magic-stick" >表情</el-button>
+                        <el-button type="text" icon="el-icon-magic-stick" @click="emoji">表情</el-button>
                     </el-col>
-                    <el-col :span="4">
-                        <el-button type="text" icon="el-icon-picture" >图片</el-button>
-                    </el-col>
+
                     <el-checkbox :span="8" class="radio" :label="1" v-model="share_flag">同时转发到我的动态</el-checkbox>
+                    <el-col :span="4">
+                        <p style="color: white">占位置</p>
+                    </el-col>
                     <el-button :span="8" class="combutton" type="primary" size="mini" @click="submit" :disabled="disable()">发表评论</el-button>
                 </el-row>
             </div>
+
+            <el-row class="emoji-picker" style="z-index: 999">
+                <VEmojiPicker
+                        v-show="showEmojiPicker"
+                        labelSearch="Search"
+                        lang="pt-BR"
+                        @select="onSelectEmoji"
+                />
+            </el-row>
         </div>
     </el-card>
 </template>
 
 <script>
     import axios from 'axios';
+    import VEmojiPicker from 'v-emoji-picker';
 
     export default {
+        components: {
+            VEmojiPicker
+        },
         props: {
             bid: Number,
             to_uid: Number,
@@ -47,7 +61,8 @@
                 share_flag: false,
                 text: '',
                 pretext: '',
-                to_comment: {}
+                to_comment: {},
+                showEmojiPicker: false
             }
         },
         created() {
@@ -62,6 +77,12 @@
         methods: {
             disable() {
                 return this.text === this.pretext || this.text === '';
+            },
+            emoji() {
+                this.showEmojiPicker = (this.showEmojiPicker !== true);
+            },
+            onSelectEmoji(emoji) {
+                this.text += emoji.data;
             },
             curr_time() {
                 let date = new Date();
@@ -117,6 +138,9 @@
 
                 let url = 'http://localhost:8088/blog/setComment';
                 let text = this.textSplit();
+
+                console.log(this.text);
+                console.log(text);
 
                 axios.post(url, {
                         uid: sessionStorage.getItem("id"),

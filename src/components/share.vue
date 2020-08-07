@@ -17,21 +17,47 @@
             </div>
         </div>
         <div class="foot">
-            <div class="check">
+<!--            <el-row>-->
+<!--                <el-col :span="4">-->
+<!--                    <el-button class="emoji" type="text" icon="el-icon-magic-stick" @click="emoji">表情</el-button>-->
+<!--                </el-col>-->
+
+<!--                <el-col :span="8">-->
+<!--                    <el-checkbox class="check-box" :span="8" v-model="comment_to_flag">同时评论给 {{this.$props.user}}</el-checkbox>-->
+<!--                </el-col>-->
+
+<!--                <el-col :span="8">-->
+<!--                    <el-button :span="8" type="primary" size="mini" @click="submit">发布</el-button>-->
+<!--                </el-col>-->
+<!--            </el-row>-->
+            <div class="emoji">
+                <el-button class="emoji-btn" type="text" icon="el-icon-magic-stick" @click="emoji">表情</el-button>
+            </div>
+            <div class="check-box">
                 <el-checkbox v-model="comment_to_flag">同时评论给 {{this.$props.user}}</el-checkbox>
             </div>
             <div class="btn">
                 <el-button type="primary" @click="submit" size="mini">发布</el-button>
             </div>
         </div>
+
+        <el-row class="emoji-picker" style="z-index: 999">
+            <VEmojiPicker
+                    v-show="showEmojiPicker"
+                    labelSearch="Search"
+                    lang="pt-BR"
+                    @select="onSelectEmoji"
+            />
+        </el-row>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+    import VEmojiPicker from 'v-emoji-picker';
 
     export default {
-        name:"share",
+        components: { VEmojiPicker },
         props: {
             id: Number,
             to_uid: Number,
@@ -43,13 +69,20 @@
                 comment_to_flag: false,
                 holder: '//@',
                 active_tab: '3',
-                text: ''
+                text: '',
+                showEmojiPicker: false,
             }
         },
         created() {
             this.holder += this.$props.user + ':转发动态';
         },
         methods: {
+            emoji() {
+                this.showEmojiPicker = (this.showEmojiPicker !== true);
+            },
+            onSelectEmoji(emoji) {
+                this.text += emoji.data;
+            },
             curr_time() {
                 let date = new Date();
                 let res = date.getFullYear() + '-';
@@ -187,11 +220,18 @@
         height: 40px;
     }
 
-    .check {
+    .check-box {
+        float: left;
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
+    .emoji {
         float: left;
     }
 
     .btn {
         float: right;
+        margin-top: 5px;
     }
 </style>

@@ -18,7 +18,7 @@
                 <div class="addition">
                     <el-row type="flex" class="row-bg" justify="space-around">
                         <el-col :span="4">
-                            <el-button type="text" icon="el-icon-sunny" @click="emoji">表情</el-button>
+                            <el-button type="text" icon="el-icon-magic-stick" @click="emoji">表情</el-button>
                         </el-col>
                         <el-col :span="4">
                             <el-upload
@@ -143,15 +143,30 @@
                 </el-card>
             </div>
 
+            <el-row class="emoji-picker" style="z-index: 999">
+                <VEmojiPicker
+                    v-show="showEmojiPicker"
+                    labelSearch="Search"
+                    lang="pt-BR"
+                    @select="onSelectEmoji"
+                />
+            </el-row>
+
         </el-card>
+
+
 
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+    import VEmojiPicker from 'v-emoji-picker';
 
     export default {
+        components: {
+            VEmojiPicker
+        },
         data() {
             return {
                 text: '',
@@ -166,9 +181,12 @@
                 taginput: '',
                 oldtags: [],  //no use
                 message: '',
-
+                showEmojiPicker: false,
                 topic_flag: false,
             }
+        },
+        created() {
+            // this.init();
         },
         methods: {
             // 刷新
@@ -223,6 +241,7 @@
                 return res;
             },
             release() {
+                this.showEmojiPicker = false;
                 if (this.$root.logged === false) {
                     this.$message.info('请登录后再进行操作！');
                 }
@@ -237,6 +256,8 @@
                 // String imag, String label, String username, String useravatar
 
                 let url = 'http://localhost:8088/blog/setBlog';
+                console.log(this.text);
+                console.log(typeof this.text)
 
                 axios.post(url, {
                     uid: sessionStorage.getItem("id"),
@@ -263,9 +284,12 @@
                 });
             },
             emoji() {
-                this.$message.success('emoji!');
-                this.message='emoji!';
-                return true;
+                this.showEmojiPicker = (this.showEmojiPicker !== true);
+                return this.showEmojiPicker;
+            },
+            onSelectEmoji(emoji) {
+                console.log(emoji)
+                this.text += emoji.data;
             },
             uploadSuccess() {
                 this.$message.success('上传成功')
@@ -396,12 +420,7 @@
                 //     else return false;
                 // })
             }
-        },
-        created() {
-            this.init();
         }
-
-
     }
 </script>
 
