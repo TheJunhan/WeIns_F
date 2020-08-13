@@ -9,7 +9,8 @@
             </div>
             <div class="container">
                 <div class="side">
-                    <Counter class="counter" :data="user.userMongo"></Counter>
+                    <Counter class="counter" :follower_num="user.userMongo.follower_num"
+                             :following_num="user.userMongo.following_num" :blog_num="user.userMongo.blog_num"></Counter>
                 </div>
                 <div class="main">
                     <Information v-if="this.$root.my_person_center_info === true" :data="user"></Information>
@@ -28,7 +29,7 @@
 <script>
     import axios from 'axios';
 
-    import Counter from "../components/othercounter";
+    import Counter from "../components/counter";
     import Card from '../components/otherpersonalcard';
     import Header from '../components/topnav';
     import Foot from '../components/footer';
@@ -38,8 +39,7 @@
 
     export default {
         components: {
-            Header, Card, Foot, Counter,
-            Information, Blogs, Follow,
+            Header, Card, Foot, Counter, Information, Blogs, Follow,
         },
         data() {
             return {

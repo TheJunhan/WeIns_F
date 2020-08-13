@@ -62,8 +62,6 @@
 </template>
 
 <script>
-    // import axios from 'axios';
-
     export default {
         props: {
             data: Object
@@ -72,21 +70,6 @@
             return {
                 email: '******@sjtu.edu.cn',
             }
-        },
-        created() {
-            // let url = 'http://localhost:8088/user/getOne?id=' + this.$route.query.id;
-            //
-            // axios.get(url, {
-            //     headers: {
-            //         token: sessionStorage.getItem("token")
-            //     }
-            // }).then((response) => {
-            //    this.user = response.data;
-            //
-            //     this.user.email = '暂未设置';
-            // }).catch(err => {
-            //     console.log(err);
-            // });
         },
         methods: {
             sex(code) {

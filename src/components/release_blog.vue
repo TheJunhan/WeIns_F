@@ -256,8 +256,6 @@
                 // String imag, String label, String username, String useravatar
 
                 let url = 'http://localhost:8088/blog/setBlog';
-                console.log(this.text);
-                console.log(typeof this.text)
 
                 axios.post(url, {
                     uid: sessionStorage.getItem("id"),

@@ -20,60 +20,30 @@
 </template>
 
 <script>
-    import axios from 'axios';
     export default {
-        data() {
-            return{
-                following_num: 12,
-                follower_num: 99,
-                blog_num: 23
-            }
+        props: {
+            following_num: Number,
+            follower_num: Number,
+            blog_num: Number
         },
-        created() {
-            this.generator();
-        },
-        methods:{
+        methods: {
             following() {
                 this.$root.my_person_center_info = false;
                 this.$root.my_person_center_blogs = false;
                 this.$root.my_person_center_follower = false;
                 this.$root.my_person_center_following = true;
-                // this.$message.success(this.following_num + '关注！');
             },
             follower() {
                 this.$root.my_person_center_info = false;
                 this.$root.my_person_center_blogs = false;
                 this.$root.my_person_center_follower = true;
                 this.$root.my_person_center_following = false;
-                // this.$message.success(this.follower_num + '粉丝！');
             },
             blogs() {
                 this.$root.my_person_center_info = false;
                 this.$root.my_person_center_blogs = true;
                 this.$root.my_person_center_follower = false;
                 this.$root.my_person_center_following = false;
-                // this.$message.success(this.blog_num + '动态！');
-            },
-            generator() {
-                // let userMongo = JSON.parse(sessionStorage.getItem("userMongo"));
-                // this.following_num = userMongo.following_num;
-                // this.follower_num = userMongo.follower_num;
-                // this.blog_num = userMongo.blog_num;
-                let id = sessionStorage.getItem("id");
-                let url = 'http://localhost:8088/user/getOne?id=' + id;
-
-                axios.get(url, {
-                    headers: {
-                        token: sessionStorage.getItem("token")
-                    }
-                }).then((response) => {
-                    let userMongo = response.data.userMongo;
-                    this.following_num = userMongo.following_num;
-                    this.follower_num = userMongo.follower_num;
-                    this.blog_num = userMongo.blog_num;
-                }).catch(err => {
-                   console.log(err);
-                });
             }
         }
     }
@@ -84,6 +54,7 @@
         width: 100%;
         flex-direction: column;
     }
+
     .card {
         width: 100%;
         display: flex;
@@ -94,17 +65,12 @@
         width: 33%;
         float: left;
         flex-direction: row;
-
     }
 
     .con {
         color: darkgray;
-
     }
-    /*.but{*/
-    /*    !*opacity: 0;*!*/
-    /*    !*display: block;*!*/
-    /*}*/
+
     .cube:hover .but{
         color: rebeccapurple;
     }
