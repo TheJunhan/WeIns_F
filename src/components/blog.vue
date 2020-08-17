@@ -241,7 +241,7 @@
                 }).then((response) =>{
                     if (response.data === true) {
                         this.$message.success('删除成功！');
-                        this.$emit('change');
+                        this.$emit('delete');
                     }
                     else
                         this.$message.error('没有权限删除！');

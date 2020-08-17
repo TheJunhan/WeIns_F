@@ -1,9 +1,9 @@
 <template>
     <el-card class="my-blog" shadow="hover">
-        <div v-if="myblogs !== null">
+        <div v-if="size > 0">
             <ul>
-                <li v-for="blog in myblogs" :key="blog.id">
-                    <Blog :data="blog" style="margin-bottom: 5px"></Blog>
+                <li v-for="(blog, index) in myblogs" :key="blog.blog.id">
+                    <Blog :data="blog" style="margin-bottom: 5px" @delete="remove(index)"></Blog>
                 </li>
             </ul>
         </div>
@@ -18,10 +18,11 @@
     import Blog from './blog';
     import axios from "axios";
     export default {
-        components: {Blog},
+        components: { Blog },
         data() {
             return{
-                myblogs: []
+                myblogs: [],
+                size: 0,
             }
         },
         created(){
@@ -39,9 +40,14 @@
                     }
                 }).then((response) => {
                     this.myblogs = response.data;
+                    this.size = this.myblogs.length;
                 }).catch(err => {
                     console.log(err);
                 });
+            },
+            remove(index) {
+                this.myblogs.splice(index, 1);
+                this.size--;
             }
         }
     }

@@ -54,7 +54,7 @@
                 checked: false,
                 isSubmit: false,
                 login_path: 1,
-                errmessage:"",
+                error_message:"",
                 form: {
                     phone: '',
                     password: '',
@@ -73,13 +73,13 @@
                 if (!this.isSubmit) {
                     let phone = this.form.phone;
                     if (phone.length === 0) {
-                        this.errmessage="电话号码不能为空!";
+                        this.error_message="电话号码不能为空!";
                         this.$message.error("电话号码不能为空!")
                         return false;
                     } else {
                         let format = /^(1[0-9]{10})$/;
                         if (!format.test(phone)) {
-                            this.errmessage="电话号码格式不正确!";
+                            this.error_message="电话号码格式不正确!";
                             this.$message.error("电话号码格式不正确!")
                             return false;
                         }
@@ -87,12 +87,12 @@
 
                     let pwd = this.form.password;
                     if (pwd.length === 0) {
-                        this.errmessage="密码不能为空";
+                        this.error_message="密码不能为空";
 
                         this.$message.error("密码不能为空") ;
                         return false;
                     } else if(pwd.length < 6 || pwd.length > 16) {
-                        this.errmessage="密码长度须在 6 到 16 个字符";
+                        this.error_message="密码长度须在 6 到 16 个字符";
 
                         this.$message.error("密码长度须在 6 到 16 个字符");
                         return false;
@@ -105,11 +105,9 @@
                         '&pwd=' + this.form.password;
 
                     axios.post(url).then((response) => {
-                        console.log(response);
                         let user = response.data;
                         console.log(user);
                         if (user.id >= 0) {
-
                             if (user.type < 0) {
                                 this.$message.error("该账户已被封禁！");
                                 this.isSubmit = false;
@@ -149,29 +147,29 @@
                                 }
 
                                 if (user.type === 0) {
-                                    this.errmessage = '用户 ' + user.name + ' 登录成功！';
+                                    this.error_message = '用户 ' + user.name + ' 登录成功！';
                                 }
 
                                 else if (user.type === 8) {
-                                    this.errmessage = '老板好！';
+                                    this.error_message = '老板好！';
                                 }
 
                                 else {
-                                    this.errmessage = '管理员用户' + user.name + '登录成功';
+                                    this.error_message = '管理员用户' + user.name + '登录成功';
                                 }
 
-                                this.$message.success(this.errmessage);
+                                this.$message.success(this.error_message);
                             }
                         }
 
                         else {
                             if (user.id === -1) {
-                                this.errmessage='此账户不存在！';
+                                this.error_message='此账户不存在！';
                                 this.$message.error('此账户不存在！');
                             }
 
                             if (user.id === -2) {
-                                this.errmessage='密码错误，请重新输入！';
+                                this.error_message='密码错误，请重新输入！';
                                 this.$message.error('密码错误，请重新输入！');
                             }
 
