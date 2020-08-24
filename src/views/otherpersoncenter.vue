@@ -49,36 +49,47 @@
             }
         },
         created() {
-            this.$root.my_person_center = false;
-            this.$root.my_person_center_info = false;
-            this.$root.my_person_center_blogs = true;
-            this.$root.my_person_center_follower = false;
-            this.$root.my_person_center_following = false;
+            this.generator();
+        },
+        methods: {
+            generator() {
+                this.$root.my_person_center = false;
+                this.$root.my_person_center_info = false;
+                this.$root.my_person_center_blogs = true;
+                this.$root.my_person_center_follower = false;
+                this.$root.my_person_center_following = false;
 
-            this.id = this.$route.query.id;
-            let url = 'http://localhost:8088/user/getPlainOne?id=' + this.id;
-            console.log(url);
+                this.id = this.$route.query.id;
+                let url = 'http://localhost:8088/user/getPlainOne?id=' + this.id;
+                console.log(url);
 
-            axios.get(url, {
-                headers: {
-                    token: sessionStorage.getItem("token")
-                }
-            }).then((response) => {
-                this.user = response.data;
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then(res => {
+                    this.user = res.data;
 
-                if (this.$root.logged === true) {
-                    let followers = this.user.userMongo.followers;
-                    for (let i = 0; i < followers.length; ++i) {
-                        if (followers[i] === Number(sessionStorage.getItem("id"))) {
-                            this.follow_flag = 1;
-                            break;
+                    if (this.$root.logged === true) {
+                        let followers = this.user.userMongo.followers;
+                        for (let i = 0; i < followers.length; ++i) {
+                            if (followers[i] === Number(sessionStorage.getItem("id"))) {
+                                this.follow_flag = 1;
+                                break;
+                            }
                         }
                     }
-                }
-            }).catch(err => {
-                console.log(err);
-            });
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
         },
+        watch: {
+            // eslint-disable-next-line no-unused-vars
+            '$route'(to, from) {
+                this.generator();
+            }
+        }
     }
 </script>
 
