@@ -6,7 +6,7 @@
                 <div class="text1">
                     {{name}}
                 </div>
-                <div class="text2" v-if="flag === 0">
+                <div class="text2" v-if="follow_flag === true">
                     <el-button type="plain" size="mini" @click="follow(1)"><I class="el-icon-plus"></I> 关注</el-button>
                 </div>
                 <div class="text2" v-else>
@@ -28,15 +28,17 @@
         props: {
             avatar: String,
             name: String,
-            flag: Number
+            flag: Number // 0 means have not been followed, 1 means what you know
         },
         data() {
             return {
                 id: 0,
+                follow_flag: false
             }
         },
         created() {
             this.id = this.$route.query.id;
+            this.follow_flag = (this.$props.flag === 1);
         },
         methods: {
             follow(flag) {
@@ -57,7 +59,7 @@
                     }
                 }).then((response) =>{
                     if (response.data === 'success') {
-                        if (flag === 1) {
+                        if (!this.follow_flag) {
                             this.follow_flag = true;
                             this.$message.success('关注 ' + this.name + ' 成功！');
                         }

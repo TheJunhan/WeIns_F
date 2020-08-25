@@ -18,7 +18,7 @@
                             </el-col>
 
                             <el-col :span="3" style="float: right">
-                                <div v-if="this.$root.logged === true">
+                                <div v-if="this.options_flag === true">
                                     <el-dropdown trigger="click" style="outline: none">
                                     <span
                                             class="el-dropdown-link btn send time-send small-hand"
@@ -28,19 +28,19 @@
 
                                         <el-dropdown-menu slot="dropdown" style="width: 12%">
 
-                                            <p v-on:click="option(0)" class="menuitem" v-if="blog.type !== 0">
+                                            <p v-on:click="option(0)" class="menuitem" v-if="option_auth(0)">
                                                 <el-dropdown-item >设置权为私密</el-dropdown-item>
                                             </p>
 
-                                            <p v-on:click="option(3)" class="menuitem" v-if="blog.type !== 3">
+                                            <p v-on:click="option(3)" class="menuitem" v-if="option_auth(3)">
                                                 <el-dropdown-item>设置为所有人可见</el-dropdown-item>
                                             </p>
 
-                                            <p v-on:click="option(1)" class="menuitem" v-if="blog.type !== 1">
+                                            <p v-on:click="option(1)" class="menuitem" v-if="option_auth(1)">
                                                 <el-dropdown-item>设置为好友可见</el-dropdown-item>
                                             </p>
 
-                                            <p v-on:click="option(2)" class="menuitem" v-if="delete_auth">
+                                            <p v-on:click="option(2)" class="menuitem" v-if="option_auth(2)">
                                                 <el-dropdown-item>删除</el-dropdown-item>
                                             </p>
 
@@ -48,14 +48,12 @@
 
                                     </el-dropdown>
                                 </div>
-
                             </el-col>
                         </el-row>
                     </div>
 
                     <div class="content" style="z-index: 998;">
                         <div class="text">
-<!--                            {{blogMongo.content}}-->
                             <FormatContent :text="blogMongo.content"></FormatContent>
                         </div>
                         <div class="images" v-if="blogMongo.images !== null">
@@ -151,7 +149,7 @@
                 reblog_name: '',
 
                 dialogVisible: false,
-                delete_auth: false,
+                options_flag: false,
                 showpic: "",
 
                 like_num: 0,
@@ -174,8 +172,10 @@
                 this.reblog = val.reblog;
                 this.reblogMongo = val.reblogMongo;
 
-                if (this.$root.auth_blog_manager === true || String(this.blog.uid) === sessionStorage.getItem("id"))
-                    this.delete_auth = true;
+                for (let i = 0; i < 4; i++) {
+                    if (this.option_auth(i))
+                        this.options_flag = true;
+                }
 
                 this.reblog_name = val.reblogUserName;
 
@@ -227,6 +227,19 @@
                     default:
                         break;
                 }
+            },
+            option_auth(op) {
+                switch (op) {
+                    case 0: case 1: case 3:
+                        return (String(this.blog.uid) === sessionStorage.getItem("id"));
+                    case 2:
+                        return (this.$root.auth_blog_manager === true ||
+                            String(this.blog.uid) === sessionStorage.getItem("id"));
+                    default:
+                        break;
+                }
+
+                return false;
             },
             _delete() {
                 let url = 'http://localhost:8088/blog/removeBlog?'
