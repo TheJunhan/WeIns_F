@@ -53,20 +53,29 @@
                     </div>
 
                     <div class="content" style="z-index: 998;">
-                        <div class="text">
+                        <el-row v-if="tag_falg === true" style="margin-top: 10px;margin-bottom: 5px">
+                            <el-tag
+                                    style="margin-left: 3px;margin-right: 3px"
+                                    :key="tag.id"
+                                    v-for="tag in blogMongo.labels"
+                                    :disable-transitions="false"
+                                    @click="visitTag(tag)">
+                                #{{tag.content}}#
+                            </el-tag>
+                        </el-row>
+                        <el-row class="text">
                             <FormatContent :text="blogMongo.content"></FormatContent>
-                        </div>
-                        <div class="images" v-if="blogMongo.images !== null">
+                        </el-row>
+                        <el-row class="images" v-if="blogMongo.images !== null">
                             <ul>
                                 <li style="" v-for="image in data.blogMongo.images" :key="image">
                                     <img @click="maxPic(image)" :src="parseBase64(image)" class="img" style="z-index: 998"/>
                                 </li>
                             </ul>
-                        </div>
+                        </el-row>
                     </div>
 
                     <div v-if="blog.reblog_id !== -1" style="margin-top: 30px;">
-
                         <div class="quote text-overflow">
                             <el-button type="text" style="margin-left: 5px;" @click="visit(this.reblog.uid)">{{this.reblog_name}}</el-button>
                                 : {{this.reblogMongo.content}}
@@ -152,6 +161,7 @@
                 options_flag: false,
                 showpic: "",
 
+                tag_falg: false,
                 like_num: 0,
                 like_flag: false,
                 collect_num: 0,
@@ -199,6 +209,8 @@
                         }
                     }
                 }
+
+                this.tag_falg = (this.blogMongo.labels.length > 0);
 
                 this.username = val.userName;
                 return val.userName;
@@ -405,6 +417,9 @@
                         id: id
                     }
                 });
+            },
+            visitTag(tag) {
+                this.$message.success('导航到标签 #' + tag.content + '#');
             },
             maxPic(image) {
                 this.dialogVisible = true;

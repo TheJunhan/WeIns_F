@@ -117,12 +117,12 @@
                     <el-row style="margin-top: 10px;margin-bottom: 5px">
                         <el-tag
                                 style="margin-left: 3px;margin-right: 3px"
-                                :key="tag"
-                                v-for="(tag,i) in chosen_tags"
+                                :key="tag.id"
+                                v-for="(tag, i) in chosen_tags"
                                 closable
                                 :disable-transitions="false"
                                 @close="handleClose(i)">
-                            {{tag}}
+                            #{{tag.content}}#
                         </el-tag>
                     </el-row>
                     <el-row style="margin-top: 10px;margin-bottom: 5px">
@@ -132,12 +132,12 @@
                     </el-row>
                     <el-row style="margin-top: 10px;margin-bottom: 5px">
                         <el-tag
-                                :key="tag"
-                                v-for="(tag,i) in Tags"
+                                :key="tag.id"
+                                v-for="(tag, i) in Tags"
                                 :disable-transitions="false"
                                 @close="handleClose(i)"
                                 style="margin-left: 3px;margin-right: 3px">
-                            <el-button type="text" size="mini" @click="addTag(i)">{{tag}}</el-button>
+                            <el-button type="text" size="mini" @click="addTag(i)">#{{tag.content}}#</el-button>
                         </el-tag>
                     </el-row>
                     <el-row v-if="newTag === true">
@@ -191,7 +191,7 @@
             }
         },
         created() {
-            // this.init();
+            this.loadTags();
         },
         methods: {
             // 刷新
@@ -399,9 +399,24 @@
                 this.chosen_tags.splice(i,1);
                 return true;
             },
+            loadTags() {
+                let url = 'http://localhost:8088/blog/getLabels';
+                axios.get(url).then(res => {
+                    this.Tags = res.data;
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
             addTag(i){
-                this.chosen_tags.push(this.Tags[i]);
-                return true;
+                if (this.chosen_tags.length === 2) {
+                    this.$message.error('最多只能添加 2 个标签噢！');
+                    return false;
+                }
+
+                else {
+                    this.chosen_tags.push(this.Tags[i]);
+                    return true;
+                }
             },
             searchTags() {
                 let T = [];
