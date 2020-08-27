@@ -18,7 +18,7 @@
                             </el-col>
 
                             <el-col :span="3" style="float: right">
-                                <div v-if="this.$root.logged === true">
+                                <div v-if="this.options_flag === true">
                                     <el-dropdown trigger="click" style="outline: none">
                                     <span
                                             class="el-dropdown-link btn send time-send small-hand"
@@ -28,19 +28,19 @@
 
                                         <el-dropdown-menu slot="dropdown" style="width: 12%">
 
-                                            <p v-on:click="option(0)" class="menuitem" v-if="blog.type !== 0">
+                                            <p v-on:click="option(0)" class="menuitem" v-if="option_auth(0)">
                                                 <el-dropdown-item >设置权为私密</el-dropdown-item>
                                             </p>
 
-                                            <p v-on:click="option(3)" class="menuitem" v-if="blog.type !== 3">
+                                            <p v-on:click="option(3)" class="menuitem" v-if="option_auth(3)">
                                                 <el-dropdown-item>设置为所有人可见</el-dropdown-item>
                                             </p>
 
-                                            <p v-on:click="option(1)" class="menuitem" v-if="blog.type !== 1">
+                                            <p v-on:click="option(1)" class="menuitem" v-if="option_auth(1)">
                                                 <el-dropdown-item>设置为好友可见</el-dropdown-item>
                                             </p>
 
-                                            <p v-on:click="option(2)" class="menuitem" v-if="delete_auth">
+                                            <p v-on:click="option(2)" class="menuitem" v-if="option_auth(2)">
                                                 <el-dropdown-item>删除</el-dropdown-item>
                                             </p>
 
@@ -48,27 +48,34 @@
 
                                     </el-dropdown>
                                 </div>
-
                             </el-col>
                         </el-row>
                     </div>
 
                     <div class="content" style="z-index: 998;">
-                        <div class="text">
-<!--                            {{blogMongo.content}}-->
+                        <el-row v-if="tag_falg === true" style="margin-top: 10px;margin-bottom: 5px">
+                            <el-tag
+                                    style="margin-left: 3px;margin-right: 3px"
+                                    :key="tag.id"
+                                    v-for="tag in blogMongo.labels"
+                                    :disable-transitions="false"
+                                    @click="visitTag(tag)">
+                                #{{tag.content}}#
+                            </el-tag>
+                        </el-row>
+                        <el-row class="text">
                             <FormatContent :text="blogMongo.content"></FormatContent>
-                        </div>
-                        <div class="images" v-if="blogMongo.images !== null">
+                        </el-row>
+                        <el-row class="images" v-if="blogMongo.images !== null">
                             <ul>
                                 <li style="" v-for="image in data.blogMongo.images" :key="image">
                                     <img @click="maxPic(image)" :src="parseBase64(image)" class="img" style="z-index: 998"/>
                                 </li>
                             </ul>
-                        </div>
+                        </el-row>
                     </div>
 
                     <div v-if="blog.reblog_id !== -1" style="margin-top: 30px;">
-
                         <div class="quote text-overflow">
                             <el-button type="text" style="margin-left: 5px;" @click="visit(this.reblog.uid)">{{this.reblog_name}}</el-button>
                                 : {{this.reblogMongo.content}}
@@ -108,7 +115,7 @@
 
                     <el-dialog class="blog_dialog1" :append-to-body="true" :visible.sync="share_flag" width="40%" :show-close="false"
                                title="转发动态到">
-                        <share :id="blog.id" :user="username" :content="blogMongo.content"
+                        <share :id="blog.id" :to_uid="blog.uid" :user="username" :content="blogMongo.content"
                                @change="change"></share>
                     </el-dialog>
                     <el-dialog class="blog_dialog2" :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true"
@@ -151,9 +158,10 @@
                 reblog_name: '',
 
                 dialogVisible: false,
-                delete_auth: false,
+                options_flag: false,
                 showpic: "",
 
+                tag_falg: false,
                 like_num: 0,
                 like_flag: false,
                 collect_num: 0,
@@ -174,8 +182,10 @@
                 this.reblog = val.reblog;
                 this.reblogMongo = val.reblogMongo;
 
-                if (this.$root.auth_blog_manager === true || String(this.blog.uid) === sessionStorage.getItem("id"))
-                    this.delete_auth = true;
+                for (let i = 0; i < 4; i++) {
+                    if (this.option_auth(i))
+                        this.options_flag = true;
+                }
 
                 this.reblog_name = val.reblogUserName;
 
@@ -199,6 +209,8 @@
                         }
                     }
                 }
+
+                this.tag_falg = (this.blogMongo.labels.length > 0);
 
                 this.username = val.userName;
                 return val.userName;
@@ -228,6 +240,19 @@
                         break;
                 }
             },
+            option_auth(op) {
+                switch (op) {
+                    case 0: case 1: case 3:
+                        return (String(this.blog.uid) === sessionStorage.getItem("id"));
+                    case 2:
+                        return (this.$root.auth_blog_manager === true ||
+                            String(this.blog.uid) === sessionStorage.getItem("id"));
+                    default:
+                        break;
+                }
+
+                return false;
+            },
             _delete() {
                 let url = 'http://localhost:8088/blog/removeBlog?'
                 + 'uid=' + sessionStorage.getItem("id")
@@ -241,7 +266,7 @@
                 }).then((response) =>{
                     if (response.data === true) {
                         this.$message.success('删除成功！');
-                        this.$emit('change');
+                        this.$emit('delete');
                     }
                     else
                         this.$message.error('没有权限删除！');
@@ -392,6 +417,9 @@
                         id: id
                     }
                 });
+            },
+            visitTag(tag) {
+                this.$message.success('导航到标签 #' + tag.content + '#');
             },
             maxPic(image) {
                 this.dialogVisible = true;

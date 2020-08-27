@@ -5,17 +5,18 @@
         </el-header>
         <div class="person">
             <div class="head">
-                <Card class="card"></Card>
+                <Card class="card" :avatar="user.userMongo.avatar" :name="user.name" :flag="follow_flag"></Card>
             </div>
             <div class="container">
                 <div class="side">
-                    <Counter class="counter" :data="user"></Counter>
+                    <Counter class="counter" :follower_num="user.userMongo.follower_num"
+                             :following_num="user.userMongo.following_num" :blog_num="user.userMongo.blog_num"></Counter>
                 </div>
                 <div class="main">
-                    <Information v-if="this.$root.my_person_center_info === true"></Information>
+                    <Information v-if="this.$root.my_person_center_info === true" :data="user"></Information>
                     <Blogs v-if="this.$root.my_person_center_blogs === true"></Blogs>
-                    <Follow v-if="this.$root.my_person_center_follower === true"></Follow>
-                    <Follow v-if="this.$root.my_person_center_following === true"></Follow>
+                    <Follow v-if="this.$root.my_person_center_follower === true" :list="user.userMongo.followers"></Follow>
+                    <Follow v-if="this.$root.my_person_center_following === true" :list="user.userMongo.followings"></Follow>
                 </div>
             </div>
         </div>
@@ -28,7 +29,7 @@
 <script>
     import axios from 'axios';
 
-    import Counter from "../components/othercounter";
+    import Counter from "../components/counter";
     import Card from '../components/otherpersonalcard';
     import Header from '../components/topnav';
     import Foot from '../components/footer';
@@ -38,36 +39,57 @@
 
     export default {
         components: {
-            Header, Card, Foot, Counter,
-            Information, Blogs, Follow,
+            Header, Card, Foot, Counter, Information, Blogs, Follow,
         },
         data() {
             return {
                 id: 0,
-                user: {}
+                user: {},
+                follow_flag: 0
             }
         },
         created() {
-            this.$root.my_person_center = false;
-            this.$root.my_person_center_info = false;
-            this.$root.my_person_center_blogs = true;
-            this.$root.my_person_center_follower = false;
-            this.$root.my_person_center_following = false;
-
-            this.id = this.$route.query.id;
-            let url = 'http://localhost:8088/user/getOne?id=' + this.id;
-            console.log(url);
-
-            axios.get(url, {
-                headers: {
-                    token: sessionStorage.getItem("token")
-                }
-            }).then((response) => {
-                this.user = response.data;
-            }).catch(err => {
-                console.log(err);
-            });
+            this.generator();
         },
+        methods: {
+            generator() {
+                this.$root.my_person_center = false;
+                this.$root.my_person_center_info = false;
+                this.$root.my_person_center_blogs = true;
+                this.$root.my_person_center_follower = false;
+                this.$root.my_person_center_following = false;
+
+                this.id = this.$route.query.id;
+                let url = 'http://localhost:8088/user/getPlainOne?id=' + this.id;
+                console.log(url);
+
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then(res => {
+                    this.user = res.data;
+
+                    if (this.$root.logged === true) {
+                        let followers = this.user.userMongo.followers;
+                        for (let i = 0; i < followers.length; ++i) {
+                            if (followers[i] === Number(sessionStorage.getItem("id"))) {
+                                this.follow_flag = 1;
+                                break;
+                            }
+                        }
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
+        },
+        watch: {
+            // eslint-disable-next-line no-unused-vars
+            '$route'(to, from) {
+                this.generator();
+            }
+        }
     }
 </script>
 
@@ -102,14 +124,6 @@
     .side {
         float: left;
         width: 20%;
-    }
-
-    .counter {
-
-    }
-
-    .info {
-        margin-top: 10px;
     }
 
     .main {

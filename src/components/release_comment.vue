@@ -17,23 +17,37 @@
             <div class="operation">
                 <el-row>
                     <el-col :span="4">
-                        <el-button type="text" icon="el-icon-magic-stick" >表情</el-button>
+                        <el-button type="text" icon="el-icon-magic-stick" @click="emoji">表情</el-button>
                     </el-col>
+
+                    <el-checkbox :span="8" class="radio" :label="1" v-model="share_flag">同时转发到我的动态</el-checkbox>
                     <el-col :span="4">
-                        <el-button type="text" icon="el-icon-picture" >图片</el-button>
+                        <p style="color: white">占位置</p>
                     </el-col>
-                    <el-checkbox :span="8" class="radio" :label="1" v-model="radio">同时发表到我的微博</el-checkbox>
                     <el-button :span="8" class="combutton" type="primary" size="mini" @click="submit" :disabled="disable()">发表评论</el-button>
                 </el-row>
             </div>
+
+            <el-row class="emoji-picker" style="z-index: 999">
+                <VEmojiPicker
+                        v-show="showEmojiPicker"
+                        labelSearch="Search"
+                        lang="pt-BR"
+                        @select="onSelectEmoji"
+                />
+            </el-row>
         </div>
     </el-card>
 </template>
 
 <script>
     import axios from 'axios';
+    import VEmojiPicker from 'v-emoji-picker';
 
     export default {
+        components: {
+            VEmojiPicker
+        },
         props: {
             bid: Number,
             to_uid: Number,
@@ -44,10 +58,11 @@
         data () {
             return {
                 squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-                radio: 0,
+                share_flag: false,
                 text: '',
                 pretext: '',
-                to_comment: {}
+                to_comment: {},
+                showEmojiPicker: false
             }
         },
         created() {
@@ -62,6 +77,12 @@
         methods: {
             disable() {
                 return this.text === this.pretext || this.text === '';
+            },
+            emoji() {
+                this.showEmojiPicker = (this.showEmojiPicker !== true);
+            },
+            onSelectEmoji(emoji) {
+                this.text += emoji.data;
             },
             curr_time() {
                 let date = new Date();
@@ -91,8 +112,6 @@
             textSplit() {
                 if (this.$props.type === 1) {
                     let index = this.text.indexOf(':');
-                    console.log(index);
-                    console.log(this.text.substr(index + 1, this.text.length - index));
                     return this.text.substr(index + 1, this.text.length - index);
                 }
 
@@ -118,16 +137,20 @@
                 }
 
                 let url = 'http://localhost:8088/blog/setComment';
+                let text = this.textSplit();
+
+                console.log(this.text);
+                console.log(text);
 
                 axios.post(url, {
-                    uid: sessionStorage.getItem("id"),
-                    to_uid: this.$props.to_uid,
-                    bid: this.$props.bid,
-                    content: this.textSplit(),
-                    post_time: this.curr_time(),
-                    root_cid: (this.$props.type === 1) ? this.getRoot_cid() : -1,
-                    to_cid: (this.$props.type === 1) ? this.to_comment.cid : -1
-                },
+                        uid: sessionStorage.getItem("id"),
+                        to_uid: this.$props.to_uid,
+                        bid: this.$props.bid,
+                        content: text,
+                        post_time: this.curr_time(),
+                        root_cid: (this.$props.type === 1) ? this.getRoot_cid() : -1,
+                        to_cid: (this.$props.type === 1) ? this.to_comment.cid : -1
+                    },
                     {
                         headers: {
                             token: sessionStorage.getItem("token")
@@ -136,7 +159,11 @@
                     if (response.data === true) {
                         this.$message.success('评论成功！');
                         this.text = '';
-                        window.location.reload();
+                        if (this.share_flag === true)
+                            this.share(text);
+
+                        else
+                            window.location.reload();
                     }
 
                     else
@@ -146,6 +173,33 @@
                 });
 
                 this.$emit('change');
+            },
+            share(text) {
+                let url = 'http://localhost:8088/blog/setReblog';
+
+                axios.post(url, {
+                        uid: sessionStorage.getItem("id"),
+                        bid: this.$props.bid,
+                        type: 3,
+                        content: text,
+                        post_day: this.curr_time(),
+                        username: this.$props.to_username
+                    },
+                    {
+                        headers: {
+                            token: sessionStorage.getItem("token")
+                        }
+                }).then(res => {
+                    if (res.data === true) {
+                        this.$message.success('转发成功！');
+                        window.location.reload();
+                    }
+
+                    else
+                        this.$message.error('转发失败');
+                }).catch(err => {
+                    console.log(err);
+                });
             }
         }
     }

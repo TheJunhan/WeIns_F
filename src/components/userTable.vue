@@ -4,8 +4,7 @@
             :data="arr"
             :key="random"
             :row-class-name="rowClassNameFilter"
-            width="100%"
-            >
+            width="100%">
         <el-table-column
                 fixed
                 prop="id"
@@ -77,11 +76,11 @@
                         token: sessionStorage.getItem("token")
                     }
                 }).then((response) => {
-                    if(response.data=='success'){
+                    if(response.data === 'success'){
                         for(let i=0;i<this.arr.length;++i){
-                            if(this.arr[i].id==row.id){
+                            if(this.arr[i].id === row.id){
                                 this.arr[i].type=tar;
-                                this.arr[i].Type=tar<0 ? '被封禁' : (tar==0 ?'普通用户' : '管理员：'+tar);
+                                this.arr[i].Type=tar<0 ? '被封禁' : (tar === 0 ?'普通用户' : '管理员：'+tar);
                                 this.random=Math.random();
                                 this.$message.success(response.data)
                                 return;
@@ -96,12 +95,12 @@
             rowClassNameFilter({row,rowIndex}){
                 console.log(rowIndex);
                 if(row.Type==='老板'){
-                    return 'greengreen-row'
+                    return 'green-green-row'
                 }else
-                if(row.Type.indexOf('管理员')!=-1){
+                if(row.Type.indexOf('管理员') !== -1){
                     return 'green-row'
                 }else if(row.Type==='普通用户'){
-                    return 'wite-row'
+                    return 'white-row'
                 }else{
                     return 'red-row'
                 }
@@ -127,19 +126,19 @@
 </script>
 
 <style >
-
-    .el-table .greengreen-row {
+    .el-table .green-green-row {
         background: rgba(0,255,0,0.5);
     }
-.el-table .red-row{
-    background: rgba(255,0,0,0.1);
-}
-.el-table .green-row {
-    background: rgba(0,255,0,0.1);
-}
 
-.el-table .wite-row {
-    background: rgba(255,255,255,0.1);
-}
+    .el-table .red-row{
+        background: rgba(255,0,0,0.1);
+    }
 
+    .el-table .green-row {
+        background: rgba(0,255,0,0.1);
+    }
+
+    .el-table .white-row {
+        background: rgba(255,255,255,0.1);
+    }
 </style>

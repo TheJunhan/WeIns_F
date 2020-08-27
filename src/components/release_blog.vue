@@ -18,7 +18,7 @@
                 <div class="addition">
                     <el-row type="flex" class="row-bg" justify="space-around">
                         <el-col :span="4">
-                            <el-button type="text" icon="el-icon-sunny" @click="emoji">表情</el-button>
+                            <el-button type="text" icon="el-icon-magic-stick" @click="emoji">表情</el-button>
                         </el-col>
                         <el-col :span="4">
                             <el-upload
@@ -117,31 +117,45 @@
                     <el-row style="margin-top: 10px;margin-bottom: 5px">
                         <el-tag
                                 style="margin-left: 3px;margin-right: 3px"
-                                :key="tag"
-                                v-for="(tag,i) in choosen_tags"
+                                :key="tag.id"
+                                v-for="(tag, i) in chosen_tags"
                                 closable
                                 :disable-transitions="false"
                                 @close="handleClose(i)">
-                            {{tag}}
+                            #{{tag.content}}#
                         </el-tag>
                     </el-row>
                     <el-row style="margin-top: 10px;margin-bottom: 5px">
-                        <el-input v-model="taginput" placeholder="请输入标签搜索" v-on:change="searchTags" style="width:50%"></el-input>
+                        <el-input v-model="taginput" placeholder="请输入标签搜索" v-on:change="searchTags" style="width:60%"></el-input>
                         <el-button type="primary" style="width: 15%;font-size: 10px;margin-left: 5px" v-on:click="searchTags">搜索</el-button>
-                        <el-button type="primary" style="width: 15%;font-size: 10px">新建</el-button>
+                        <el-button type="primary" style="width: 15%;font-size: 10px" @click="newTag = !newTag">{{newTagBtn()}}</el-button>
                     </el-row>
                     <el-row style="margin-top: 10px;margin-bottom: 5px">
                         <el-tag
-                                :key="tag"
-                                v-for="(tag,i) in Tags"
+                                :key="tag.id"
+                                v-for="(tag, i) in Tags"
                                 :disable-transitions="false"
                                 @close="handleClose(i)"
                                 style="margin-left: 3px;margin-right: 3px">
-                            <el-button type="text" size="mini" @click="addTag(i)" >{{tag}}</el-button>
+                            <el-button type="text" size="mini" @click="addTag(i)">#{{tag.content}}#</el-button>
                         </el-tag>
+                    </el-row>
+                    <el-row v-if="newTag === true">
+                        <el-input v-model="newTagInput" placeholder="请输入新的标签" style="width: 60%"></el-input>
+                        <el-button type="success" style="width: 15%;font-size: 10px;margin-left: 5px" @click="createTag">提交</el-button>
+                        <span class="tagCounter" style="width: 20%; margin-left: 15px">还可以输入{{newTagCounter()}}字</span>
                     </el-row>
                 </el-card>
             </div>
+
+            <el-row class="emoji-picker" style="z-index: 999">
+                <VEmojiPicker
+                    v-show="showEmojiPicker"
+                    labelSearch="Search"
+                    lang="pt-BR"
+                    @select="onSelectEmoji"
+                />
+            </el-row>
 
         </el-card>
 
@@ -150,8 +164,12 @@
 
 <script>
     import axios from 'axios';
+    import VEmojiPicker from 'v-emoji-picker';
 
     export default {
+        components: {
+            VEmojiPicker
+        },
         data() {
             return {
                 text: '',
@@ -162,13 +180,18 @@
                 lock: 0,
                 dialogVisible: false,
                 Tags: [],
-                choosen_tags: [],
+                chosen_tags: [],
                 taginput: '',
+                newTag: false,
+                newTagInput: '',
                 oldtags: [],  //no use
                 message: '',
-
+                showEmojiPicker: false,
                 topic_flag: false,
             }
+        },
+        created() {
+            this.loadTags();
         },
         methods: {
             // 刷新
@@ -181,7 +204,9 @@
                this.lock = 0;
                this.dialogVisible = false;
                this.Tags = [];
-               this.choosen_tags = [];
+               this.newTag = false;
+               this.newTagInput = '';
+               this.chosen_tags = [];
                this.taginput = '';
                this.oldtags = [];
                this.message = '';
@@ -223,6 +248,7 @@
                 return res;
             },
             release() {
+                this.showEmojiPicker = false;
                 if (this.$root.logged === false) {
                     this.$message.info('请登录后再进行操作！');
                 }
@@ -245,7 +271,7 @@
                     post_day: this.curr_time(),
                     video: null,
                     imag: JSON.stringify(this.filelist),
-                    label: JSON.stringify(this.choosen_tags),
+                    label: JSON.stringify(this.chosen_tags),
                     username: sessionStorage.getItem("name"),
                     useravatar: JSON.parse(sessionStorage.getItem("userMongo")).avatar
                 },
@@ -263,9 +289,12 @@
                 });
             },
             emoji() {
-                this.$message.success('emoji!');
-                this.message='emoji!';
-                return true;
+                this.showEmojiPicker = (this.showEmojiPicker !== true);
+                return this.showEmojiPicker;
+            },
+            onSelectEmoji(emoji) {
+                console.log(emoji)
+                this.text += emoji.data;
             },
             uploadSuccess() {
                 this.$message.success('上传成功')
@@ -316,14 +345,13 @@
                 if (!this.uploaded)
                     this.uploaded = true;
                 this.getBase64(file.raw).then(res => {
-                    console.log(res);
+                    // console.log(res);
                     this.filelist.push({
                         filename: file.name,
                         base64: res,
                     });
-                    console.log(file.name)
-                    console.log(this.filelist)
-
+                    // console.log(file.name)
+                    // console.log(this.filelist)
                 });
                 return true;
             },
@@ -368,12 +396,27 @@
                 return true;
             },
             handleClose(i){
-                this.choosen_tags.splice(i,1);
+                this.chosen_tags.splice(i,1);
                 return true;
             },
+            loadTags() {
+                let url = 'http://localhost:8088/blog/getLabels';
+                axios.get(url).then(res => {
+                    this.Tags = res.data;
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
             addTag(i){
-                this.choosen_tags.push(this.Tags[i]);
-                return true;
+                if (this.chosen_tags.length === 2) {
+                    this.$message.error('最多只能添加 2 个标签噢！');
+                    return false;
+                }
+
+                else {
+                    this.chosen_tags.push(this.Tags[i]);
+                    return true;
+                }
             },
             searchTags() {
                 let T = [];
@@ -385,23 +428,43 @@
                 this.Tags=T;
                 return true;
             },
-            init(){
-                // const url="https://localhost:8088/gettags"
-                // return this.axios.post(url).then(res=>{
-                //     if(res === 'success'){
-                //         this.oldtags=["交大","软院","菜鸡","瓜皮","东川路","东三区","小霸王","挂科小能手","ics太简单了"];
-                //         this.Tags=this.oldtags;
-                //         return true;
-                //     }
-                //     else return false;
-                // })
+            newTagBtn() {
+                return this.newTag ? '取消' : '新建';
+            },
+            newTagCounter() {
+                if (20 - this.newTagInput.length <= 0) {
+                    this.$message.info('新标签的长度不能超过 20 个字符！');
+                    this.newTagInput = this.newTagInput.substr(0, 20);
+                }
+
+                return 20 - this.newTagInput.length;
+            },
+            createTag() {
+                if (this.$root.logged === false) {
+                    this.$message.info('请登录后再进行操作！');
+                    return;
+                }
+
+                if (this.newTagInput === '' || this.newTagInput.length > 20) {
+                    this.$message.info('新标签内容不能为空！');
+                    return;
+                }
+
+                let url = 'http://localhost:8088/blog/setLabel?label=' + this.newTagInput.replace(/\s*/g, "");
+
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then(() => {
+                    this.$message.success("创建话题 #" + this.newTagInput + "# 成功！");
+                    this.newTag = false;
+                    this.newTagInput = '';
+                }).catch(err=> {
+                    console.log(err);
+                });
             }
-        },
-        created() {
-            this.init();
         }
-
-
     }
 </script>
 
@@ -429,6 +492,11 @@
         float: right;
         font-size: 12px;
         margin-top: 6px;
+        color: #909399;
+    }
+
+    .tagCounter {
+        font-size: 12px;
         color: #909399;
     }
 

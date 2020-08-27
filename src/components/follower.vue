@@ -25,7 +25,7 @@
     export default {
         name: "following",
         props: {
-            uid: String,
+            uid: Number,
         },
         data(){
             return{
@@ -38,7 +38,7 @@
         },
         created() {
             this.id = this.$props.uid;
-            let url = 'http://localhost:8088/user/getOne?id=' + this.id;
+            let url = 'http://localhost:8088/user/getPlainOne?id=' + this.id;
 
             axios.get(url, {
                 headers: {
@@ -70,8 +70,18 @@
                 });
             },
             home() {
-                // TO DO
-                this.$message.success("导航到 " + this.name + "的主页");
+                if (this.$root.logged === true && this.id === Number(sessionStorage.getItem('id'))) {
+                    this.$router.push('/person');
+                }
+
+                else {
+                    this.$router.push({
+                        path: '/visit',
+                        query: {
+                            id: this.id
+                        }
+                    });
+                }
             }
         }
     }
@@ -80,8 +90,8 @@
 <style scoped>
     .extern {
         width: 40%;
-
     }
+
     .avatar{
         margin-top: 8%;
         width: 20%;

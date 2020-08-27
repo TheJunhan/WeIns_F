@@ -8,10 +8,10 @@
                 <Release @change="getInfo"></Release>
             </div>
             <div class="blogs">
-                <div v-if="len !== 0">
+                <div v-if="size > 0">
                     <ul>
-                        <li v-for="(blog,i) in myblogs" :key="blog.id">
-                            <Blog @change="getInfo" :data="myblogs[myblogs.length-i-1]" style="margin-bottom: 5px"></Blog>
+                        <li v-for="(blog, index) in blogs" :key="blog.blog.id">
+                            <Blog @change="getInfo" @delete="remove(index)" :data="blogs[index]" style="margin-bottom: 5px"></Blog>
                         </li>
                     </ul>
                 </div>
@@ -49,8 +49,8 @@
         components: { Release, Login, Side, Blog },
         data() {
             return {
-                myblogs: [],
-                len: 0,
+                blogs: [],
+                size: 0,
             }
         },
         created() {
@@ -65,14 +65,22 @@
 
                 axios.get(url).then((response) =>{
                     console.log(response.data);
-                    this.myblogs = response.data;
-                    this.len = this.myblogs.length;
+                    this.blogs = response.data;
+                    this.size = this.blogs.length;
+
+                    this.blogs.reverse();
+                    console.log(this.size);
                 }).catch(err =>{
                     console.log(err);
                 });
             },
             showMore() {
                 this.$message.info('下拉刷新暂不支持！');
+            },
+            remove(index) {
+                this.blogs.splice(index, 1);
+                this.size--;
+                console.log(this.size);
             }
         }
     }

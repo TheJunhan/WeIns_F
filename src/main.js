@@ -8,8 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/global.css';
 import axios from 'axios';
 
-
-const originalPush = VueRouter.prototype.push
+const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
 }
