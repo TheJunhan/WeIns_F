@@ -21,7 +21,9 @@ components/
     info            // 个人资料完整度
     information     // 个人资料
     myblogs         // 我的动态
-    follow          // 显示关注/粉丝
+    followers       // 粉丝列表
+    followings      // 关注列表
+    followcard      // 关注/粉丝的组件
     userTable       // 用户列表，供管理员查询
     other*          // 访问其它用户主页用到的组件
 
