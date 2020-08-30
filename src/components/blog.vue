@@ -120,7 +120,7 @@
                     </el-dialog>
                     <el-dialog class="blog_dialog2" :visible.sync="dialogVisible" width="40%" :show-close="false" :append-to-body="true"
                                style="z-index: 999">
-                        <el-image :src="showpic" class="big-img"></el-image>
+                        <el-image :src="showPicture" class="big-img"></el-image>
                     </el-dialog>
                 </div>
 
@@ -141,25 +141,45 @@
     import FormatContent from './formatcontent';
 
     export default {
-        components: {
-            share, comments, FormatContent
-        },
+        components: { share, comments, FormatContent },
         props: {
             data: Object
         },
         data() {
             return {
-                blog: {},
-                blogMongo: {},
+                blog: {
+                    blogMongo: null,
+                    coll_number: 0,
+                    com_number: 0,
+                    id: 0,
+                    is_del: 0,
+                    like: 0,
+                    post_day: "2020-09-01 08:00",
+                    reblog: 0,
+                    reblog_id: -1,
+                    type: 3,
+                    uid: 0
+                },
+                blogMongo: {
+                    comments: [],
+                    content: 'Hello world',
+                    id: 0,
+                    images: [],
+                    labels: [],
+                    video: null,
+                    who_collect: [],
+                    who_like: [],
+                    who_reblog: []
+                },
                 comments: [],
                 reblog: {},
                 reblogMongo: {},
-                username: '',
+                username: 'weins',
                 reblog_name: '',
 
                 dialogVisible: false,
                 options_flag: false,
-                showpic: "",
+                showPicture: '',
 
                 tag_falg: false,
                 like_num: 0,
@@ -173,7 +193,6 @@
             }
         },
         methods: {
-            // 拉取数据
             generator(val) {
                 this.blog = val.blog;
                 this.blogMongo = val.blogMongo;
@@ -193,17 +212,17 @@
                     let id = Number(sessionStorage.getItem("id"));
 
                     // collect
-                    let colllist = this.blogMongo.who_collect;
-                    for (let i = 0; i < colllist.length; i++) {
-                        if (colllist[i] === id) {
+                    let collList = this.blogMongo.who_collect;
+                    for (let i = 0; i < collList.length; i++) {
+                        if (collList[i] === id) {
                             this.collect_flag = true;
                             break;
                         }
                     }
 
-                    let likelist = this.blogMongo.who_like;
-                    for (let i = 0; i < likelist.length; i++) {
-                        if (likelist[i] === id) {
+                    let likeList = this.blogMongo.who_like;
+                    for (let i = 0; i < likeList.length; i++) {
+                        if (likeList[i] === id) {
                             this.like_flag = true;
                             break;
                         }
@@ -285,7 +304,6 @@
                 this.share_flag = false;
                 this.comment_flag = false;
                 this.$emit('change');
-
                 return true;
             },
             fresh() {
@@ -423,7 +441,7 @@
             },
             maxPic(image) {
                 this.dialogVisible = true;
-                this.showpic = JSON.parse(image).base64;
+                this.showPicture = JSON.parse(image).base64;
                 return true;
             },
             comment() {
