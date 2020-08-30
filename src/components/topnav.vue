@@ -105,15 +105,21 @@
         created() {
             // 候选项，如果未进行搜索则候选项为热搜榜，故这里拉取热搜榜
             this.heat = [
-                {"value": "三全鲜食（北新泾店）", type: '话题'},
-                {"value": "Hot honey 首尔炸鸡", type: '话题'},
-                {"value": "新旺角茶餐厅", type: '话题'},
-                {"value": "泷千家(天山西路店)", type: '话题'},
-                {"value": "胖仙女纸杯蛋糕", type: '话题'},
-                {"value": "贡茶", type: '话题'},
-                {"value": "豪大大香鸡排超级奶爸", type: '话题'},
-                {"value": "茶兰（奶茶，手抓饼）", type: '话题'}
+                {value: "三全鲜食（北新泾店）", type: '话题'},
+                {value: "Hot honey 首尔炸鸡", type: '话题'},
+                {value: "新旺角茶餐厅", type: '话题'},
+                {value: "泷千家(天山西路店)", type: '话题'},
+                {value: "胖仙女纸杯蛋糕", type: '话题'},
+                {value: "贡茶", type: '话题'},
+                {value: "豪大大香鸡排超级奶爸", type: '话题'},
+                {value: "茶兰（奶茶，手抓饼）", type: '话题'}
                 ];
+            this.items = [
+                {value: '瓦坎达Forever!', type: '话题', id: 1},
+                {value: 'Trump:没有人比我更懂Web!', type: '话题', id: 2},
+                {value: 'Donald Trump', type: '用户', id: 1},
+                {value: '安倍晋三', type: '用户', id: 2}
+            ];
         },
         methods: {
             querySearch() {
