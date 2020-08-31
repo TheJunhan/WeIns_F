@@ -5,13 +5,13 @@
         </div>
         <div class="container" :class="{logged:this.$root.logged}">
             <div class="release">
-                <Release @change="getInfo"></Release>
+                <Release @change="getBlogs"></Release>
             </div>
             <div class="blogs">
                 <div v-if="size > 0">
                     <ul>
                         <li v-for="(blog, index) in blogs" :key="blog.blog.id">
-                            <Blog @change="getInfo" @delete="remove(index)" :data="blogs[index]" style="margin-bottom: 5px"></Blog>
+                            <Blog @change="getBlogs" @delete="remove(index)" :data="blogs[index]" style="margin-bottom: 5px"></Blog>
                         </li>
                     </ul>
                 </div>
@@ -54,10 +54,10 @@
             }
         },
         created() {
-            this.getInfo();
+            this.getBlogs();
         },
         methods: {
-            getInfo() {
+            getBlogs() {
                 let url = 'http://localhost:8088/blog/getPublicBlogs';
 
                 if (this.$root.logged === true)
@@ -67,10 +67,20 @@
                     console.log(response.data);
                     this.blogs = response.data;
                     this.size = this.blogs.length;
-
                     this.blogs.reverse();
-                    console.log(this.size);
                 }).catch(err =>{
+                    console.log(err);
+                });
+
+                let url1 = 'http://localhost:8088/blog/page/recommend?uid=' + sessionStorage.getItem("id")
+                    + '&index=0' + '&num=5';
+                axios.get(url1, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then(res => {
+                    console.log(res.data);
+                }).catch(err => {
                     console.log(err);
                 });
             },
