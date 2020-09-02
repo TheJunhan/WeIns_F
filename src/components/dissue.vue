@@ -1,17 +1,22 @@
 <template>
-    <div class="issue">
-<!--        <div class="side" style="position: fixed;height: 300px;margin-top: 30px">-->
-<!--            <Side style="float: left; margin-left: 2%;"></Side>-->
-<!--        </div>-->
-        <div class="container" :class="{logged:this.$root.logged}">
-            <div class="release">
-                <Release @change="getBlogs"></Release>
-            </div>
+    <div class="discover-issue">
+        <el-container class="container" :class="{logged:this.$root.logged}">
+            <el-header class="header">
+                <el-radio-group @change="handleClick" v-model="activeIndex" style="margin-bottom: 30px;">
+                    <el-radio-button label="1">科技</el-radio-button>
+                    <el-radio-button label="2">教育</el-radio-button>
+                    <el-radio-button label="3">生活</el-radio-button>
+                    <el-radio-button label="4">娱乐</el-radio-button>
+                    <el-radio-button label="5">军事</el-radio-button>
+                    <el-radio-button label="6">动漫</el-radio-button>
+                </el-radio-group>
+            </el-header>
+
             <div class="blogs">
                 <div v-if="size > 0">
                     <ul>
                         <li v-for="(blog, index) in blogs" :key="blog.blog.id">
-                            <Blog @change="getBlogs" @delete="remove(index)" :data="blogs[index]" style="margin-bottom: 5px"></Blog>
+                            <Blog @change="generator" @delete="remove(index)" :data="blogs[index]" style="margin-bottom: 5px"></Blog>
                         </li>
                     </ul>
                 </div>
@@ -29,11 +34,11 @@
                     </div>
                 </el-card>
             </div>
-        </div>
+        </el-container>
 
         <div v-if="this.$root.logged === false">
             <el-card class="login" v-if="true">
-                <Login style="width: 100%"></Login>
+                <Login style="width: 100%;"></Login>
             </el-card>
         </div>
     </div>
@@ -43,29 +48,35 @@
     import axios from 'axios';
     import Login from "./signinForm";
     import Blog from "./blog";
-    import Release from "./release_blog";
 
     export default {
-        components: { Release, Login, Blog },
+        name: "issue",
+        components: { Login, Blog },
         data() {
             return {
+                activeIndex: '1',
                 blogs: [],
-                size: 0
+                size: 0,
             }
         },
         created() {
-            this.getBlogs();
+            this.generator();
         },
         methods: {
-            getBlogs() {
+            generator() {
                 let url = 'http://localhost:8088/blog/getPublicBlogs';
 
-                if (this.$root.logged === true)
-                    url = 'http://localhost:8088/blog/getBlogsLogined?uid=' + sessionStorage.getItem("id");
+                if (this.$root.logged === true) {
+                    url = 'http://localhost:8088/blog/getBlogsByLabel?'
+                        + 'lid=' + this.$route.query.lid
+                        + '&uid=' + sessionStorage.getItem("id");
+                }
 
-                axios.get(url).then((response) =>{
-                    console.log(response.data);
-                    this.blogs = response.data;
+                console.log(url);
+
+                axios.get(url).then(res =>{
+                    console.log(res.data);
+                    this.blogs = res.data;
                     this.size = this.blogs.length;
                     this.blogs.reverse();
                 }).catch(err =>{
@@ -95,13 +106,31 @@
                 this.blogs.splice(index, 1);
                 this.size--;
                 console.log(this.size);
+            },
+            handleClick() {
+                this.$router.push({
+                    path: '/discover',
+                    query: {
+                        lid: this.activeIndex
+                    }
+                });
+            }
+        },
+        watch: {
+            // eslint-disable-next-line no-unused-vars
+            '$route'(to, from) {
+                this.generator();
             }
         }
     }
 </script>
 
 <style scoped>
-    .issue {
+    .discover-issue {
+        background-color: #A7CFE8;
+    }
+
+    .header {
         background-color: #A7CFE8;
     }
 
@@ -109,10 +138,6 @@
         width: 50%;
         float: left;
         margin-left: 10%;
-    }
-
-    .release {
-        margin-bottom: 10px;
     }
 
     .blogs {

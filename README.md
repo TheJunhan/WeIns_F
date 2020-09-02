@@ -9,7 +9,7 @@ components/
     blog            // 动态展示框
     footer          // 底边栏
     issue           // 动态展示页面
-    sidenav         // 侧边导航
+    dissue          // discover issue
     sign*Form       // 登录/注册的表单
     topnav          // 顶部导航栏
     release_blog    // 发布动态
@@ -31,5 +31,7 @@ views/
     home            // 主页
     signup          // 注册界面
     personcenter    // 个人中心
-    otherpersoncenter // 访问他人主页
+    otherperson*    // 访问他人主页
+    manager         // 用户管理中心
+    discover        // 发现（分类浏览）
 ```

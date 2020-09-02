@@ -6,6 +6,7 @@ import home from './views/home';
 import personcenter from './views/personcenter';
 import otherpersoncenter from "./views/otherpersoncenter";
 import manager from "./views/manager";
+import discover from "./views/discover";
 
 Vue.use(VueRouter);
 
@@ -13,13 +14,18 @@ const routes= [
 
     {
         path: '/signup',
-        name: "signup",
+        name: 'signup',
         component: signup
     },
     {
         path: '/home',
-        name: "home",
+        name: 'home',
         component: home
+    },
+    {
+        path: '/discover',
+        name: 'discover',
+        component: discover
     },
     {
         path: '/person',
