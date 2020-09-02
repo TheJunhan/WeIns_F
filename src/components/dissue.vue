@@ -1,8 +1,15 @@
 <template>
     <div class="discover-issue">
-        <el-container class="container" :class="{logged:this.$root.logged}">
-            <el-header class="header">
-                <el-radio-group @change="handleClick" v-model="activeIndex" style="margin-bottom: 30px;">
+        <div class="container" :class="{logged:this.$root.logged}">
+            <div class="release">
+                <Release @change="generator"></Release>
+            </div>
+
+            <div class="header-nav">
+                <div class="title">
+                    <span>分类浏览</span>
+                </div>
+                <el-radio-group @change="handleClick" v-model="activeIndex" style="margin-bottom: 5px">
                     <el-radio-button label="1">科技</el-radio-button>
                     <el-radio-button label="2">教育</el-radio-button>
                     <el-radio-button label="3">生活</el-radio-button>
@@ -10,7 +17,7 @@
                     <el-radio-button label="5">军事</el-radio-button>
                     <el-radio-button label="6">动漫</el-radio-button>
                 </el-radio-group>
-            </el-header>
+            </div>
 
             <div class="blogs">
                 <div v-if="size > 0">
@@ -27,6 +34,7 @@
                     </el-card>
                 </div>
             </div>
+
             <div class="more">
                 <el-card>
                     <div style="margin-top: -5px; margin-bottom: -5px; text-align: center">
@@ -34,7 +42,7 @@
                     </div>
                 </el-card>
             </div>
-        </el-container>
+        </div>
 
         <div v-if="this.$root.logged === false">
             <el-card class="login" v-if="true">
@@ -48,15 +56,16 @@
     import axios from 'axios';
     import Login from "./signinForm";
     import Blog from "./blog";
+    import Release from "./release_blog";
 
     export default {
         name: "issue",
-        components: { Login, Blog },
+        components: { Login, Blog, Release },
         data() {
             return {
                 activeIndex: '1',
                 blogs: [],
-                size: 0,
+                size: 0
             }
         },
         created() {
@@ -67,12 +76,12 @@
                 let url = 'http://localhost:8088/blog/getPublicBlogs';
 
                 if (this.$root.logged === true) {
+                    let lid = (this.$route.query.lid === '0') ? 1 : this.$route.query.lid;
+
                     url = 'http://localhost:8088/blog/getBlogsByLabel?'
-                        + 'lid=' + this.$route.query.lid
+                        + 'lid=' + lid
                         + '&uid=' + sessionStorage.getItem("id");
                 }
-
-                console.log(url);
 
                 axios.get(url).then(res =>{
                     console.log(res.data);
@@ -100,7 +109,9 @@
                 // });
             },
             showMore() {
-                this.$message.info('下拉刷新暂不支持！');
+                this.blogs.reverse();
+                this.blogs.push(this.blogs[0]);
+                this.blogs.reverse();
             },
             remove(index) {
                 this.blogs.splice(index, 1);
@@ -130,8 +141,18 @@
         background-color: #A7CFE8;
     }
 
-    .header {
+    .header-nav {
         background-color: #A7CFE8;
+        margin-top: 40px;
+    }
+
+    .release {
+        margin-bottom: 10px;
+    }
+
+    .title {
+        font-weight: 500;
+        color: #909399;
     }
 
     .container {
@@ -142,6 +163,7 @@
 
     .blogs {
         margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     .login {

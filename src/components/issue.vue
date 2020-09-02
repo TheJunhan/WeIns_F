@@ -1,8 +1,5 @@
 <template>
     <div class="issue">
-<!--        <div class="side" style="position: fixed;height: 300px;margin-top: 30px">-->
-<!--            <Side style="float: left; margin-left: 2%;"></Side>-->
-<!--        </div>-->
         <div class="container" :class="{logged:this.$root.logged}">
             <div class="release">
                 <Release @change="getBlogs"></Release>
@@ -89,12 +86,13 @@
                 // });
             },
             showMore() {
-                this.$message.info('下拉刷新暂不支持！');
+                this.blogs.reverse();
+                this.blogs.push(this.blogs[0]);
+                this.blogs.reverse();
             },
             remove(index) {
                 this.blogs.splice(index, 1);
                 this.size--;
-                console.log(this.size);
             }
         }
     }
