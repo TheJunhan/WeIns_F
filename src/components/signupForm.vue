@@ -194,8 +194,10 @@
                 return true;
             },
             register() {
-                // if (this.registerCheck() === false)
-                //     return false;
+                if (this.registerForm.interests.length === 0) {
+                    this.$message.error("至少要选择一个话题噢！");
+                    return false;
+                }
 
                 this.dialogVisible = false;
                 let form = this.registerForm;
