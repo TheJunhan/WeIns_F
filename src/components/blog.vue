@@ -3,7 +3,7 @@
         <el-card class="extern" shadow="hover" >
             <div class="blog" style="width: 100%">
                 <div class="avatar">
-                    <el-avatar class="blog_avatar" :src="data.userAvatar"></el-avatar>
+                    <el-avatar class="blog_avatar" :src="generator(data)"></el-avatar>
                 </div>
 
                 <div class="container">
@@ -11,7 +11,7 @@
                         <el-row style="height: 20px">
                             <el-col :span="20">
                                 <div class="name">
-                                    <el-button type="text" style="float: left" @click="visit(blog.uid)">{{generator(data)}}</el-button>
+                                    <el-button type="text" style="float: left" @click="visit(blog.uid)">{{ username }}</el-button>
                                 </div>
                                 <div class="timestamp">{{blog.post_day}}</div>
                                 <div class="timestamp">当前可见：{{parseType2Str()}}</div>
@@ -147,6 +147,7 @@
         },
         data() {
             return {
+                userAvatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg',
                 blog: {
                     blogMongo: null,
                     coll_number: 0,
@@ -232,7 +233,11 @@
                 this.tag_falg = (this.blogMongo.labels.length > 0);
 
                 this.username = val.userName;
-                return val.userName;
+
+                if (val.userAvatar !== null)
+                    this.userAvatar = val.userAvatar;
+
+                return this.userAvatar;
             },
             parseBase64(image) {
                 return JSON.parse(image).base64;
