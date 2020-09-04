@@ -15,8 +15,8 @@
                 <div class="main">
                     <Information v-if="this.$root.my_person_center_info === true" :data="user"></Information>
                     <Blogs v-if="this.$root.my_person_center_blogs === true"></Blogs>
-                    <Follow v-if="this.$root.my_person_center_follower === true" :list="user.userMongo.followers"></Follow>
-                    <Follow v-if="this.$root.my_person_center_following === true" :list="user.userMongo.followings"></Follow>
+                    <Following v-if="this.$root.my_person_center_following === true" :list="user.userMongo.followers"></Following>
+                    <Follower v-if="this.$root.my_person_center_follower === true" :list="user.userMongo.followings"></Follower>
                 </div>
             </div>
         </div>
@@ -28,18 +28,18 @@
 
 <script>
     import axios from 'axios';
-
     import Counter from "../components/counter";
     import Card from '../components/otherpersonalcard';
     import Header from '../components/topnav';
     import Foot from '../components/footer';
     import Blogs from "../components/otherblogs";
     import Information from "../components/otherinformation";
-    import Follow from '../components/follow';
+    import Follower from '../components/followers';
+    import Following from '../components/followings';
 
     export default {
         components: {
-            Header, Card, Foot, Counter, Information, Blogs, Follow,
+            Header, Card, Foot, Counter, Information, Blogs, Follower, Following
         },
         data() {
             return {
@@ -49,40 +49,34 @@
             }
         },
         created() {
-            this.generator();
-        },
-        methods: {
-            generator() {
-                this.$root.my_person_center = false;
-                this.$root.my_person_center_info = false;
-                this.$root.my_person_center_blogs = true;
-                this.$root.my_person_center_follower = false;
-                this.$root.my_person_center_following = false;
+            this.$root.my_person_center = false;
+            this.$root.my_person_center_info = false;
+            this.$root.my_person_center_blogs = true;
+            this.$root.my_person_center_follower = false;
+            this.$root.my_person_center_following = false;
 
-                this.id = this.$route.query.id;
-                let url = 'http://localhost:8088/user/getPlainOne?id=' + this.id;
-                console.log(url);
+            this.id = this.$route.query.id;
+            let url = 'http://localhost:8088/user/getPlainOne?id=' + this.id;
 
-                axios.get(url, {
-                    headers: {
-                        token: sessionStorage.getItem("token")
-                    }
-                }).then(res => {
-                    this.user = res.data;
+            axios.get(url, {
+                headers: {
+                    token: sessionStorage.getItem("token")
+                }
+            }).then(res => {
+                this.user = res.data;
 
-                    if (this.$root.logged === true) {
-                        let followers = this.user.userMongo.followers;
-                        for (let i = 0; i < followers.length; ++i) {
-                            if (followers[i] === Number(sessionStorage.getItem("id"))) {
-                                this.follow_flag = 1;
-                                break;
-                            }
+                if (this.$root.logged === true) {
+                    let followers = this.user.userMongo.followers;
+                    for (let i = 0; i < followers.length; ++i) {
+                        if (followers[i] === Number(sessionStorage.getItem("id"))) {
+                            this.follow_flag = 1;
+                            break;
                         }
                     }
-                }).catch(err => {
-                    console.log(err);
-                });
-            }
+                }
+            }).catch(err => {
+                console.log(err);
+            });
         },
         watch: {
             // eslint-disable-next-line no-unused-vars

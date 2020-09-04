@@ -9,7 +9,7 @@ components/
     blog            // 动态展示框
     footer          // 底边栏
     issue           // 动态展示页面
-    sidenav         // 侧边导航
+    dissue          // discover issue
     sign*Form       // 登录/注册的表单
     topnav          // 顶部导航栏
     release_blog    // 发布动态
@@ -21,7 +21,9 @@ components/
     info            // 个人资料完整度
     information     // 个人资料
     myblogs         // 我的动态
-    follow          // 显示关注/粉丝
+    followers       // 粉丝列表
+    followings      // 关注列表
+    followcard      // 关注/粉丝的组件
     userTable       // 用户列表，供管理员查询
     other*          // 访问其它用户主页用到的组件
 
@@ -29,5 +31,7 @@ views/
     home            // 主页
     signup          // 注册界面
     personcenter    // 个人中心
-    otherpersoncenter // 访问他人主页
+    otherperson*    // 访问他人主页
+    manager         // 用户管理中心
+    discover        // 发现（分类浏览）
 ```

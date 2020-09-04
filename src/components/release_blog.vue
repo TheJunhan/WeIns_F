@@ -45,8 +45,7 @@
                                     :on-remove="removeFile"
                                     :on-change="getFile2"
                                     :auto-upload="false"
-                                    accept=".mp4"
-                            >
+                                    accept=".mp4">
                                 <el-button type="text" icon="el-icon-video-camera" @click="changeMode">视频</el-button>
                             </el-upload>
                         </el-col>
@@ -54,20 +53,6 @@
                             <el-button type="text" icon="el-icon-guide" @click="topic">话题</el-button>
                         </el-col>
                     </el-row>
-<!--                    <el-row v-for="(item,i) in filelist" v-bind:key="i" type="flex" class="row-bg"-->
-<!--                            justify="space-around">-->
-<!--                        <el-col><span-->
-<!--                                style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 10%;height: 30px;text-align: left;line-height: 30px">{{i+1}}</span>-->
-<!--                        </el-col>-->
-<!--                        <el-col><span-->
-<!--                                style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 30%;height: 30px;text-align: left;line-height: 30px">{{item['filename']}}</span>-->
-<!--                        </el-col>-->
-<!--                        <el-row>-->
-<!--                            <el-button style="margin-left: 100%" @click="removeFile(i)" type="text" size="mini"-->
-<!--                                       icon="el-icon-close">删除-->
-<!--                            </el-button>-->
-<!--                        </el-row>-->
-<!--                    </el-row>-->
                 </div>
 
                 <div class="issue">
@@ -96,18 +81,23 @@
 
             </div>
             <div>
-                <el-row v-for="(item,i) in filelist" v-bind:key="i" type="flex" class="row-bg"
+                <el-row v-for="(item,i) in fileList"
+                        v-bind:key="i"
+                        type="flex"
+                        class="row-bg"
                         justify="space-around">
-                    <el-col :span="3"><span
-                            style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 1%;height: 30px;text-align: left;line-height: 30px">{{i+1}}</span>
-                    </el-col>
-                    <el-col><span
-                            style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 100%;height: 30px;text-align: left;line-height: 30px">{{item['filename']}}</span>
+                    <el-col :span="3">
+                        <span style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 1%;height: 30px;text-align: left;line-height: 30px">
+                            {{ i + 1 }}
+                        </span>
                     </el-col>
                     <el-col>
-                        <el-button  @click="removeFile(i)" type="text" size="mini"
-                                   icon="el-icon-close">删除
-                        </el-button>
+                        <span style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 100%;height: 30px;text-align: left;line-height: 30px">
+                            {{ item['filename'] }}
+                        </span>
+                    </el-col>
+                    <el-col>
+                        <el-button  @click="removeFile(i)" type="text" size="mini" icon="el-icon-close">删除</el-button>
                     </el-col>
                 </el-row>
             </div>
@@ -122,28 +112,29 @@
                                 closable
                                 :disable-transitions="false"
                                 @close="handleClose(i)">
-                            #{{tag.content}}#
+                            #{{ tag.content }}#
                         </el-tag>
                     </el-row>
                     <el-row style="margin-top: 10px;margin-bottom: 5px">
-                        <el-input v-model="taginput" placeholder="请输入标签搜索" v-on:change="searchTags" style="width:60%"></el-input>
-                        <el-button type="primary" style="width: 15%;font-size: 10px;margin-left: 5px" v-on:click="searchTags">搜索</el-button>
-                        <el-button type="primary" style="width: 15%;font-size: 10px" @click="newTag = !newTag">{{newTagBtn()}}</el-button>
-                    </el-row>
-                    <el-row style="margin-top: 10px;margin-bottom: 5px">
-                        <el-tag
-                                :key="tag.id"
-                                v-for="(tag, i) in Tags"
-                                :disable-transitions="false"
-                                @close="handleClose(i)"
-                                style="margin-left: 3px;margin-right: 3px">
-                            <el-button type="text" size="mini" @click="addTag(i)">#{{tag.content}}#</el-button>
-                        </el-tag>
+                        <el-autocomplete
+                                popper-class="my-autocomplete"
+                                v-model="tagInput"
+                                :fetch-suggestions="querySearchAsync"
+                                placeholder="请输入标签搜索"
+                                @select="handleSelect"
+                                style="width: 60%"
+                                @keyup.native.enter="querySearchAsync">
+                            <template slot-scope="{ item }">
+                                <div class="topic">#{{ item.content }}#</div>
+                            </template>
+                        </el-autocomplete>
+                        <el-button type="primary" style="width: 15%;font-size: 10px;margin-left: 5px" v-on:click="querySearchAsync">搜索</el-button>
+                        <el-button type="primary" style="width: 15%; font-size: 10px" @click="newTag = !newTag">{{newTagBtn()}}</el-button>
                     </el-row>
                     <el-row v-if="newTag === true">
                         <el-input v-model="newTagInput" placeholder="请输入新的标签" style="width: 60%"></el-input>
-                        <el-button type="success" style="width: 15%;font-size: 10px;margin-left: 5px" @click="createTag">提交</el-button>
-                        <span class="tagCounter" style="width: 20%; margin-left: 15px">还可以输入{{newTagCounter()}}字</span>
+                        <el-button type="success" style="width: 15%; font-size: 10px;margin-left: 5px" @click="createTag">提交</el-button>
+                        <span class="tagCounter" style="width: 20%; margin-left: 15px">还可以输入{{ newTagCounter() }}字</span>
                     </el-row>
                 </el-card>
             </div>
@@ -175,40 +166,38 @@
                 text: '',
                 state: '公开',
                 uploaded: false,
-                filelist: [],
-                uploadmode: false,
+                fileList: [],
+                uploadMode: false,
                 lock: 0,
                 dialogVisible: false,
+                showEmojiPicker: false,
+
                 Tags: [],
                 chosen_tags: [],
-                taginput: '',
+                tagInput: '',
                 newTag: false,
                 newTagInput: '',
-                oldtags: [],  //no use
-                message: '',
-                showEmojiPicker: false,
                 topic_flag: false,
+                message: 'error message'
             }
         },
         created() {
             this.loadTags();
         },
         methods: {
-            // 刷新
             fresh() {
                this.text = '';
                this.state = '公开';
                this.uploaded = false;
-               this.filelist = [];
-               this.uploadmode = false;
+               this.fileList = [];
+               this.uploadMode = false;
                this.lock = 0;
                this.dialogVisible = false;
                this.Tags = [];
                this.newTag = false;
                this.newTagInput = '';
                this.chosen_tags = [];
-               this.taginput = '';
-               this.oldtags = [];
+               this.tagInput = '';
                this.message = '';
             },
             counter() {
@@ -253,24 +242,19 @@
                     this.$message.info('请登录后再进行操作！');
                 }
 
-                if (this.text === '' && this.filelist.length === 0) {
+                if (this.text === '' && this.fileList.length === 0) {
                     this.$message.error('不能发布空动态！');
                     return;
                 }
 
-                // args:
-                // Integer uid, Integer type, String content, String post_day, String video,
-                // String imag, String label, String username, String useravatar
-
                 let url = 'http://localhost:8088/blog/setBlog';
-
                 axios.post(url, {
                     uid: sessionStorage.getItem("id"),
                     content: this.text,
                     type: this.typify(),
                     post_day: this.curr_time(),
                     video: null,
-                    imag: JSON.stringify(this.filelist),
+                    imag: JSON.stringify(this.fileList),
                     label: JSON.stringify(this.chosen_tags),
                     username: sessionStorage.getItem("name"),
                     useravatar: JSON.parse(sessionStorage.getItem("userMongo")).avatar
@@ -279,8 +263,7 @@
                         headers: {
                             token: sessionStorage.getItem("token")
                         }
-                    }).then((response) =>{
-                    console.log(response);
+                    }).then(() =>{
                     this.$message.success("动态发布成功！");
                     this.fresh();
                     this.$emit('change')
@@ -293,7 +276,7 @@
                 return this.showEmojiPicker;
             },
             onSelectEmoji(emoji) {
-                console.log(emoji)
+                console.log(emoji);
                 this.text += emoji.data;
             },
             uploadSuccess() {
@@ -322,7 +305,7 @@
                 return -1;
             },
             changeMode() {
-                this.uploadmode = !this.uploadmode
+                this.uploadMode = !this.uploadMode
                 return true;
             },
             getBase64(file) {
@@ -345,13 +328,10 @@
                 if (!this.uploaded)
                     this.uploaded = true;
                 this.getBase64(file.raw).then(res => {
-                    // console.log(res);
-                    this.filelist.push({
+                    this.fileList.push({
                         filename: file.name,
                         base64: res,
                     });
-                    // console.log(file.name)
-                    // console.log(this.filelist)
                 });
                 return true;
             },
@@ -363,7 +343,7 @@
                     this.message="图片和视频无法同时上传！";
                     return false;
                 } else {
-                    if (this.filelist.length >= 6) {
+                    if (this.fileList.length >= 6) {
                         this.$message.warning("做多上传6张图片！");
                         return false;
                     }
@@ -375,7 +355,7 @@
             getFile2(file) {
                 if (this.lock === 1) this.$message.warning("图片和视频无法同时上传！");
                 else {
-                    if (this.filelist.length >= 1) {
+                    if (this.fileList.length >= 1) {
                         this.$message.warning("视频太多了，老板做不出来！");
                         return false;
                     }
@@ -386,8 +366,8 @@
                 return false;
             },
             removeFile(i) {
-                this.filelist.splice(i, 1);
-                if (this.filelist.length === 0) {
+                this.fileList.splice(i, 1);
+                if (this.fileList.length === 0) {
 
                     this.uploaded = false;
                     this.lock = 0;
@@ -402,31 +382,66 @@
             loadTags() {
                 let url = 'http://localhost:8088/blog/getLabels';
                 axios.get(url).then(res => {
-                    this.Tags = res.data;
+                    let tags = res.data;
+                    for (let i = 0; i < tags.length; ++i) {
+                        let tag = {
+                            id: tags[i].id,
+                            content: tags[i].content
+                        };
+                        this.Tags.push(tag);
+                    }
                 }).catch(err => {
                     console.log(err);
                 });
             },
-            addTag(i){
-                if (this.chosen_tags.length === 2) {
-                    this.$message.error('最多只能添加 2 个标签噢！');
-                    return false;
-                }
-
-                else {
-                    this.chosen_tags.push(this.Tags[i]);
-                    return true;
+            addTag(tag) {
+                switch (this.chosen_tags.length) {
+                    case 2:
+                        this.$message.error('最多只能添加 2 个标签噢！');
+                        return false;
+                    case 1:
+                        if (this.chosen_tags[0].id === tag.id) {
+                            this.$message.error('不能添加重复标签噢！');
+                            return false;
+                        }
+                        else {
+                            this.chosen_tags.push(tag);
+                            return true;
+                        }
+                    case 0:
+                        this.chosen_tags.push(tag);
+                        return true;
+                    default:
+                        return false;
                 }
             },
-            searchTags() {
-                let T = [];
-                for(let i in this.Tags){
-                    if (this.Tags[i].indexOf(this.taginput) !== -1) {
-                        T.push(this.Tags[i]);
+            querySearchLabel() {
+                let items = [];
+                let url = 'http://localhost:8088/blog/findFuzzyLabels?lab=' + this.tagInput;
+                axios.get(url).then(res => {
+                    let labels = res.data;
+                    for (let i = 0; i < labels.length; ++i) {
+                        let label = {
+                            content: labels[i].content,
+                            id: labels[i].id
+                        };
+                        items.push(label);
                     }
-                }
-                this.Tags=T;
-                return true;
+                }).catch(err => {
+                    console.log(err);
+                });
+
+                return items;
+            },
+            querySearchAsync(queryStr, cbe) {
+                let results = queryStr ? this.querySearchLabel() : this.Tags;
+                clearTimeout(this.timeout);
+                this.timeout = setTimeout(() => { cbe(results); }, 1000 * Math.random());
+                return results;
+            },
+            handleSelect(tag) {
+                this.addTag(tag);
+                return tag;
             },
             newTagBtn() {
                 return this.newTag ? '取消' : '新建';
@@ -528,5 +543,11 @@
         margin-top: 6px;
         float: right;
         margin-right: 5%;
+    }
+
+    .topic {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: #EE731B;
     }
 </style>

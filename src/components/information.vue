@@ -25,7 +25,7 @@
                                 <div v-if="basic_flag === true">
                                     <el-input v-model="user.name" size="mini" style="width: 40%"
                                               @input="update"></el-input>
-                                    <span style="color: red" v-show="this.errormessage.name.flag">{{this.errormessage.name.message}}</span>
+                                    <span style="color: red" v-show="this.errMessage.name.flag">{{this.errMessage.name.message}}</span>
                                 </div>
                                 <div v-else>
                                     <span style="float: left" class="span-text">{{user.name}}</span>
@@ -106,7 +106,7 @@
                             <el-form-item label="手机号码">
                                 <div v-if="contact_flag === true">
                                     <el-input v-model="user.phone" size="mini" @input="update"></el-input>
-                                    <span style="color: red" v-show="this.errormessage.phone.flag">{{this.errormessage.phone.message}}</span>
+                                    <span style="color: red" v-show="this.errMessage.phone.flag">{{this.errMessage.phone.message}}</span>
 
                                 </div>
                                 <div v-else>
@@ -129,11 +129,11 @@
             return {
                 basic_flag: false,
                 contact_flag: false,
-                newname:"",
-                newphone:"",
-                birthright:"",
+                newName: '',
+                newPhone: '',
+                birthright: '',
                 sexStr: '未知',
-                errormessage: {
+                errMessage: {
                     name: {
                         message: "该用户重复或格式不正确",
                         flag: false
@@ -149,10 +149,10 @@
                     name: '交通大学',
                     birthday: '1896-04-07',
                     sex: -1,
-                    reg_time: '2020-07-09',
+                    type: 0,
+                    reg_time: '2020-07-01',
                     email: 'se128@sjtu.edu.cn',
-                    phone: '021-34200000',
-                    userMongo: {}
+                    phone: '021-34200000'
                 }
             }
         },
@@ -217,98 +217,91 @@
                 this.user.phone = sessionStorage.getItem("phone");
                 this.user.sex = sessionStorage.getItem("sex");
                 this.user.birthday = sessionStorage.getItem("birthday");
-                this.userMongo = JSON.parse(sessionStorage.getItem("userMongo"));
-                if (sessionStorage.getItem("birthday") == null) this.user.birthday = "2002-03-03"
                 this.sexStr = this.sex();
-
             },
             sessionUpdate() {
                 sessionStorage.setItem("name", this.user.name);
-                sessionStorage.setItem("userMongo", JSON.stringify(this.user.userMongo))
                 sessionStorage.setItem("sex", this.user.sex);
                 sessionStorage.setItem("birthday", this.user.birthday);
+                sessionStorage.setItem("phone", this.user.phone);
                 return true;
             },
             update() {
-                if (this.birthright !== "") {
+                if (this.birthright !== '') {
                     let date = new Date(this.birthright);
                     if (this.nonage(date) === false) {
                         this.$message.error("生日不符合条件或未满18周岁");
                         return false;
                     }
-                    this.birthright="";
-                    this.basic_flag=false;
+                    this.birthright = '';
+                    this.basic_flag = false;
                     this.user.birthday = this.birth_format(date);
                 }
                 let url = 'http://localhost:8088/user/update';
                 let user = this.user;
 
                 if (user.phone.length === 0) {
-                    this.errormessage.phone.flag=true;
-                    return;
+                    this.errMessage.phone.flag = true;
+                    return false;
                 } else {
                     let format = /^(1[0-9]{10})$/;
                     if (!format.test(user.phone)) {
-                        this.errormessage.phone.flag=true;
-                        return;
+                        this.errMessage.phone.flag = true;
+                        return false;
                     }
                 }
-
-                console.log(user);
 
                 axios.post(url, user, {
                     headers: {
                         token: sessionStorage.getItem("token")
                     }
-                }).then((response) => {
-                    if (response.data === "error" && user.name !== this.newname) {
-                        this.errormessage.name.flag = true;
-                        return;
-                        // this.generator(); // 回溯
+                }).then(res => {
+                    console.log(res.data);
+                    if (res.data === "error" && user.name !== this.newName) {
+                        this.errMessage.name.flag = true;
+                        return false;
                     }
-                    if( response.data === "errorPhone" && user.phone !== this.newphone){
-                        this.errormessage.phone.flag=true;
-                        return;
+                    if (res.data === "errorPhone" && user.phone !== this.newPhone){
+                        this.errMessage.phone.flag = true;
+                        return false;
                     }
 
-                    console.log(response.data)
-                    this.newphone=user.phone;
-                    this.newname=user.name;
-                    this.errormessage.name.flag = false;
-                    this.errormessage.phone.flag=false;
+                    this.$message.success('修改个人信息成功！');
+                    this.newPhone=user.phone;
+                    this.newName=user.name;
+                    this.errMessage.name.flag = false;
+                    this.errMessage.phone.flag=false;
                     this.sessionUpdate();
                 }).catch(err => {
                     console.log(err);
                 });
-                // return this.axios.post(url).then(res => {
-                //     return res === "success";
-                // })
+                return this.axios.post(url).then(res => {
+                    return res === "success";
+                })
             },
             basic() {
                 if (this.basic_flag) {
-                    if(this.errormessage.phone.flag===true||this.errormessage.name.flag ===true){
+                    if(this.errMessage.phone.flag || this.errMessage.name.flag)
                         return;
-                    }
-                    if(this.birthright!=="") {
+                    if(this.birthright !== '')
                         this.update();
-                    }
 
                     this.basic_flag = false;
                     this.update();
                     return false;
                 } else {
                     this.$message.success('启用编辑！');
-                    this.newname=this.user.name;
-                    this.newphone=this.user.phone;
+                    this.newName=this.user.name;
+                    this.newPhone=this.user.phone;
                     this.basic_flag = true;
                     return true;
                 }
             },
             contact() {
                 if (this.contact_flag) {
-                    if(this.errormessage.phone.flag===true||this.errormessage.name.flag ===true){
+                    if(this.errMessage.phone.flag || this.errMessage.name.flag)
                         return;
-                    }
+
                     this.contact_flag = false;
                     this.update();
                     return false;
@@ -317,9 +310,7 @@
                     this.contact_flag = true;
                     return true;
                 }
-            },
-
-
+            }
         }
     }
 </script>

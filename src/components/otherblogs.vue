@@ -20,7 +20,7 @@
 
 <script>
     import Blog from './blog';
-    // import axios from "axios";
+    import axios from "axios";
 
     export default {
         components: { Blog },
@@ -35,19 +35,19 @@
         },
         methods: {
             getinfo() {
-                // let url = 'http://localhost:8088/blog/getBlogsById?uid=' + sessionStorage.getItem("id")
-                //     + '&to_see_uid=' + this.$route.query.id;
-                //
-                // axios.get(url, {
-                //     headers: {
-                //         token: sessionStorage.getItem("token")
-                //     }
-                // }).then((response) => {
-                //     this.blogs = response.data;
-                //     this.empty = (this.blogs.size === 0);
-                // }).catch(err => {
-                //     console.log(err);
-                // });
+                let url = 'http://localhost:8088/blog/getBlogsById?uid=' + sessionStorage.getItem("id")
+                    + '&to_see_uid=' + this.$route.query.id;
+
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then((response) => {
+                    this.blogs = response.data;
+                    this.empty = (this.blogs.size === 0);
+                }).catch(err => {
+                    console.log(err);
+                });
             }
         }
     }
