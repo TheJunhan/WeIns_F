@@ -17,7 +17,6 @@
 
 <script>
     export default {
-        name: "info",
         data(){
             return{
                 percentage: 0
@@ -29,8 +28,7 @@
             if (sessionStorage.getItem("sex") !== "-1")
                 count++;
 
-            if (JSON.parse(sessionStorage.getItem("userMongo")).avatar !==
-                "http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg")
+            if (sessionStorage.getItem("avatar") !== "http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg")
                 count++;
 
             this.percentage = (count / total) * 100;
@@ -41,7 +39,6 @@
                 this.$root.my_person_center_blogs = false;
                 this.$root.my_person_center_follower = false;
                 this.$root.my_person_center_following = false;
-                // this.$message.success("导航到个人信息界面！");
             }
         }
     }

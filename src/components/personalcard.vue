@@ -60,19 +60,14 @@
         methods: {
             generator() {
                 this.user.id = sessionStorage.getItem("id");
-                // this.user.name = sessionStorage.getItem("name");
-                // this.user.sex = sessionStorage.getItem("sex");
-                // this.user.userMongo.avatar =sessionStorage.getItem("userMongo")!=null ? JSON.parse(sessionStorage.getItem("userMongo")).avatar : null;
-
-                let url = 'http://localhost:8088/user/getPlainOne?id=' + sessionStorage.getItem('id');
+                let url = 'http://localhost:8088/user/getPlainOne?id=' + this.user.id;
 
                 axios.get(url, {
                     headers: {
                         token: sessionStorage.getItem("token")
                     }
-                }).then((res) => {
+                }).then(res => {
                     this.user = res.data;
-                    console.log(this.user);
                     this.origin_avatar = this.user.userMongo.avatar;
                 }).catch(err => {
                     console.log(err);
@@ -81,7 +76,7 @@
             getBase64(file) {
                 return new Promise(function (resolve, reject) {
                     let reader = new FileReader();
-                    let imgResult = "";
+                    let imgResult = '';
                     reader.readAsDataURL(file);
                     reader.onload = function () {
                         imgResult = reader.result;
@@ -99,7 +94,6 @@
                     this.uploaded = true;
                 this.getBase64(file.raw).then(res => {
                     this.user.userMongo.avatar = res;
-                    // console.log(this.user.userMongo.avatar);
                 });
 
                 this.update_flag = true;
@@ -113,20 +107,22 @@
                 let url = 'http://localhost:8088/user/update';
                 console.log(url);
 
-                axios.post(url, this.user, {
+                let form = this.user;
+                form.avatar = this.user.userMongo.avatar;
+
+                axios.post(url, form, {
                     headers: {
                         token: sessionStorage.getItem("token")
                     }
-                }).then((response) => {
-                    if(response.data === 'success')
+                }).then(res => {
+                    if(res.data === 'success')
                         this.$message.success('更换头像成功！');
-                    console.log(response.data);
+                    console.log(res.data);
                 }).catch(err => {
                    console.log(err);
                 });
 
                 this.update_flag = false;
-                console.log('hahaha')
             }
         }
     }

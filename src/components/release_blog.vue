@@ -81,18 +81,23 @@
 
             </div>
             <div>
-                <el-row v-for="(item,i) in fileList" v-bind:key="i" type="flex" class="row-bg"
+                <el-row v-for="(item,i) in fileList"
+                        v-bind:key="i"
+                        type="flex"
+                        class="row-bg"
                         justify="space-around">
-                    <el-col :span="3"><span
-                            style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 1%;height: 30px;text-align: left;line-height: 30px">{{i+1}}</span>
-                    </el-col>
-                    <el-col><span
-                            style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 100%;height: 30px;text-align: left;line-height: 30px">{{item['filename']}}</span>
+                    <el-col :span="3">
+                        <span style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 1%;height: 30px;text-align: left;line-height: 30px">
+                            {{ i + 1 }}
+                        </span>
                     </el-col>
                     <el-col>
-                        <el-button  @click="removeFile(i)" type="text" size="mini"
-                                   icon="el-icon-close">删除
-                        </el-button>
+                        <span style="color: #8B8B8B;font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif ;float: left;font-size: medium;margin-left: 20px;width: 100%;height: 30px;text-align: left;line-height: 30px">
+                            {{ item['filename'] }}
+                        </span>
+                    </el-col>
+                    <el-col>
+                        <el-button  @click="removeFile(i)" type="text" size="mini" icon="el-icon-close">删除</el-button>
                     </el-col>
                 </el-row>
             </div>

@@ -1,5 +1,5 @@
 <template>
-    <el-form :rules="rules" :model="registerForm" class="registerRoot">
+    <el-form :model="registerForm" class="registerRoot">
         <h3 class="registerTitle">注册</h3>
         <el-form-item prop="phone">
             <el-input type="text" v-model="registerForm.phone" auto-complete="off"
@@ -32,34 +32,25 @@
 <script>
     import axios from 'axios';
     export default {
-        name: "SignUpForm",
         data() {
             return {
-                errmessage:"",
+                errMessage : '',
                 registerForm: {
                     phone    : '',
                     name     : '',
                     password : '',
                     birthday : '',
-                    type     : 0, // 默认为普通用户
-                    sex      : -1, // 未知性别
-                    userMongo: {
-                        avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg'
-                    }
-                },
-
+                    avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg',
+                }
             }
         },
         methods: {
             nonage(date) { // 判断是否满14周岁
                 let curr = new Date();
-                if((curr.getFullYear()-date.getFullYear()>14 )
+                return (curr.getFullYear() - date.getFullYear() > 14)
                     || (curr.getFullYear() - date.getFullYear() === 14)
                     && (curr.getMonth() > date.getMonth()
-                        || (curr.getMonth() === date.getMonth() && curr.getDate()>date.getDate())))
-                    return true;
-                else
-                    return false;
+                        || (curr.getMonth() === date.getMonth() && curr.getDate() > date.getDate()));
             },
             birth_format(date) {
                 let birth = date.getFullYear() + '-';
@@ -77,13 +68,15 @@
                 let form = this.registerForm;
                 let phone = form.phone;
                 if (phone.length === 0) {
-                    this.errmessage="电话号码不能为空!";
+                    this.errMessage = "电话号码不能为空!";
                     this.$message.error("电话号码不能为空!")
                     return false;
-                } else {
+                }
+
+                else {
                     let format = /^(1[0-9]{10})$/;
                     if (!format.test(phone)) {
-                        this.errmessage="电话号码格式不正确!";
+                        this.errMessage = "电话号码格式不正确!";
                         this.$message.error("电话号码格式不正确!")
                         return false;
                     }
@@ -91,46 +84,39 @@
 
                 let name = form.name;
                 if (name.length === 0) {
-                    this.errmessage="用户名不能为空!";
-
+                    this.errMessage = "用户名不能为空!";
                     this.$message.error("用户名不能为空!")
                     return false;
-                }else if (name.length < 3 || name.length > 12) {
-                    this.errmessage="用户名长度须在 3 到 12 个字符!";
+                }
 
+                else if (name.length < 3 || name.length > 12) {
+                    this.errMessage = "用户名长度须在 3 到 12 个字符!";
                     this.$message.error("用户名长度须在 3 到 12 个字符!")
                     return false;
                 }
 
                 let pwd = form.password;
                 if (pwd.length === 0) {
-                    this.errmessage="密码不能为空";
-
+                    this.errMessage = "密码不能为空";
                     this.$message.error("密码不能为空") ;
                     return false;
                 } else if(pwd.length < 6 || pwd.length > 16) {
-                    this.errmessage="密码长度须在 6 到 16 个字符";
-
+                    this.errMessage = "密码长度须在 6 到 16 个字符";
                     this.$message.error("密码长度须在 6 到 16 个字符");
                     return false;
                 }
 
-                console.log(form.birthday)
                 let date = new Date(form.birthday);
-                console.log(date);
                 if (this.nonage(date) === false) {
-                    this.errmessage = "未满14周岁不能注册账户！";
-
+                    this.errMessage   = "未满14周岁不能注册账户！";
                     this.$message.error("未满14周岁不能注册账户！");
                     return false;
                 }
-
                 form.birthday = this.birth_format(date);
 
-                let url = 'http://localhost:8088/user/reg';
-                axios.post(url, form).then((response) =>{
-
-                    switch (response.data) {
+                let url = 'http://localhost:8088/user/register';
+                axios.post(url, form).then(res =>{
+                    switch (res.data) {
                         case "phone error":
                             this.$message.error("这个手机号已注册过啦！");
                             break;
@@ -138,19 +124,18 @@
                             this.$message.error("这个名字已经有人用过啦！");
                             break;
                         case "success":
-                            this.errmessage="注册成功！";
+                            this.errMessage = "注册成功！";
                             this.$message.success("注册成功！");
                             this.$router.push('/home');
                             break;
                         default:
                             break;
                     }
-                }).catch(err=>{
-                    console.log(err)
+                }).catch(err => {
+                    console.log(err);
                 });
 
-                console.log("end")
-                this.errmessage="bad";
+                this.errMessage = "bad";
                 return this.axios.post(url).then(res=>{
                     return res === 'success';
                 });

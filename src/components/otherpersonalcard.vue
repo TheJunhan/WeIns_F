@@ -6,7 +6,7 @@
                 <div class="text1">
                     {{name}}
                 </div>
-                <div class="text2" v-if="follow_flag === true">
+                <div class="text2" v-if="follow_flag === false">
                     <el-button type="plain" size="mini" @click="follow(1)"><I class="el-icon-plus"></I> 关注</el-button>
                 </div>
                 <div class="text2" v-else>
@@ -51,7 +51,6 @@
                 + 'sub=' + sessionStorage.getItem("id")
                 + '&obj=' + this.id
                 + '&flag=' + flag;
-                console.log(url);
 
                 axios.post(url, {}, {
                     headers: {
