@@ -5,7 +5,7 @@
                 <Release @change="getBlogs"></Release>
             </div>
             <div class="blogs">
-                <div v-if="size > 0">
+                <div v-if="blogs.length > 0">
                     <ul>
                         <li v-for="(blog, index) in blogs" :key="blog.blog.id">
                             <Blog @change="getBlogs" @delete="remove(index)" :data="blogs[index]" style="margin-bottom: 5px"></Blog>
@@ -46,8 +46,40 @@
         components: { Release, Login, Blog },
         data() {
             return {
-                blogs: [],
-                size: 0
+                blogs: [
+                    {
+                        userAvatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg',
+                        blog: {
+                            blogMongo: null,
+                            coll_number: 0,
+                            com_number: 0,
+                            id: 0,
+                            is_del: 0,
+                            like: 0,
+                            post_day: "2020-09-01 08:00",
+                            reblog: 0,
+                            reblog_id: -1,
+                            type: 3,
+                            uid: 0
+                        },
+                        blogMongo: {
+                            comments: [],
+                            content: 'Hello world',
+                            id: 0,
+                            images: [],
+                            labels: [],
+                            video: null,
+                            who_collect: [],
+                            who_like: [],
+                            who_reblog: []
+                        },
+                        comments: [],
+                        reblog: {},
+                        reblogMongo: {},
+                        userName: 'weins',
+                        reblogUserName: '',
+                    }
+                ]
             }
         },
         created() {
@@ -63,7 +95,6 @@
                 axios.get(url).then((response) =>{
                     console.log(response.data);
                     this.blogs = response.data;
-                    this.size = this.blogs.length;
                     this.blogs.reverse();
                 }).catch(err =>{
                     console.log(err);
@@ -79,7 +110,6 @@
                 // }).then(res => {
                 //     console.log(res.data);
                 //     this.blogs = res.data;
-                //     this.size = this.blogs.length;
                 //     this.blogs.reverse();
                 // }).catch(err => {
                 //     console.log(err);
@@ -92,7 +122,6 @@
             },
             remove(index) {
                 this.blogs.splice(index, 1);
-                this.size--;
             }
         }
     }
