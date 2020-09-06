@@ -20,7 +20,7 @@
             </div>
 
             <div class="blogs">
-                <div v-if="size > 0">
+                <div v-if="blogs.length > 0">
                     <ul>
                         <li v-for="(blog, index) in blogs" :key="blog.blog.id">
                             <Blog @change="generator" @delete="remove(index)" :data="blogs[index]" style="margin-bottom: 5px"></Blog>
@@ -63,9 +63,11 @@
         components: { Login, Blog, Release },
         data() {
             return {
+                first_flag: true,
                 activeIndex: '1',
-                blogs: [],
-                size: 0
+                index: 0,
+                num: 5,
+                blogs: []
             }
         },
         created() {
@@ -73,50 +75,53 @@
         },
         methods: {
             generator() {
-                let url = 'http://localhost:8088/blog/getPublicBlogs';
+                this.activeIndex = (this.$route.query.lid === '0') ? 1 : this.$route.query.lid;
+                let url = 'http://localhost:8088/blog/page/getPublicBlogs'
+                        + '?index=' + this.index + '&num=' + this.num;
 
-                if (this.$root.logged === true) {
-                    let lid = (this.$route.query.lid === '0') ? 1 : this.$route.query.lid;
+                if (this.$root.logged === true)
+                    url = 'http://localhost:8088/blog/page/getBlogsByLabel?'
+                        + 'lid=' + this.activeIndex
+                        + '&uid=' + sessionStorage.getItem("id")
+                        + '&index=' + this.index
+                        + '&num=' + this.num;
 
-                    url = 'http://localhost:8088/blog/getBlogsByLabel?'
-                        + 'lid=' + lid
-                        + '&uid=' + sessionStorage.getItem("id");
+                console.log(url);
+
+                if (this.first_flag) {
+                    this.blogs = [];
+                    this.first_flag = false;
                 }
 
                 axios.get(url).then(res =>{
                     console.log(res.data);
-                    this.blogs = res.data;
-                    this.size = this.blogs.length;
-                    this.blogs.reverse();
+                    let blogs = res.data;
+
+                    let i = 0;
+                    for (; i < blogs.length; ++i) {
+                        if (blogs[i].next_index >= 0) {
+                            if (this.index === blogs[i].next_index) {
+                                this.$message.info("没有更多动态了噢！");
+                                return;
+                            }
+
+                            this.index = blogs[i].next_index;
+                            break;
+                        }
+                    }
+
+                    blogs.splice(i, 1);
+                    for (let j = 0; j < blogs.length; ++j)
+                        this.blogs.push(blogs[j]);
                 }).catch(err =>{
                     console.log(err);
                 });
-
-                // let url1 = 'http://localhost:8088/blog/page/recommend?uid=' + sessionStorage.getItem("id")
-                //     + '&index=0' + '&num=5';
-                // console.log(url1);
-                // axios.get(url1, {
-                //     headers: {
-                //         token: sessionStorage.getItem("token")
-                //     }
-                // }).then(res => {
-                //     console.log(res.data);
-                //     this.blogs = res.data;
-                //     this.size = this.blogs.length;
-                //     this.blogs.reverse();
-                // }).catch(err => {
-                //     console.log(err);
-                // });
             },
             showMore() {
-                this.blogs.reverse();
-                this.blogs.push(this.blogs[0]);
-                this.blogs.reverse();
+                this.generator();
             },
             remove(index) {
                 this.blogs.splice(index, 1);
-                this.size--;
-                console.log(this.size);
             },
             handleClick() {
                 this.$router.push({
@@ -130,6 +135,8 @@
         watch: {
             // eslint-disable-next-line no-unused-vars
             '$route'(to, from) {
+                this.first_flag = true;
+                this.index = 0;
                 this.generator();
             }
         }

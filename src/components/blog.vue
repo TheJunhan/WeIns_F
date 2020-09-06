@@ -443,6 +443,12 @@
             },
             visitTag(tag) {
                 this.$message.success('导航到标签 #' + tag.content + '#');
+                this.$router.push({
+                    path: '/discover',
+                    query: {
+                        lid: tag.id
+                    }
+                });
             },
             maxPic(image) {
                 this.dialogVisible = true;

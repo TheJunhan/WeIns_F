@@ -5,7 +5,8 @@
         </el-header>
         <el-container style="width: 100%; margin-bottom: 70px">
             <div class="category" style="width: 100%; margin: auto">
-                <Issue></Issue>
+                <Issue v-if="this.$root.logged === false"></Issue>
+                <IssueLog v-else></IssueLog>
             </div>
         </el-container>
         <el-footer>
@@ -18,8 +19,9 @@
     import Header from '../components/topnav';
     import Footer from '../components/footer';
     import Issue from '../components/issue';
+    import IssueLog from '../components/issueLogged';
 
     export default {
-        components: { Header, Footer, Issue },
+        components: { Header, Footer, Issue, IssueLog }
     }
 </script>
