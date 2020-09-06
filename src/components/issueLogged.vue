@@ -1,9 +1,14 @@
 <template>
     <div class="issue">
-        <div class="container" :class="{logged:this.$root.logged}">
+        <div class="container logged">
             <div class="release">
                 <Release @change="getBlogs"></Release>
             </div>
+
+            <div class="title" style="color: #909399; font-size: 18px; font-weight: 600">
+                <span>推荐</span>
+            </div>
+
             <div class="blogs">
                 <div v-if="blogs.length > 0">
                     <ul>
@@ -27,62 +32,21 @@
                 </el-card>
             </div>
         </div>
-
-        <div v-if="this.$root.logged === false">
-            <el-card class="login" v-if="true">
-                <Login style="width: 100%"></Login>
-            </el-card>
-        </div>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
-    import Login from "./signinForm";
     import Blog from "./blog";
     import Release from "./release_blog";
 
     export default {
-        components: { Release, Login, Blog },
+        components: { Release, Blog },
         data() {
             return {
                 index: 0,
-                first_flag: true,
                 num: 5,
-                blogs: [
-                    {
-                        userAvatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg',
-                        blog: {
-                            blogMongo: null,
-                            coll_number: 0,
-                            com_number: 0,
-                            id: 0,
-                            is_del: 0,
-                            like: 0,
-                            post_day: "2020-09-01 08:00",
-                            reblog: 0,
-                            reblog_id: -1,
-                            type: 3,
-                            uid: 0
-                        },
-                        blogMongo: {
-                            comments: [],
-                            content: 'Hello world',
-                            id: 0,
-                            images: [],
-                            labels: [],
-                            video: null,
-                            who_collect: [],
-                            who_like: [],
-                            who_reblog: []
-                        },
-                        comments: [],
-                        reblog: {},
-                        reblogMongo: {},
-                        userName: 'weins',
-                        reblogUserName: '',
-                    }
-                ]
+                blogs: []
             }
         },
         created() {
@@ -90,18 +54,14 @@
         },
         methods: {
             getBlogs() {
-                let url = 'http://localhost:8088/blog/page/getPublicBlogs' +
-                    '?index=' + this.index +
-                    '&num=' + this.num;
+                let url = 'http://localhost:8088/blog/page/recommend?uid=' + sessionStorage.getItem("id")
+                        + '&index=' + this.index + '&num=' + this.num;
 
-                console.log(url);
-
-                if (this.first_flag) {
-                    this.blogs = [];
-                    this.first_flag = false;
-                }
-
-                axios.get(url).then(res => {
+                axios.get(url, {
+                    headers: {
+                        token: sessionStorage.getItem("token")
+                    }
+                }).then(res => {
                     console.log(res.data);
                     let blogs = res.data;
 
@@ -119,12 +79,9 @@
                     }
 
                     blogs.splice(i, 1);
-                    // this.blogs.reverse();
                     for (let j = 0; j < blogs.length; ++j)
                         this.blogs.push(blogs[j]);
-                    // this.blogs.reverse();
-                    console.log(this.blogs);
-                }).catch(err => {
+                }).catch(err =>{
                     console.log(err);
                 });
             },
@@ -177,3 +134,4 @@
         height: 20px;
     }
 </style>
+

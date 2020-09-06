@@ -17,15 +17,41 @@
                     format="yyyy-MM-dd"
                     placeholder="请选择生日"
                     clear-icon="none"
-                    style="text-align: left"
-            >
+                    style="text-align: left">
             </el-date-picker>
         </el-form-item>
         <el-form-item prop="password">
             <el-input type="text" v-model="registerForm.password" auto-complete="off"
                       placeholder="请输入密码" show-password/>
         </el-form-item>
-        <el-button type="primary" style="width: 100%" @click="register">注册</el-button>
+        <el-button type="primary" style="width: 100%" @click="registerCheck">注册</el-button>
+
+        <el-dialog
+                :visible.sync="dialogVisible"
+                width="50%" :show-close="false"
+                title="请选择 3 个您最感兴趣的话题">
+            <el-tag v-for="tag in tags" :key="tag.id" @click="SelectTag(tag)" style="margin-left: 5px">
+                {{ tag.content }}
+            </el-tag>
+
+            <div slot="default" v-if="registerForm.interests.length > 0" style="margin-top: 30px">
+                <span style="font-size: 16px; color: #111111">已选择 {{ registerForm.interests.length }} 个话题:</span>
+                <el-tag v-for="(tag, i) in chosen" :key="tag.id" closable @close="CloseTag(i)" style="margin-left: 5px">
+                    {{ tag.content }}
+                </el-tag>
+            </div>
+
+            <div slot="footer">
+                <span v-if="registerForm.interests.length === 0" style="font-size: 12px; color: rgba(255, 0, 0, 0.8)">
+                    还未选择感兴趣的话题，是否依然提交？
+                </span>
+            </div>
+
+            <div slot="footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="register">确认提交</el-button>
+            </div>
+        </el-dialog>
     </el-form>
 </template>
 
@@ -35,16 +61,44 @@
         data() {
             return {
                 errMessage : '',
+                dialogVisible: false,
+                chosen: [],
                 registerForm: {
                     phone    : '',
                     name     : '',
                     password : '',
                     birthday : '',
                     avatar: 'http://bpic.588ku.com/element_pic/01/55/09/6357474dbf2409c.jpg',
-                }
+                    interests: [],
+                },
+                tags: [ // 基本固定的几个话题，实际要从数据库中取，我们规定label库中的前十个即这几个
+                    {id: 1, content: "科技"},
+                    {id: 2, content: "教育"},
+                    {id: 3, content: "生活"},
+                    {id: 4, content: "娱乐"},
+                    {id: 5, content: "军事"},
+                    {id: 6, content: "动漫"},
+                    {id: 7, content: "美妆"},
+                    {id: 8, content: "科幻"},
+                    {id: 9, content: "IT"},
+                    {id: 10, content: "历史"}
+                ]
             }
         },
+        created() {
+            this.getTopics();
+        },
         methods: {
+            getTopics() {
+                let url = 'http://localhost:8088/blog/getLabels';
+                axios.get(url).then(res => {
+                    this.tags = [];
+                    for (let i = 0; i < 10; ++i)
+                        this.tags.push(res.data[i]);
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
             nonage(date) { // 判断是否满14周岁
                 let curr = new Date();
                 return (curr.getFullYear() - date.getFullYear() > 14)
@@ -64,7 +118,29 @@
 
                 return (birth + date.getDate());
             },
-            register() {
+            SelectTag(tag) {
+                if (this.registerForm.interests.length === 3) {
+                    this.$message.error("最多只能选择3个话题噢！");
+                    return false;
+                }
+
+                for (let i = 0; i < this.registerForm.interests.length; ++i) {
+                    if (this.registerForm.interests[i] === tag.id) {
+                        this.$message.error("这个话题已经选择过了噢！");
+                        return false;
+                    }
+                }
+
+                this.chosen.push(tag);
+                this.registerForm.interests.push(tag.id);
+                return true;
+            },
+            CloseTag(i) {
+                this.chosen.splice(i, 1);
+                this.registerForm.interests.splice(i, 1);
+                return true;
+            },
+            registerCheck() {
                 let form = this.registerForm;
                 let phone = form.phone;
                 if (phone.length === 0) {
@@ -112,10 +188,21 @@
                     this.$message.error("未满14周岁不能注册账户！");
                     return false;
                 }
-                form.birthday = this.birth_format(date);
 
+                this.registerForm.birthday = this.birth_format(date);
+                this.dialogVisible = true;
+                return true;
+            },
+            register() {
+                if (this.registerForm.interests.length === 0) {
+                    this.$message.error("至少要选择一个话题噢！");
+                    return false;
+                }
+
+                this.dialogVisible = false;
+                let form = this.registerForm;
                 let url = 'http://localhost:8088/user/register';
-                axios.post(url, form).then(res =>{
+                axios.post(url, form).then(res => {
                     switch (res.data) {
                         case "phone error":
                             this.$message.error("这个手机号已注册过啦！");
@@ -135,11 +222,10 @@
                     console.log(err);
                 });
 
-                this.errMessage = "bad";
+                this.errMessage = 'bad';
                 return this.axios.post(url).then(res=>{
                     return res === 'success';
                 });
-
             }
         }
     }

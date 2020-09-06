@@ -206,33 +206,30 @@
             typify() {
                 if (this.state === '公开')
                     return 3;
-                else if (this.state === '粉丝')
+                if (this.state === '粉丝')
                     return 1;
-                else
-                    return 0;
+                return 0;
             },
             curr_time() {
                 let date = new Date();
                 let res = date.getFullYear() + '-';
-                if (date.getMonth() < 9)
-                    res += '0';
-                let month=date.getMonth()+1;
-                res += (month+ '-');
 
-                if (date.getDate() < 10)
-                    res += '0';
+                res += parseInt((date.getMonth()+1)/10)
+                res += (date.getMonth()+1)%10;
+                res += '-';
 
-                res += date.getDate() + ' ';
 
-                if (date.getHours() < 10)
-                    res += '0';
+                res += parseInt(date.getDate()/10);
+                res += date.getDate()%10;
+                res += ' ';
 
-                res += date.getHours() + ':';
 
-                if (date.getMinutes() < 10)
-                    res += '0';
+                res += parseInt(date.getHours()/10);
+                res += date.getHours()%10;
+                res += ':';
 
-                res += date.getMinutes();
+                res += parseInt(date.getMinutes()/10);
+                res += date.getMinutes()%10;
 
                 return res;
             },
@@ -240,11 +237,12 @@
                 this.showEmojiPicker = false;
                 if (this.$root.logged === false) {
                     this.$message.info('请登录后再进行操作！');
+                    return false;
                 }
 
                 if (this.text === '' && this.fileList.length === 0) {
                     this.$message.error('不能发布空动态！');
-                    return;
+                    return false;
                 }
 
                 let url = 'http://localhost:8088/blog/setBlog';
@@ -266,7 +264,8 @@
                     }).then(() =>{
                     this.$message.success("动态发布成功！");
                     this.fresh();
-                    this.$emit('change')
+                    this.$emit('change');
+                    return true;
                 }).catch(err=> {
                     console.log(err);
                 });
